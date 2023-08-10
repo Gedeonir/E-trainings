@@ -262,7 +262,7 @@ function Reviews(){
 
 const CoursesDetails = () => {
 
-    const [section,setSections]=React.useState("ratings");
+    const [section,setSections]=React.useState("overview");
 
   return (
     <Layout>
