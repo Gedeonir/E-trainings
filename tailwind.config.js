@@ -10,7 +10,7 @@ module.exports = {
     //   'custom': ['Krona One', 'sans-serif'],
     // },
     colors:{
-      primary:'#047857',
+      primary:'#47a5ad',
       secondary:'#f9fafb',
       btn_primary:"#ffffff",
       text_primary:"#065f46",

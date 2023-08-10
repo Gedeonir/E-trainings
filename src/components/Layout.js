@@ -3,7 +3,7 @@ import NavBar from './NavBar'
 
 const Layout = ({children}) => {
   return (
-    <div className='w-full overflow-x-hidden'>
+    <div>
         <NavBar/>
         <div>{children}</div>
     </div>

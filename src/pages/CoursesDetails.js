@@ -248,7 +248,7 @@ function Reviews(){
 
                 </div>
 
-                <textarea type="text" className="bg-secondary shadow-lg text-text_secondary text-sm outline-none block w-full p-2.5 dark:bg-gray-700 placeholder-text_secondary_2 mb-3" rows="10" placeholder="Type in keyword" autoFocus="autofocus" required/>
+                <textarea type="text" className="bg-secondary shadow-lg text-text_secondary text-sm outline-none block w-full p-2.5 dark:bg-gray-700 placeholder-text_secondary_2 mb-3" rows="10" placeholder="Type in keyword" required/>
                 <Button className='w-1/5 my-4 bg-primary text-sm text-secondary py-3'>Submit Review</Button>
 
                 
