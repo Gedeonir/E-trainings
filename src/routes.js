@@ -19,7 +19,7 @@ const AppRoutes = (prop) => {
           <Route path="/" index element={<Homepage />} />
           <Route path="/courses/:id" element={<CourseDetailsUser/>}/>
           <Route path="/courses/:id/lesson/:lesson" element={<LessonUser/>}/>
-          <Route path="src/pages/signup" element={<SignUp/>}/>
+          <Route path="/signup" element={<SignUp/>}/>
           <Route path="/users/admin/home" element={<AdminHome/>}/>
           <Route path="/users/admin/courses" element={<AdminCourses/>}/>
           <Route path="/users/admin/courses/:id" element={<AdminCourseDetail/>}/>
