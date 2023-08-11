@@ -71,7 +71,7 @@ const SignUp=()=>{
                         </div>
                     </div>
 
-                    <Button className='lg:w-1/4 w-full my-2 bg-primary text-sm text-secondary py-3'>Register</Button>
+                    <Button size='sm' className='my-2 bg-primary text-sm text-secondary'>Register</Button>
 
                 </div>
                 

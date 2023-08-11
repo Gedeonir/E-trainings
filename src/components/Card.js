@@ -5,16 +5,16 @@ import {AiOutlineHeart} from 'react-icons/ai'
 import { useNavigate } from 'react-router-dom';
 
 
-const Card = ({id}) => {
+const Card = ({id,path}) => {
     const navigate=useNavigate()
 
   return (
-    <div className='h-96 p-4 cursor-pointer shadow-lg hover:shadow-text_secondary delay-100 duration-500 bg-secondary' onClick={()=>navigate(`courses/${id}`)}>
+    <div className='h-96 p-4 cursor-pointer shadow-lg hover:shadow-text_secondary delay-100 duration-500 bg-secondary' onClick={()=>navigate(`/${path}/${id}`)}>
         <div className='h-48 mb-3'>
         <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlvXSXf73LjjqJMqhsbH0vntbFV_r84i6qkQ&usqp=CAU' className='w-full h-full object-cover'/>
         </div>
         <div className='flex justify-between'>
-            <label className='bg-primary px-3 rounded-sm py-0.5 font-bold text-secondary text-sm'>Golden</label>
+            <label className='bg-primary px-1.5 rounded-lg py-0.5 font-medium text-primary text-xs bg-opacity-20'>Golden</label>
             <AiOutlineHeart size={20} className='text-text_secondary'/>
         </div>
 

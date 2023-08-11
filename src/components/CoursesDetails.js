@@ -1,6 +1,6 @@
 import React, { Children } from 'react'
-import Layout from '../components/Layout'
-import { Link } from 'react-router-dom'
+import Layout from './Layout'
+import { Link, useLocation } from 'react-router-dom'
 import {LiaChalkboardTeacherSolid} from 'react-icons/lia'
 import {SlBookOpen} from 'react-icons/sl'
 import {FaLanguage} from 'react-icons/fa'
@@ -16,7 +16,7 @@ function Overview(){
         <div>
             <h1 className="text-text_secondary font-bold text-lg mb-4">Course description</h1>
 
-            <p className="leading-8 text-justify">
+            <p className="leading-8 text-justify text-md">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce quam massa, tempus sit amet ullamcorper eget, pharetra vel dolor. Nulla varius augue ut dolor vulputate dapibus in quis leo. 
 
                 Donec arcu sem, egestas et mattis eget, eleifend iaculis purus. Vestibulum facilisis turpis vel pulvinar semper. Vivamus ut luctus dui, eu bibendum quam. In non mi odio. Donec in ex orci. Phasellus sed fermentum leo, vitae luctus ipsum. Donec at faucibus quam. Mauris risus leo, congue eu sagittis id, fringilla non nunc. Maecenas fermentum vestibulum lectus a vehicula. Curabitur auctor ipsum non sem venenatis ornare. Cras eu metus vitae metus facilisis egestas. Duis libero nisi, tristique id orci vitae, sagittis ullamcorper purus. Etiam eu nunc consequat ligula porttitor molestie a sed risus. Pellentesque eget auctor enim.
@@ -26,14 +26,23 @@ function Overview(){
 }
 
 function Lectures(){
+    const location=useLocation()
+
     return(
         <div>
-            <h1 className="text-text_secondary font-bold text-lg mb-4">Table of contents</h1>
+            <div className='flex justify-between mb-4'>
+                <h1 className="text-text_secondary font-bold text-lg py-2">Table of contents</h1>
+                {location.pathname.includes("users/admin/courses") &&
+                <div>
+                    <Button size="sm" className='bg-primary text-sm text-secondary'>Add lesson</Button>
+                </div>}
+
+            </div>
 
             <div className="flex justify-between py-4 border-b border-text_secondary_2">
                 <div className="flex justify-start gap-3 text-text_secondary font-normal text-md w-full">
                     <BsJournalBookmark size={20}/>
-                    <Link to="?Lesson=1" className="">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Link>
+                    <Link to="lesson/:lesson" className="">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Link>
                 </div>
                 <div className="w-12 text-text_secondary">
                     <CiLock size={20}/>
@@ -88,9 +97,9 @@ const users=[1,2,3,4,5,6,7,8,9,0]
 
 function EnrolledUsers(){
     return(
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid lg:grid-cols-3 gap-4">
             {users.map((user)=>(
-                <Link to="#" className="py-2 px-4 rounded-md flex gap-2 justify-start hover:shadow-sm delay-100 duration-500">
+                <Link to="" className="py-2 lg:border-b-0 border-b border-text_secondary_2 rounded-md flex gap-2 justify-start hover:shadow-sm delay-100 duration-500">
                     <div className="h-12 w-12 rounded-full p-1 border border-text_secondary_2">
                         <div className="h-10 w-10 rounded-full">
                             <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlvXSXf73LjjqJMqhsbH0vntbFV_r84i6qkQ&usqp=CAU' className='w-full h-full object-cover rounded-full'/>
@@ -99,7 +108,7 @@ function EnrolledUsers(){
     
                     <div className="grid text-text_secondary">
                         <label className="font-bold text-sm">User name</label>
-                        <small>Lorem ipsum dolor sit amet</small>
+                        <small>Lorem ipsum</small>
                     </div>
                     
                 </Link>
@@ -109,16 +118,18 @@ function EnrolledUsers(){
 }
 
 function Reviews(){
+    const location=useLocation()
+
     return(
         <div>
             <h1 className="text-text_secondary font-bold text-lg mb-4">Table of contents</h1>
 
             <div className="grid grid-cols-3 gap-8">
                 <div>
-                    <label className="text-sm font-normal text-text_secondary">Average rating</label>
+                    <label className="lg:text-sm text-xs font-normal text-text_secondary">Average rating</label>
 
                     <div className="bg-secondary p-2 rounded-md py-4 my-4">
-                        <p className='text-6xl p-2 font-bold text-primary text-center w-full'>4.5</p>
+                        <p className='lg:text-6xl text-3xl p-2 font-bold text-primary text-center w-full'>4.5</p>
                         <div className='flex justify-center mt-8'>
                             <AiFillStar color='#ca8a04'/>
                             <AiFillStar color='#ca8a04'/>
@@ -128,11 +139,11 @@ function Reviews(){
 
                         </div>
 
-                        <p className="text-center text-sm font-normal text-text_secondary">9 Reviews</p>
+                        <p className="text-center lg:text-sm text-xs font-normal text-text_secondary">9 Reviews</p>
                     </div>
                 </div>
                 <div className="col-span-2">
-                    <label className="text-sm font-normal text-text_secondary">Detailed rating</label>
+                    <label className="lg:text-sm text-xs font-normal text-text_secondary">Detailed rating</label>
                     <div className="bg-secondary p-2 rounded-md py-4 my-4">
                         <div className="py-2">
                             <div className='w-full flex justify-between gap-2'>
@@ -142,7 +153,7 @@ function Reviews(){
                                         className={`h-full bg-primary rounded-full`}>
                                     </div>
                                 </div>
-                                <label className='text-text_secondary font-bold text-sm -mt-2'>100%</label>
+                                <label className='text-text_secondary font-bold lg:text-sm text-xs -mt-2'>100%</label>
                             </div>
                         </div>
 
@@ -154,7 +165,7 @@ function Reviews(){
                                         className={`h-full bg-primary rounded-full`}>
                                     </div>
                                 </div>
-                                <label className='text-text_secondary font-bold text-sm -mt-2'>30%</label>
+                                <label className='text-text_secondary font-bold lg:text-sm text-xs -mt-2'>30%</label>
                             </div>
                         </div>
 
@@ -166,7 +177,7 @@ function Reviews(){
                                         className={`h-full bg-primary rounded-full`}>
                                     </div>
                                 </div>
-                                <label className='text-text_secondary font-bold text-sm -mt-2'>10%</label>
+                                <label className='text-text_secondary font-bold lg:text-sm text-xs -mt-2'>10%</label>
                             </div>
                         </div>
 
@@ -178,7 +189,7 @@ function Reviews(){
                                         className={`h-full bg-primary rounded-full`}>
                                     </div>
                                 </div>
-                                <label className='text-text_secondary font-bold text-sm -mt-2'>5%</label>
+                                <label className='text-text_secondary font-bold lg:text-sm text-xs -mt-2'>5%</label>
                             </div>
                         </div>
 
@@ -202,39 +213,41 @@ function Reviews(){
             <div className="my-4">
                 <h1 className="text-text_secondary text-lg mb-4">Comments(1)</h1>
 
-                <div className="flex justify-start gap-4">
-                    <div className="py-3 w-20">
-                        <div className="h-14 w-14 rounded-full">
-                            <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlvXSXf73LjjqJMqhsbH0vntbFV_r84i6qkQ&usqp=CAU' className='w-full h-full object-cover rounded-full'/>
-                        </div>
-                    </div>
-                    <div className="border-b border-text_secondary_2 py-8 w-full px-4">
-                        <div className="flex justify-between">
-                            <div className="grid text-text_secondary mb-4">
-                                <label className="font-bold text-sm">User name</label>
-                                <small>August 8, 2012 at 9:22 am</small>
-                            </div>
 
-                            <div className='flex justify-center'>
-                                <AiFillStar color='#ca8a04'/>
-                                <AiFillStar color='#ca8a04'/>
-                                <AiFillStar color='#ca8a04'/>
-                                <AiFillStar color='#ca8a04'/>
-                                <AiFillStar color='#6b7280'/>
-
+                <div className='border-b border-text_secondary_2 pt-3 pb-4'>
+                    <div className="flex justify-start gap-4">
+                        <div className="py-3 w-20">
+                            <div className="h-14 w-14 rounded-full">
+                                <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlvXSXf73LjjqJMqhsbH0vntbFV_r84i6qkQ&usqp=CAU' className='w-full h-full object-cover rounded-full'/>
                             </div>
                         </div>
+                        <div className="w-full px-4">
+                            <div className="lg:flex justify-between">
+                                <div className="grid text-text_secondary mb-4">
+                                    <label className="font-bold text-sm">User name</label>
+                                    <small>August 8, 2012 at 9:22 am</small>
+                                </div>
 
-                        <div>
-                            <p className="text-text_secondary font-normal text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce quam massa, tempus sit amet ullamcorper eget, pharetra vel dolor. Nulla varius augue ut dolor vulputate dapibus in quis leo.</p>
+                                <div className='flex justify-center'>
+                                    <AiFillStar color='#ca8a04'/>
+                                    <AiFillStar color='#ca8a04'/>
+                                    <AiFillStar color='#ca8a04'/>
+                                    <AiFillStar color='#ca8a04'/>
+                                    <AiFillStar color='#6b7280'/>
+
+                                </div>
+                            </div>
                         </div>
-
                     </div>
-
+                    <div>
+                        <p className="text-text_secondary font-normal text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce quam massa, tempus sit amet ullamcorper eget, pharetra vel dolor. Nulla varius augue ut dolor vulputate dapibus in quis leo.</p>
+                    </div>
                 </div>
+               
 
             </div>
 
+            {!location.pathname.includes("users/admin/courses") &&
             <div className="my-4">
                 <h1 className="text-text_secondary text-lg mb-4">Leave Comment</h1>
                 
@@ -249,10 +262,11 @@ function Reviews(){
                 </div>
 
                 <textarea type="text" className="bg-secondary shadow-lg text-text_secondary text-sm outline-none block w-full p-2.5 dark:bg-gray-700 placeholder-text_secondary_2 mb-3" rows="10" placeholder="Type in keyword" required/>
-                <Button className='w-1/5 my-4 bg-primary text-sm text-secondary py-3'>Submit Review</Button>
+                <Button className='lg:w-1/5 w-full my-4 bg-primary text-sm text-secondary py-3'>Submit Review</Button>
 
                 
             </div>
+            }
         </div>
     )
 }
@@ -264,13 +278,15 @@ const CoursesDetails = () => {
 
     const [section,setSections]=React.useState("overview");
 
+    const location=useLocation()
+
   return (
-    <Layout>
+    <div>
         <div className='h-64 bg-cover bg-center bg-no-repeat bg-[url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlvXSXf73LjjqJMqhsbH0vntbFV_r84i6qkQ&usqp=CAU)] w-full'>
             <div className='h-64 bg-secondary w-full lg:px-14 px-4 bg-opacity-95 lg:flex block gap-4 justify-between py-8'>
                 <div className='lg:py-12 py-4 w-full'>
-                    <h1 className='text-primary font-bold text-4xl mb-4'>Course Details</h1>
-                    <label><Link className='text-text_secondary font-bold'>Courses</Link> . <span>Course title</span></label>
+                    <h1 className='text-primary font-bold lg:text-4xl mb-4 text-2xl'>Course Details</h1>
+                    <label><Link to="#" className='text-text_secondary font-bold'>Courses</Link> . <span>Course title</span></label>
                 </div>
                 <div className='w-full grid grid-cols-3 lg:py-12 py-4 '>
                     <div className='w-full h-12 flex justify-start gap-2'>
@@ -354,12 +370,15 @@ const CoursesDetails = () => {
                     <label className='text-sm font-bold text-text_secondary'>Enrolled:</label>
                     <label className='text-sm font-normal'>72</label>
                 </div>
-
-                <Button className='w-full my-2 bg-primary text-sm text-secondary py-3'>Enroll</Button>
+                {location.pathname.includes("users/admin/courses")?(
+                    <Button className='w-full my-2 bg-danger text-sm text-secondary py-3'>Delete Course</Button>
+                ):(
+                    <Button className='w-full my-2 bg-primary text-sm text-secondary py-3'>Enroll</Button>
+                )}
 
             </div>
         </div>
-    </Layout>
+    </div>
   )
 }
 
