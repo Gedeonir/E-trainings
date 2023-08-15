@@ -23,7 +23,7 @@ const Lesson = () => {
 
             </ul>
         </div>
-        <div className='col-span-3 overflow-y-auto max-h-screen min-h-screen lg:px-4 py-4 w-full pb-24'>
+        <div className='col-span-3 overflow-y-auto max-h-screen min-h-screen px-4 py-4 w-full pb-24'>
             <div className='flex justify-between gap-4 text-text_secondary'>
                 <h1 className='text-lg'><span className='lg:mx-2'>Lesson 2:</span>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h1>
                 <div className='relative group cursor-pointer'>
