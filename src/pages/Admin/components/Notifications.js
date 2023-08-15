@@ -1,6 +1,5 @@
 import React from 'react'
 import {CiMenuKebab} from 'react-icons/ci'
-import Dropdown from './Dropdown'
 
 export default function Notifications(props) {
     const [filterOption,setFilterOption]=React.useState('All')

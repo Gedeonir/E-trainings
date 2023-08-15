@@ -25,7 +25,7 @@ function Overview(){
     )
 }
 
-function Lectures(){
+function Lectures({openModel,setOpenModel}){
     const location=useLocation()
 
     return(
@@ -34,7 +34,7 @@ function Lectures(){
                 <h1 className="text-text_secondary font-bold text-lg py-2">Table of contents</h1>
                 {location.pathname.includes("users/admin/courses") &&
                 <div>
-                    <Button size="sm" className='bg-primary text-sm text-secondary'>Add lesson</Button>
+                    <Button size="sm" className='bg-primary text-sm text-secondary' onClick={()=>setOpenModel(!openModel)}>Add lesson</Button>
                 </div>}
 
             </div>
@@ -274,7 +274,7 @@ function Reviews(){
 
 
 
-const CoursesDetails = () => {
+const CoursesDetails = ({openModel,setOpenModel}) => {
 
     const [section,setSections]=React.useState("overview");
 
@@ -340,7 +340,7 @@ const CoursesDetails = () => {
 
                 <div className='px-4 py-4'>
                     {section==='overview' && <Overview/>}
-                    {section==="curicullum" && <Lectures/>}
+                    {section==="curicullum" && <Lectures openModel={openModel} setOpenModel={setOpenModel}/>}
                     {section==="enrolled" && <EnrolledUsers/>}
                     {section==="ratings" && <Reviews/>}
                 </div>

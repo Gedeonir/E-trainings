@@ -31,12 +31,12 @@ export const usersOptions=[
 
 const NavBar = () => {
   return (
-    <header aria-label="Site Header" className="body-font top-0 z-40 w-full py-2 lg:px-14 px-4 bg-btn_primary bg-opacity-90">
+    <header aria-label="Site Header" className="body-font top-0 z-40 w-full py-2 lg:px-14 px-4 border-b border-primary bg-btn_primary bg-opacity-90">
         <div className="flex justify-between">
-            <div className="flex items-center w-32">
+            <div className="flex items-center w-20">
                 <img src={WMLogo} className='w-full h-full object-cover'/>
             </div>
-            <div className="flex items-center w-8">
+            <div className="flex items-center w-6">
                 <img src={AdventistLogo} className='w-full h-full object-cover'/>
             </div>
         </div>
