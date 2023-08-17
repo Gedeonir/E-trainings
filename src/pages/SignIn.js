@@ -35,7 +35,6 @@ const SignIn=(props)=>{
 
     return (
         <div>
-            <NavBar/>
             <div className="max-h-screen lg:px-14 px-4 py-4 flex items-center">
                 <div className='grid lg:grid-cols-2 lg:w-3/5 mx-auto rounded-lg shadow-sm border border-secondary'>
                     <div className="rounded-l-lg lg:px-8 flex items-center">
@@ -60,24 +59,14 @@ const SignIn=(props)=>{
                             {props?.data?.memberLogin?.error?.code=="ERR_NETWORK" && <p className='text-sm text-danger py-2'>Network Error</p>}
                             <div className="mb-4">
                                 <label className="text-text_secondary font-bold text-xs mb-2">Contact <span className="text-[red]">*</span></label>
-                                <div className="flex justify-start">
-                                    <div className="flex justify-start w-1/5 border py-1 px-2 rounded-l-lg border-text_secondary_2">
-                                        <div className="h-4 w-full">
-                                            <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Flag_of_Rwanda.svg/125px-Flag_of_Rwanda.svg.png' className='w-full h-full object-cover'/>
-
-                                        </div>
-                                        <div className="text-xs px-2 py-0.5 text-text_secondary">
-                                            <label>+250</label>
-                                        </div>
-                                    </div>
-                                    <input type="number" name='mobile' value={formData.mobile} className="text-text_secondary text-sm outline-primary block w-full px-2 py-1 rounded-r-lg border border-text_secondary_2 placeholder-text_secondary_2" placeholder="phone number" required
-                                    onChange={(e)=>{
-                                        setFormData({
-                                            ...formData,
-                                            mobile:e.target.value
-                                        })
-                                    }}/>
-                                </div>
+                                <input type="number" name='mobile' value={formData.mobile} className="text-text_secondary text-sm outline-primary block w-full px-2 py-1 rounded-r-lg border border-text_secondary_2 placeholder-text_secondary_2" placeholder="phone number" required
+                                onChange={(e)=>{
+                                    setFormData({
+                                        ...formData,
+                                        mobile:e.target.value
+                                    })
+                                }}/>
+                                
                             </div>
 
                             <div className="mb-4">
