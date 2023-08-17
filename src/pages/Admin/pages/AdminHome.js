@@ -9,6 +9,7 @@ export default function AdminHome() {
   return (
     <DashboardLayout>
       <div className='px-8 w-full mx-auto relative max-h-screen overflow-y-auto'>
+        <p>Reports and statistics page</p>
       </div>
       
     </DashboardLayout>

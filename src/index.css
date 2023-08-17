@@ -44,6 +44,21 @@
   .item-vertical{
     transform: rotate(-90deg);
   }
+
+  .quill {
+    position: relative;
+  }
+  
+  .ql-toolbar {
+    position: sticky;
+    top: 0;
+    background-color: white; /* Customize the background color if needed */
+    z-index: 1; /* Adjust the z-index as needed to ensure it remains above the content */
+  }
+  
+  .ql-container {
+    padding-top:50px,
+  }
   
 
 }

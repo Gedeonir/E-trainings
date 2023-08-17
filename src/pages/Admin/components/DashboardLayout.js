@@ -10,14 +10,50 @@ import {IoIosNotificationsOutline} from "react-icons/io"
 import { BsPerson } from 'react-icons/bs'
 import { useNavigate } from 'react-router-dom';
 import {CiLogout} from 'react-icons/ci'
+import { adminFetchProfileAction } from "../../../redux/Actions/AdminActions";
+import { connect } from 'react-redux';
 
 
-function DashboardLayout({children,page}) {
+function getToken() {
+    const tokenString = sessionStorage.getItem('userToken');
+    const userToken = JSON.parse(tokenString);
+    return userToken
+}
+
+
+function DashboardLayout(props) {
     const [openAccount,setOpenAccount]=React.useState(false);
     const [openNotificationAction,setOpenNotificationAction]=React.useState(false);
     const location=useLocation();
     const [openMobileMenu,setOpenMobileMenu]=React.useState(false);
     const navigate=useNavigate()
+
+    const token = getToken();
+
+
+    const parseToken=(jwtToken)=>{
+        try {
+        return JSON.parse(atob(jwtToken.split('.')[1]));
+        } catch (error) {
+        return null
+        }
+    }
+
+    
+    React.useEffect(() => {
+        if (!token) {
+            navigate("/users/admin/login");
+        }else{
+            const decodedJwt = parseToken(token);
+            if (decodedJwt.exp * 1000 < Date.now()) {
+                sessionStorage.clear();
+                navigate("users/admin/login");
+            }
+        }
+
+        props.adminFetchProfileAction();
+
+    }, []) 
 
 
     return (
@@ -25,7 +61,7 @@ function DashboardLayout({children,page}) {
             <Sidebar/>
             <div className={`mx-auto w-full min-h-screen max-h-screen overflow-hidden duration-1000 delay-300 ease-in-out bg-secondary bg-opacity-90 lg:col-span-5 col-span-6`}>
                 <NavBar setOpenMobileMenu={setOpenMobileMenu} setOpenAccount={setOpenAccount} setOpenNotificationAction={setOpenNotificationAction} openAccount={openAccount} openNotificationAction={openNotificationAction}/>
-                {children}
+                {props.children}
             </div>
             {openNotificationAction&&<Notifications openNotificationAction={openNotificationAction} setOpenNotificationAction={setOpenNotificationAction}/>}
 
@@ -85,5 +121,11 @@ function DashboardLayout({children,page}) {
     );
 }
 
-export default DashboardLayout;
+const mapState=(data)=>({
+    data:data
+  })
+  
+  export default connect(mapState,{
+    adminFetchProfileAction
+  }) ( DashboardLayout);
 

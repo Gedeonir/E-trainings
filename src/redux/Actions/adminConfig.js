@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 
-const token =sessionStorage.getItem('memberToken'); 
+const token =sessionStorage.getItem('userToken'); 
 
 const backendUrl = process.env.BACKEND_URL
 const config = axios.create({

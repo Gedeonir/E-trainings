@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import Courses from '../components/Courses';
 import { connect } from 'react-redux';
 import {AiOutlineLoading3Quarters} from "react-icons/ai"
+import Loading from '../components/Loading';
 
 const Homepage = (props) => {
   return (
@@ -20,9 +21,7 @@ const Homepage = (props) => {
                         
                 </div>
                 {props?.data?.memberProfile?.loading?(
-                    <div className='py-8 px-8 flex items-center text-primary'>
-                        <AiOutlineLoading3Quarters size={20} className="animate-spin h-5 w-5"/>
-                    </div>
+                    <Loading size={30}/>
                 ):(props?.data?.memberProfile?.success?(
                     props?.data?.memberProfile?.resp?.data?.getProfile?.enrolledCourses?.length <=0?(
                         <p className='text-text_secondary text-center text-sm py-8 px-8'>You are not enrolled in any course yet</p>

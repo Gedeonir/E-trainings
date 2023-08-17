@@ -2,7 +2,7 @@ import React, { Children } from 'react'
 import NavBar from './NavBar'
 import { useNavigate } from 'react-router-dom';
 import { memberFetchProfileAction } from '../redux/Actions/membersAction';
-import { connect, useDispatch,useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 
 function getToken() {
   const tokenString = sessionStorage.getItem('memberToken');
