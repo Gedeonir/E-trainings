@@ -6,7 +6,7 @@ import {BsArrowRight,BsSearch} from 'react-icons/bs'
 import { useLocation } from 'react-router-dom';
 import NavBar from '../components/NavBar';
 import { connect } from "react-redux";
-import { memberLoginAction } from '../redux/Actions/MembersAction';
+import { memberLoginAction } from '../redux/Actions/membersAction';
 import {AiOutlineLoading3Quarters} from "react-icons/ai"
 
 

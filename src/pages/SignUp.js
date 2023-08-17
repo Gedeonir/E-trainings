@@ -6,7 +6,7 @@ import {BsArrowRight,BsSearch} from 'react-icons/bs'
 import NavBar from '../components/NavBar';
 import { connect } from "react-redux";
 import {churches} from '../utils/churches'
-import { memberRegisterAction } from '../redux/Actions/MembersAction';
+import { memberRegisterAction } from '../redux/Actions/membersAction';
 import {AiOutlineLoading3Quarters} from "react-icons/ai"
 
 const SignUp=(props)=>{
