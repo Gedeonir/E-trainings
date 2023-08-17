@@ -29,7 +29,7 @@ const SignIn=(props)=>{
 
     React.useEffect(()=>{
         if (props?.data?.memberLogin?.success === true) {
-            navigate(`/home`);
+            navigate(`/`);
         }
     },[props?.data?.memberLogin?.success])
 
