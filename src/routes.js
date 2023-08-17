@@ -12,15 +12,17 @@ import LessonUser from "./pages/LessonUser";
 import AdminLesson from "./pages/Admin/pages/AdminLesson";
 import SignIn from "./pages/SignIn";
 import AddNewCourse from "./pages/Admin/pages/AddLesson";
+import MyProfile from "./pages/MyProfile";
 
 const AppRoutes = (prop) => {
   
     return (
       <div className="">
         <Routes>
-          <Route path="/" index element={<Homepage />} />
+          <Route path="/home" index element={<Homepage />} />
           <Route path="/courses/:id" element={<CourseDetailsUser/>}/>
           <Route path="/courses/:id/lesson/:lesson" element={<LessonUser/>}/>
+          <Route path="my/profile" element={<MyProfile/>}/>
           <Route path="/signup" element={<SignUp/>}/>
           <Route path="/signin" element={<SignIn/>}/>
           <Route path="/users/admin/addnewcourse" element={<AddNewCourse/>}/>

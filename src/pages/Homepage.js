@@ -6,10 +6,10 @@ import {IoCloseOutline} from 'react-icons/io5'
 import Layout from '../components/Layout';
 import { useNavigate } from 'react-router-dom';
 import Courses from '../components/Courses';
+import { connect } from 'react-redux';
+import {AiOutlineLoading3Quarters} from "react-icons/ai"
 
-const cards2=[1,2,3]
-const Homepage = () => {
-
+const Homepage = (props) => {
   return (
     <Layout>
         <div className='lg:px-14 px-4 py-4'>      
@@ -19,17 +19,27 @@ const Homepage = () => {
                     <Link to="#" className='mt-8 flex justify-start text-text_secondary gap-1 text-sm group'><span className='group-hover:mx-2 delay-100 duration-500'>Browse my courses</span> <BsArrowRight className='my-1' size={15}/></Link>
                         
                 </div>
-                <div className='grid lg:grid-cols-3 gap-8 py-2'>              
-                    {cards2.map((card,index)=>(
-                        <Card2 key={index} progressPercentage={index*5*5}/>
-                    ))}
-                </div>
+                {props?.data?.memberProfile?.loading?(
+                    <div className='py-8 px-8 flex items-center text-primary'>
+                        <AiOutlineLoading3Quarters size={20} className="animate-spin h-5 w-5"/>
+                    </div>
+                ):(props?.data?.memberProfile?.success?(
+                    props?.data?.memberProfile?.resp?.data?.getProfile?.enrolledCourses?.length <=0?(
+                        <p className='text-text_secondary text-center text-sm py-8 px-8'>You are not enrolled in any course yet</p>
+                    ):(
+                    <div className='grid lg:grid-cols-3 gap-8 py-2'>              
+                        {props?.data?.memberProfile?.resp?.data?.getProfile?.enrolledCourses.map((card,index)=>(
+                            <Card2 key={index} progressPercentage={index*5*5}/>
+                        ))}
+                    </div>)):(
+                        <p>Unable to get your courses</p>
+                ))}
             
             </div>
 
             <div>
                 <h1 className='grid text-primary font-medium lg:text-2xl text-lg w-full'>Find the right <span className='text-text_secondary font-bold lg:text-3xl text-xl'>Course for you</span></h1>
-                <Courses grids={3} path="courses"/>
+                <Courses path="courses"/>
 
             </div>
         
@@ -40,4 +50,8 @@ const Homepage = () => {
   )
 }
 
-export default Homepage
+const mapState=(data)=>({
+    data:data
+  })
+  
+  export default connect(mapState)( Homepage)

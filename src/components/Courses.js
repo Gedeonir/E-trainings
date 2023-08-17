@@ -35,9 +35,9 @@ const Courses = ({path}) => {
             <IoCloseOutline size={20} className='cursor-pointer hover:text-primary absolute top-4 right-4'/>
         </div>
 
-        <div className={`grid ${location.pathname.includes("users/admin/courses")?'lg:grid-cols-3':'lg:grid-cols-4'} gap-8 py-2 my-4`}>              
+        <div className={`grid lg:grid-cols-4 gap-8 py-2 my-4`}>              
             {cards.map((card,index)=>(
-                <Card key={index} progressPercentage={index*5*5} id={index} path={path}/>
+                <Card key={index} id={index} path={path}/>
             ))}
         </div>
     </div>
