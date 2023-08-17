@@ -255,7 +255,7 @@ const SignUp=(props)=>{
 
                         </p>
 
-                        {props?.data?.memberRegister?.success?<p className='text-sm text-primary text-center p-2'>{props?.data?.memberRegister?.resp?.data?.message}</p>
+                        {props?.data?.memberRegister?.success?<p className='text-sm text-primary font-bold text-center p-2'>{props?.data?.memberRegister?.resp?.data?.message}</p>
                         :
                         <p className='text-sm text-danger text-center p-2'>{props?.data?.memberRegister?.error?.response?.data?.message}</p>}
 

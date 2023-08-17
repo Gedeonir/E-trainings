@@ -33,7 +33,6 @@ const SignIn=(props)=>{
         }
     },[props?.data?.memberLogin?.success])
 
-
     return (
         <div>
             <NavBar/>
@@ -57,7 +56,8 @@ const SignIn=(props)=>{
 
                         </div>
                         <form onSubmit={(event)=>handleLogin(event)}>
-                            {props?.data?.memberLogin?.success?"":<p className='text-xs text-danger text-center p-2'>{props?.data?.memberLogin?.error?.response?.data?.message}</p>}
+                            {props?.data?.memberLogin?.success?"":<p className='text-sm text-danger py-2'>{props?.data?.memberLogin?.error?.response?.data?.message}</p>}
+                            {props?.data?.memberLogin?.error?.code=="ERR_NETWORK" && <p className='text-sm text-danger py-2'>Network Error</p>}
                             <div className="mb-4">
                                 <label className="text-text_secondary font-bold text-xs mb-2">Contact <span className="text-[red]">*</span></label>
                                 <div className="flex justify-start">
