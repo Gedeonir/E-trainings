@@ -8,6 +8,8 @@ import { connect } from "react-redux";
 import {churches} from '../utils/churches'
 import { memberRegisterAction } from '../redux/Actions/membersAction';
 import {AiOutlineLoading3Quarters} from "react-icons/ai"
+import WMLogo from "../assets/WMLogo.PNG"
+import AdventistLogo from "../assets/AdventistLogo.png"
 
 const SignUp=(props)=>{
     const getDistricts = () => {
@@ -36,10 +38,6 @@ const SignUp=(props)=>{
 
     const confirmPasswordRef=useRef()
     
-
-    // React.useEffect(() => {
-    //     getDistricts();
-    // }, []);
 
     const [phoneError,setPhoneError]=React.useState({
         error:false,
@@ -78,12 +76,22 @@ const SignUp=(props)=>{
 
     }
 
-    console.log(props);
-
 
     return (
         <div>
-            <NavBar/>
+            <header aria-label="Site Header" className="body-font sticky top-0 z-40 w-full py-2 lg:px-8 px-4 bg-[white]">
+                <div className="flex justify-between gap-2">
+                    <div className="flex items-center w-24">
+                        <img src={WMLogo} className='w-full h-full object-cover'/>
+                    </div>
+                    
+
+                    <div className="flex items-center w-6">
+                        <img src={AdventistLogo} className='w-full h-full object-cover'/>
+                    </div>
+                </div>
+                
+            </header>
             <div className="lg:px-14 px-4 py-4">
                 <div className='rounded-lg shadow-sm border border-secondary lg:px-8 py-8 lg:w-3/5 mx-auto'>
                     <div className="mb-2 lg:flex justify-between">
@@ -257,10 +265,10 @@ const SignUp=(props)=>{
 
                         {props?.data?.memberRegister?.success?<p className='text-sm text-primary font-bold text-center p-2'>{props?.data?.memberRegister?.resp?.data?.message}</p>
                         :
-                        <p className='text-sm text-danger text-center p-2'>{props?.data?.memberRegister?.error?.response?.data?.message}</p>}
+                        <p className='text-sm text-danger text-center p-2 bg-danger bg-opacity-20'>{props?.data?.memberRegister?.error?.response?.data?.message}</p>}
 
                         <button type='submit' size='sm' className={`my-4 bg-primary text-sm text-center text-secondary p-2 w-full ${props?.data?.memberRegister?.loading? 'cursor-not-allowed ':'cursor-pointer'}`} disabled={props?.data?.memberRegister?.loading? true : false}>
-                            {props?.data?.memberRegister?.loading?<p className="flex justify-center gap-2"><AiOutlineLoading3Quarters size={20} className="animate-spin h-5 w-5"/></p>:'Register member'}
+                            {props?.data?.memberRegister?.loading?<p className="flex justify-center gap-2"><AiOutlineLoading3Quarters size={20} className="animate-spin h-5 w-5"/>Saving</p>:'Register member'}
                         </button>
                         
                     </form>

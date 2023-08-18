@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import {CiLogout} from 'react-icons/ci'
 import { adminFetchProfileAction } from "../../../redux/Actions/AdminActions";
 import { connect } from 'react-redux';
-
+import {CiWarning} from 'react-icons/ci'
 
 function getToken() {
     const tokenString = sessionStorage.getItem('userToken');
@@ -53,12 +53,22 @@ function DashboardLayout(props) {
 
         props.adminFetchProfileAction();
 
-    }, []) 
+        if(props?.data?.adminProfile?.error?.code==="ERR_BAD_RESPONSE"){
+            console.log("Your session expired")
+        }
+
+
+    }, [props?.data?.adminProfile?.success]) 
+
+    const handleLogout=()=>{
+        sessionStorage.removeItem('userToken')
+        navigate("/users/admin/login")
+    }
 
 
     return (
         <div className={`max-h-screen w-full overflow-hidden bg-primary grid grid-cols-6 relative`}>
-            <Sidebar/>
+            <Sidebar handleLogout={handleLogout}/>
             <div className={`mx-auto w-full min-h-screen max-h-screen overflow-hidden duration-1000 delay-300 ease-in-out bg-secondary bg-opacity-90 lg:col-span-5 col-span-6`}>
                 <NavBar setOpenMobileMenu={setOpenMobileMenu} setOpenAccount={setOpenAccount} setOpenNotificationAction={setOpenNotificationAction} openAccount={openAccount} openNotificationAction={openNotificationAction}/>
                 {props.children}
@@ -75,7 +85,7 @@ function DashboardLayout(props) {
                         <HiMenuAlt1 size={25}/>
                         <span className={`text-lg duration-500 ease-in-out `}>Menu</span>
                     </div>
-                    <ul className="mt-8 font-semibold text-secondary">
+                    <ul className="mt-8 font-semibold text-secondary p-0 list-none">
                         <li className={`w-full py-2 rounded-l-full ${location.pathname==="/users/admin/home"&&'bg-secondary bg-opacity-90 text-text_secondary'}   hover:text-opacity-70 cursor-pointer items-center mb-6`}>
                             <Link to="/users/admin/home" className="flex justify-start px-3">
                                 <CiGrid41 size={25}/>
@@ -115,6 +125,25 @@ function DashboardLayout(props) {
                 </div>
                 
             </div>
+            }
+            {props?.data?.adminProfile?.error?.code==="ERR_BAD_RESPONSE" &&
+                <div className="min-h-screen max-h-screen w-full left-0 right-0 z-40 flex justify-center items-center absolute top-0 bg-primary bg-opacity-40">
+                    <div className="lg:w-2/5 px-8 py-4 rounded-lg shadow-lg w-full bg-secondary">
+                        <div className="flex justify-start gap-4">
+                            <div className="bg-secondary  text-text_secondary h-12 w-12 p-2 rounded-full text-center flex items-center">
+                                <CiWarning size={50}/>
+                            </div>
+                            <div className="text-text_secondary">
+                                <h1 className="font-bold">Your session has been expired</h1>
+                                <label className="text-sm">Please log in again to continue using the app.</label>
+                            </div>
+                            
+                        </div>
+                        <div className="flex w-full justify-end">
+                            <button className="bg-primary text-sm p-2 text-secondary" onClick={()=>handleLogout()}>Sign in</button>
+                        </div>
+                    </div>
+                </div>
             }
             
         </div>

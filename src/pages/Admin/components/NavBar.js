@@ -21,7 +21,7 @@ export const navBarOptions=[
 export default function NavBar(props) {
 
   return (
-    <header aria-label="Site Header" className="body-font sticky top-0 z-40 w-full py-2 lg:px-8 px-4 bg-[white]">
+    <header aria-label="Site Header" className="body-font sticky top-0 z-30 w-full py-2 lg:px-8 px-4 bg-[white]">
       <div className="flex justify-between gap-2">
         <div className='flex justify-start gap-2'>
           <div className="lg:hidden block text-text_secondary" onClick={()=>props.setOpenMobileMenu(true)}>

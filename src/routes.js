@@ -19,17 +19,17 @@ const AppRoutes = (prop) => {
     return (
       <div className="">
         <Routes>
-          <Route path="/" index element={<Homepage />} />
-          <Route path="/courses/:id" element={<CourseDetailsUser/>}/>
-          <Route path="/courses/:id/lesson/:lesson" element={<LessonUser/>}/>
-          <Route path="my/profile" element={<MyProfile/>}/>
-          <Route path="/signup" element={<SignUp/>}/>
-          <Route path="/signin" element={<SignIn/>}/>
-          <Route path="/users/admin/addnewcourse" element={<AddNewCourse/>}/>
-          <Route path="/users/admin/home" element={<AdminHome/>}/>
-          <Route path="/users/admin/courses" element={<AdminCourses/>}/>
-          <Route path="/users/admin/courses/:id" element={<AdminCourseDetail/>}/>
-          <Route path="/users/admin/courses/:id/lesson/:lesson" element={<AdminLesson/>}/>\
+            <Route path="/" index element={<Homepage />} />
+            <Route path="/courses/:id" element={<CourseDetailsUser/>}/>
+            <Route path="/courses/:id/lesson/:lesson" element={<LessonUser/>}/>
+            <Route path="my/profile" element={<MyProfile/>}/>
+            <Route path="/signup" element={<SignUp/>}/>
+            <Route path="/signin" element={<SignIn/>}/>
+            <Route path="/users/admin/addnewcourse" element={<AddNewCourse/>}/>
+            <Route path="/users/admin/home" element={<AdminHome/>}/>
+            <Route path="/users/admin/courses" element={<AdminCourses/>}/>
+            <Route path="/users/admin/courses/:id" element={<AdminCourseDetail/>}/>
+            <Route path="/users/admin/courses/:id/lesson/:lesson" element={<AdminLesson/>}/>\
           <Route path="users/admin/login" element={<AdminLogin/>}/>
         </Routes>
       </div>

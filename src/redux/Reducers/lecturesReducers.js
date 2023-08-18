@@ -34,3 +34,30 @@ export const fetchAllLecturesReducer=(state=initialState,action)=>{
             return state;
     }
 }
+export const addLecturesReducer=(state=initialState,action)=>{
+    switch(action.type){
+        case types.REGISTER_LECTURE_LOADING:
+            return{
+                ...state,
+                loading:true
+            }
+        case types.REGISTER_LECTURE_SUCCESS:
+            return{
+                ...state,
+                resp:action.payload,
+                success:true,
+                loading:false,
+                error:null
+            }
+        case types.REGISTER_LECTURE_FAIL:
+            return{
+                ...state,
+                error:action.payload,
+                success:false,
+                loading:false,
+                resp:null
+            }
+        default:
+            return state;
+    }
+}

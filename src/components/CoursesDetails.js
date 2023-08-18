@@ -1,6 +1,6 @@
-import React, { Children } from 'react'
+import React, { Children, useEffect } from 'react'
 import Layout from './Layout'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useParams } from 'react-router-dom'
 import {LiaChalkboardTeacherSolid} from 'react-icons/lia'
 import {SlBookOpen} from 'react-icons/sl'
 import {FaLanguage} from 'react-icons/fa'
@@ -9,23 +9,23 @@ import { Button } from '@material-tailwind/react'
 import {AiFillStar} from 'react-icons/ai'
 import {BsBookmarks,BsJournalBookmark} from 'react-icons/bs'
 import {CiLock} from 'react-icons/ci'
+import { connect } from 'react-redux'
+import { fetchOneCourses } from '../redux/Actions/CoursesAction'
+import {AiOutlineLoading3Quarters} from "react-icons/ai"
+import { fetchAllCoursesLessons } from '../redux/Actions/CoursesAction';
 
+function Overview({Overview}){
 
-function Overview(){
     return (
         <div>
             <h1 className="text-text_secondary font-bold text-lg mb-4">Course description</h1>
 
-            <p className="leading-8 text-justify text-md">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce quam massa, tempus sit amet ullamcorper eget, pharetra vel dolor. Nulla varius augue ut dolor vulputate dapibus in quis leo. 
-
-                Donec arcu sem, egestas et mattis eget, eleifend iaculis purus. Vestibulum facilisis turpis vel pulvinar semper. Vivamus ut luctus dui, eu bibendum quam. In non mi odio. Donec in ex orci. Phasellus sed fermentum leo, vitae luctus ipsum. Donec at faucibus quam. Mauris risus leo, congue eu sagittis id, fringilla non nunc. Maecenas fermentum vestibulum lectus a vehicula. Curabitur auctor ipsum non sem venenatis ornare. Cras eu metus vitae metus facilisis egestas. Duis libero nisi, tristique id orci vitae, sagittis ullamcorper purus. Etiam eu nunc consequat ligula porttitor molestie a sed risus. Pellentesque eget auctor enim.
-            </p>
+            <div className="leading-8 text-justify text-md text-text_secondary" dangerouslySetInnerHTML={{ __html: Overview }} />
         </div>
     )
 }
 
-function Lectures({openModel,setOpenModel}){
+function Lessons({openModel,setOpenModel}){
     const location=useLocation()
 
     return(
@@ -274,112 +274,142 @@ function Reviews(){
 
 
 
-const CoursesDetails = ({openModel,setOpenModel}) => {
+const CoursesDetails = (props) => {
 
     const [section,setSections]=React.useState("overview");
 
     const location=useLocation()
 
+    const params=useParams();
+
+    useEffect(()=>{
+        props.fetchOneCourses(params.id)
+        props.fetchAllCoursesLessons(params.id)
+    },[])
+
+    console.log(props);
+
+
   return (
     <div>
-        <div className='h-64 bg-cover bg-center bg-no-repeat bg-[url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlvXSXf73LjjqJMqhsbH0vntbFV_r84i6qkQ&usqp=CAU)] w-full'>
-            <div className='h-64 bg-secondary w-full lg:px-14 px-4 bg-opacity-95 lg:flex block gap-4 justify-between py-8'>
-                <div className='lg:py-12 py-4 w-full'>
-                    <h1 className='text-primary font-bold lg:text-4xl mb-4 text-2xl'>Course Details</h1>
-                    <label><Link to="#" className='text-text_secondary font-bold'>Courses</Link> . <span>Course title</span></label>
+        {props?.data?.oneCourse?.loading?(
+            <div className='flex items-center justify-center min-h-screen'>
+                <div className='w-12 h-12 text-primary text-center'>
+                    <AiOutlineLoading3Quarters size={20} className="animate-spin w-12 h-12"/>
                 </div>
-                <div className='w-full grid grid-cols-3 lg:py-12 py-4 '>
-                    <div className='w-full h-12 flex justify-start gap-2'>
-                        <div className='w-12 h-12'>
-                            <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlvXSXf73LjjqJMqhsbH0vntbFV_r84i6qkQ&usqp=CAU' className='w-full h-full object-cover rounded-full'/>
-                        </div>
-                        <div>
-                            <label className='text-sm text-text_secondary'>Teacher</label>
-                            <p className='text-sm font-medium'>Instructor name</p>
+            </div>
+        ):(
+        props?.data?.oneCourse?.success?(
+            <>
+            <div className={`h-64 bg-cover bg-center bg-no-repeat ${props?.data?.oneCourse?.resp?.data?.getCourse?.courseIcon?`bg-url[${props?.data?.oneCourse?.resp?.data?.getCourse?.courseIcon}`:'bg-url[https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPPqmpE5TW_Ks80SvlDQzbL_BC2kr21WPPWA&usqp=CAU]'} w-full bg-cover bg-center`}>
+                <div className='h-64 bg-secondary w-full lg:px-14 px-4 bg-opacity-95 lg:flex block gap-4 justify-between py-8'>
+                    <div className='lg:py-12 py-4 w-full'>
+                        <h1 className='text-primary font-bold lg:text-4xl mb-4 text-2xl'>{props?.data?.oneCourse?.resp?.data?.getCourse?.courseTitle}</h1>
+                    </div>
+                    <div className='w-full grid grid-cols-3 lg:py-12 py-4 '>
+                        <div className='w-full h-12 flex justify-start gap-2'>
+                            <div className='w-12 h-12'>
+                                <img src={props.data?.oneCourse?.resp?.data?.getCourse?.courseTutors?.profilePicture?props?.data?.oneCourse?.resp?.data?.getCourse?.courseTutors?.profilePicture:'https://www.pngfind.com/pngs/m/610-6104451_image-placeholder-png-user-profile-placeholder-image-png.png'}
+                                 className='w-full h-full object-cover rounded-full'/>
+                            </div>
+                            <div>
+                                <label className='text-xs text-text_secondary'>Teacher</label>
+                                <p className='text-xs font-medium'>{props?.data?.oneCourse?.resp?.data?.getCourse?.courseTutors?.fullNames}</p>
 
+                            </div>
+                        </div>
+                        <div className='w-full h-12 gap-2 border-l border-r text-center px-2'>
+                            <label className='text-xs text-text_secondary'>Category</label>
+                            <p className='text-sm font-medium'>{props?.data?.oneCourse?.resp?.data?.getCourse?.courseCategory?.categoryName}</p>
+                        </div>
+                        <div className='w-full h-12 gap-2 text-center px-4'>
+                            <label className='text-sm text-text_secondary'>4.5 (9 Reviews)</label>
+                            <div className='flex justify-center'>
+                                <AiFillStar color='#ca8a04'/>
+                                <AiFillStar color='#ca8a04'/>
+                                <AiFillStar color='#ca8a04'/>
+                                <AiFillStar color='#ca8a04'/>
+                                <AiFillStar color='#ca8a04'/>
+
+                            </div>
                         </div>
                     </div>
-                    <div className='w-full h-12 gap-2 border-l border-r text-center px-4'>
-                        <label className='text-sm text-text_secondary'>Category</label>
-                        <p className='text-sm font-medium'>Category</p>
+                    
+                </div>
+            </div>
+
+            <div className='my-12 lg:px-14 w-full px-4 lg:flex justify-between gap-4'>
+                <div className='border border-secondary rounded-lg lg:w-3/4 w-full mb-4'>
+                    <div className="border-b border-secondary">
+                        <ul className="flex flex-wrap -mb-px text-text_secondary text-sm font-bold text-center bg-secondary p-0 list-none">
+                            <li className="mr-2" role="presentation" onClick={()=>setSections("overview")}>
+                                <button className={`inline-block p-4 border-t-2 ${section==="overview" ?'border-primary bg-btn_primary text-primary':'border-secondary'}  rounded-t-sm hover:text-primary hover:border-primary flex justify-start gap-2`}><BsBookmarks size={20}/>Overview</button>
+                            </li>
+                            <li className="mr-2" role="presentation" onClick={()=>setSections("curicullum")}>
+                                <button className={`inline-block p-4 border-t-2 ${section==="curicullum" ?'border-primary bg-btn_primary text-primary':'border-secondary'} rounded-t-sm hover:text-primary hover:border-primary flex justify-start gap-2`}><SlBookOpen size={20}/>Table of contents</button>
+                            </li>
+                            <li className="mr-2" role="presentation" onClick={()=>setSections("enrolled")}>
+                                <button className={`inline-block p-4 border-t-2 ${section==="enrolled" ?'border-primary bg-btn_primary text-primary':'border-secondary'} rounded-t-sm hover:text-primary hover:border-primary flex justify-start gap-2`}><GoPeople size={20}/>Enrolled</button>
+                            </li>
+                            <li role="presentation" onClick={()=>setSections("ratings")}>
+                                <button className={`inline-block p-4 border-t-2 ${section==="ratings" ?'border-primary bg-btn_primary text-primary':'border-secondary'} rounded-t-sm hover:text-primary hover:border-primary flex justify-start gap-2`}><AiFillStar size={20}/>Ratings & Reviews</button>
+                            </li>
+                        </ul>
                     </div>
-                    <div className='w-full h-12 gap-2 text-center px-4'>
-                        <label className='text-sm text-text_secondary'>4.5 (9 Reviews)</label>
-                        <div className='flex justify-center'>
-                            <AiFillStar color='#ca8a04'/>
-                            <AiFillStar color='#ca8a04'/>
-                            <AiFillStar color='#ca8a04'/>
-                            <AiFillStar color='#ca8a04'/>
-                            <AiFillStar color='#ca8a04'/>
 
-                        </div>
+                    <div className='px-4 py-4 bg-btn_primary'>
+                        {section==='overview' && <Overview Overview={props?.data?.oneCourse?.resp?.data?.getCourse?.overview}/>}
+                        {section==="curicullum" && <Lessons openModel={props.openModel} setOpenModel={props.setOpenModel}/>}
+                        {section==="enrolled" && <EnrolledUsers/>}
+                        {section==="ratings" && <Reviews/>}
                     </div>
+                    
                 </div>
-                
+                <div className='lg:w-64 w-full h-72 bg-secondary shadow-md rounded-md px-4 py-2'>
+                    <div className='flex justify-start gap-1 border-b border-text_secondary_2 py-4 text-text_secondary'>
+                        <LiaChalkboardTeacherSolid size={20}/>
+                        <label className='text-sm font-bold text-text_secondary'>Instructor:</label>
+                        <label className='text-sm font-normal'>{props?.data?.oneCourse?.resp?.data?.getCourse?.courseTutors?.fullNames}</label>
+                    </div>
+
+                    <div className='flex justify-start gap-1 border-b border-text_secondary_2 py-4 text-text_secondary'>
+                        <BsJournalBookmark size={20}/>
+                        <label className='text-sm font-bold text-text_secondary'>Lessons:</label>
+                        <label className='text-sm font-normal'>{props?.data?.courseLessons?.resp?.data?.length}</label>
+                    </div>
+
+                    <div className='flex justify-start gap-1 border-b border-text_secondary_2 py-4 text-text_secondary'>
+                        <FaLanguage size={20}/>
+                        <label className='text-sm font-bold text-text_secondary'>Languages:</label>
+                        <label className='text-sm font-normal'>Kinyarwanda</label>
+                    </div>
+
+                    <div className='flex justify-start gap-1 border-b border-text_secondary_2 py-4 text-text_secondary'>
+                        <GoPeople size={20}/>
+                        <label className='text-sm font-bold text-text_secondary'>Enrolled:</label>
+                        <label className='text-sm font-normal'>{props?.data?.oneCourse?.resp?.data?.getCourse?.enrolledMembers?.length}</label>
+                    </div>
+                    {location.pathname.includes("users/admin/courses")?(
+                        <Button className='w-full my-2 bg-danger text-sm text-secondary py-3'>Delete Course</Button>
+                    ):(
+                        <Button className='w-full my-2 bg-primary text-sm text-secondary py-3'>Enroll</Button>
+                    )}
+
+                </div>
             </div>
-        </div>
-
-        <div className='my-12 lg:px-14 w-full px-4 lg:flex justify-between gap-4'>
-            <div className='border border-secondary rounded-lg lg:w-3/4 w-full mb-4'>
-                <div class="mb-4 border-b border-secondary">
-                    <ul class="flex flex-wrap -mb-px text-text_secondary text-sm font-bold text-center bg-secondary">
-                        <li class="mr-2" role="presentation" onClick={()=>setSections("overview")}>
-                            <button class={`inline-block p-4 border-t-2 ${section==="overview" ?'border-primary bg-btn_primary text-primary':'border-secondary'}  rounded-t-sm hover:text-primary hover:border-primary flex justify-start gap-2`}><BsBookmarks size={20}/>Overview</button>
-                        </li>
-                        <li class="mr-2" role="presentation" onClick={()=>setSections("curicullum")}>
-                            <button class={`inline-block p-4 border-t-2 ${section==="curicullum" ?'border-primary bg-btn_primary text-primary':'border-secondary'} rounded-t-sm hover:text-primary hover:border-primary flex justify-start gap-2`}><SlBookOpen size={20}/>Table of contents</button>
-                        </li>
-                        <li class="mr-2" role="presentation" onClick={()=>setSections("enrolled")}>
-                            <button class={`inline-block p-4 border-t-2 ${section==="enrolled" ?'border-primary bg-btn_primary text-primary':'border-secondary'} rounded-t-sm hover:text-primary hover:border-primary flex justify-start gap-2`}><GoPeople size={20}/>Enrolled</button>
-                        </li>
-                        <li role="presentation" onClick={()=>setSections("ratings")}>
-                            <button class={`inline-block p-4 border-t-2 ${section==="ratings" ?'border-primary bg-btn_primary text-primary':'border-secondary'} rounded-t-sm hover:text-primary hover:border-primary flex justify-start gap-2`}><AiFillStar size={20}/>Ratings & Reviews</button>
-                        </li>
-                    </ul>
-                </div>
-
-                <div className='px-4 py-4'>
-                    {section==='overview' && <Overview/>}
-                    {section==="curicullum" && <Lectures openModel={openModel} setOpenModel={setOpenModel}/>}
-                    {section==="enrolled" && <EnrolledUsers/>}
-                    {section==="ratings" && <Reviews/>}
-                </div>
-                
-            </div>
-            <div className='lg:w-64 w-full h-72 bg-secondary shadow-md rounded-md px-4 py-2'>
-                <div className='flex justify-start gap-1 border-b border-text_secondary_2 py-4 text-text_secondary'>
-                    <LiaChalkboardTeacherSolid size={20}/>
-                    <label className='text-sm font-bold text-text_secondary'>Instructor:</label>
-                    <label className='text-sm font-normal'>Instructor name</label>
-                </div>
-
-                <div className='flex justify-start gap-1 border-b border-text_secondary_2 py-4 text-text_secondary'>
-                    <BsJournalBookmark size={20}/>
-                    <label className='text-sm font-bold text-text_secondary'>Lessons:</label>
-                    <label className='text-sm font-normal'>14</label>
-                </div>
-
-                <div className='flex justify-start gap-1 border-b border-text_secondary_2 py-4 text-text_secondary'>
-                    <FaLanguage size={20}/>
-                    <label className='text-sm font-bold text-text_secondary'>Languages:</label>
-                    <label className='text-sm font-normal'>English</label>
-                </div>
-
-                <div className='flex justify-start gap-1 border-b border-text_secondary_2 py-4 text-text_secondary'>
-                    <GoPeople size={20}/>
-                    <label className='text-sm font-bold text-text_secondary'>Enrolled:</label>
-                    <label className='text-sm font-normal'>72</label>
-                </div>
-                {location.pathname.includes("users/admin/courses")?(
-                    <Button className='w-full my-2 bg-danger text-sm text-secondary py-3'>Delete Course</Button>
-                ):(
-                    <Button className='w-full my-2 bg-primary text-sm text-secondary py-3'>Enroll</Button>
-                )}
-
-            </div>
-        </div>
+            </>
+        ):(<p></p>)
+        )}
+       
     </div>
   )
 }
 
-export default CoursesDetails
+const mapState=(data)=>({
+    data:data
+})
+
+export default connect(mapState,{
+    fetchOneCourses,
+    fetchAllCoursesLessons
+}) (CoursesDetails)

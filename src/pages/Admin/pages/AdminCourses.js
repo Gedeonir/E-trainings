@@ -16,12 +16,11 @@ const AdminCourses = (props) => {
         <div className={`lg:px-8 px-4 py-8 w-full mx-auto ${!openModel && 'overflow-y-auto'} max-h-screen relative`}>
             <div>
                 <div className='grid grid-cols-2 mb-4'>
-                    <h1 className='grid text-primary font-medium lg:text-2xl text-lg w-full'>
-                        All courses
-                        <span className='text-xs text-text_secondary'>{props.data?.allCourses?.success && props?.data?.allCourses?.resp?.data?.length} courses</span>
+                    <h1 className='flex justify-start gap-2 items-end text-primary font-medium lg:text-2xl text-lg w-full'>
+                        All courses({props.data?.allCourses?.success && props?.data?.allCourses?.resp?.data?.length})
                     </h1>
                     <div className='flex justify-end'>
-                        <Button size="sm" className='bg-primary text-sm text-secondary px-3' onClick={()=>setOpenModel(!openModel)}>New course</Button>
+                        <button size="sm" className='bg-primary text-sm text-secondary p-2' onClick={()=>setOpenModel(!openModel)}>New course</button>
                     </div>
 
                 </div>

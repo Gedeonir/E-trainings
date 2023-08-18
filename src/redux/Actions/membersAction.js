@@ -1,31 +1,8 @@
 import React from "react";
 import * as types from "./actionTypes";
 import axios from "./axiosConfig";
+import {useNavigate} from 'react-router-dom'
 
-
-
-export const memberLoginAction=(loginData)=>async(dispatch)=>{
-    try {
-        dispatch({
-            type:types.MEMBER_LOGIN_LOADING
-        })
-
-        const res=await axios.post(`${process.env.BACKEND_URL}/member/login`,loginData,
-            {headers:{
-                "Content-Type":"application/json"
-            }
-        });
-
-        dispatch({
-            type:types.MEMBER_LOGIN_SUCCESS,
-            payload:res
-        })
-
-        sessionStorage.setItem('memberToken', JSON.stringify(res?.data?.token));
-    } catch (error) {
-        dispatch({type:types.MEMBER_LOGIN_FAIL,payload:error})
-    }
-}
 
 export const memberRegisterAction=(memberData)=>async(dispatch)=>{
     try {

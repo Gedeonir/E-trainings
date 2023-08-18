@@ -21,7 +21,9 @@ const Homepage = (props) => {
                         
                 </div>
                 {props?.data?.memberProfile?.loading?(
-                    <Loading size={30}/>
+                    <div className='w-12 h-12 text-primary text-center mx-auto my-8'>
+                        <AiOutlineLoading3Quarters size={20} className="animate-spin w-12 h-12"/>
+                    </div>
                 ):(props?.data?.memberProfile?.success?(
                     props?.data?.memberProfile?.resp?.data?.getProfile?.enrolledCourses?.length <=0?(
                         <p className='text-text_secondary text-center text-sm py-8 px-8'>You are not enrolled in any course yet</p>

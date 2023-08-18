@@ -13,7 +13,7 @@ const Lesson = () => {
             <header className='bg-primary px-4 text-center'>
                 <h1 className="text-secondary font-bold text-xs py-2">Table of contents</h1>
             </header>
-            <ul className='px-4 overflow-y-auto max-h-screen pb-28'>
+            <ul className='px-4 overflow-y-auto max-h-screen pb-28 p-0 list-none'>
                 {lessons.map((lesson,index)=>(
                     <li className='my-2' key={index}>
                         <Link className={`${index==1?'text-primary font-bold underline':'text-text_secondary'} break-words text-sm hover:text-primary hover:underline delay-100 duration-500`}><span className='font-semibold'>Lesson {index+1}:</span>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Link>

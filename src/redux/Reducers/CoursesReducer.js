@@ -35,3 +35,88 @@ export const fetchAllCoursesReducer=(state=initialState,action)=>{
             return state;
     }
 }
+
+export const addCourseReducer=(state=initialState,action)=>{
+    switch(action.type){
+        case types.ADD_NEW_COURSE_LOADING:
+            return{
+                ...state,
+                loading:true
+            }
+        case types.ADD_NEW_COURSE_SUCCESS:
+            return{
+                ...state,
+                resp:action.payload,
+                success:true,
+                loading:false,
+                error:null
+            }
+        case types.ADD_NEW_COURSE_FAIL:
+            return{
+                ...state,
+                error:action.payload,
+                success:false,
+                loading:false,
+                resp:null
+            }
+        default:
+            return state;
+    }
+}
+
+export const fetchAllCoursesLessonsReducer=(state=initialState,action)=>{
+    switch(action.type){
+        case types.FETCH_COURSE_LESSONS_LOADING:
+            return{
+                ...state,
+                loading:true
+            }
+        case types.FETCH_COURSE_LESSONS_SUCCESS:
+            return{
+                ...state,
+                resp:action.payload,
+                success:true,
+                loading:false,
+                error:null
+            }
+        case types.FETCH_COURSE_LESSONS_FAIL:
+            return{
+                ...state,
+                error:action.payload,
+                success:false,
+                loading:false,
+                resp:null
+            }
+        default:
+            return state;
+    }
+}
+
+export const fetchOneCourseReducer=(state=initialState,action)=>{
+    switch(action.type){
+        case types.GET_ONE_COURSE_LOADING:
+            return{
+                ...state,
+                loading:true
+            }
+        case types.GET_ONE_COURSE_SUCCESS:
+            return{
+                ...state,
+                resp:action.payload,
+                success:true,
+                loading:false,
+                error:null
+            }
+        case types.GET_ONE_COURSE_FAIL:
+            return{
+                ...state,
+                error:action.payload,
+                success:false,
+                loading:false,
+                resp:null
+            }
+        default:
+            return state;
+    }
+}
+

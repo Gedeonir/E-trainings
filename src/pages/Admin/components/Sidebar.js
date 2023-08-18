@@ -12,9 +12,11 @@ import { connect } from 'react-redux';
 import {AiOutlineLoading3Quarters} from "react-icons/ai"
 import Loading from '../../../components/Loading'
 
+
 const Sidebar=(props) =>{
     const location=useLocation();
     const navigate=useNavigate();
+
 
     return (
         <div className={`pl-2 min-h-screen hidden lg:block duration-1000 delay-300 ease-in-out relative`}>
@@ -28,10 +30,8 @@ const Sidebar=(props) =>{
                     <span className={`text-lg  ml-4 duration-500 ease-in-out `}>Menu</span>
                 </div>
                 <ul className="mt-4 font-semibold text-secondary">
-                    <li className={`flex w-full justify-between rounded-l-full py-2 pl-2 my-8   hover:text-opacity-70 cursor-pointer items-center mb-6 ${location.pathname==="/users/admin/profile" && ' bg-secondary bg-opacity-90 text-text_secondary'}  `}>
-                        {props?.data?.adminProfile?.loading?(
-                            <Loading size={20}/>
-                        ):(props?.data?.adminProfile?.success?(
+                    <li className={`flex w-full justify-between rounded-l-full py-2 pl-4 my-8   hover:text-opacity-70 cursor-pointer items-center mb-6 ${location.pathname==="/users/admin/profile" && ' bg-secondary bg-opacity-90 text-text_secondary'}  `}>
+                        {props?.data?.adminProfile?.success?(
                         <Link to="" className="py-2 border-text_secondary_2 w-full flex gap-2 justify-start">
                             <div className="h-10 w-10 rounded-full">
                                 <img 
@@ -45,31 +45,27 @@ const Sidebar=(props) =>{
                             
                         </Link>):(
                             <p></p>
-                        ))}
+                        )}
                     </li>
-                    <li className={`flex w-full rounded-l-full py-2 pl-2 justify-between ${location.pathname==="/users/admin/home"&&'bg-secondary bg-opacity-90 text-text_secondary'}   hover:text-opacity-70 cursor-pointer items-center mb-6`}>
-                        <Link to="/users/admin/home" className="flex items-center px-3">
-                            <CiGrid41 size={25}/>
-                            <span className={`text-sm  ml-4 duration-500 ease-in-out`}>Home</span>
-                        </Link>
+                    <li className={`flex w-full rounded-l-full py-2 pl-4 justify-start ${location.pathname==="/users/admin/home"&&'bg-secondary bg-opacity-90 text-text_secondary'}   hover:text-opacity-70 cursor-pointer items-center mb-6`} onClick={()=>navigate("/users/admin/home",{replace:true})}>
+                        <CiGrid41 size={25}/>
+                        <span className={`text-sm  ml-4 duration-500 ease-in-out`}>Home</span>
                     </li>
-                    <li className={`flex w-full justify-between rounded-l-full py-2 pl-2  hover:text-opacity-70 cursor-pointer items-center mb-6 ${location.pathname==="/users/admin/courses" && ' bg-secondary bg-opacity-90 text-text_secondary'}  `}>
-                        <Link to="/users/admin/courses" className="flex items-center px-3">
-                            <BsJournalBookmark size={25}/>
-                            <span className={`text-sm  ml-4 duration-500 ease-in-out `}>Courses</span>
-                        </Link>
+                    <li onClick={()=>navigate("/users/admin/courses",{replace:true})} 
+                    className={`flex w-full justify-start rounded-l-full py-2 pl-4  hover:text-opacity-70 cursor-pointer items-center mb-6 ${location.pathname==="/users/admin/courses" && ' bg-secondary bg-opacity-90 text-text_secondary'}  `}>
+                        <BsJournalBookmark size={20}/>
+                        <span className={`text-sm  ml-4 duration-500 ease-in-out `}>Courses</span>
                     </li>
-                    <li className={`flex relative w-full rounded-l-full py-2 pl-2  hover:text-opacity-70 cursor-pointer items-center mb-6 ${location.pathname==="/users/admin/notifications" && ' bg-secondary bg-opacity-90 text-text_secondary'}  `}>
-                        <Link to="/users/admin/courses" className="flex items-center px-3">
-                            <IoIosNotificationsOutline size={25}/>
-                            <span className={`text-sm  ml-4 duration-500 ease-in-out `}>Notifications</span>
-                        </Link>
+                    <li 
+                    className={`flex relative w-full rounded-l-full py-2 pl-4  hover:text-opacity-70 cursor-pointer items-center mb-6 ${location.pathname==="/users/admin/notifications" && ' bg-secondary bg-opacity-90 text-text_secondary'}  `}>
+                        <IoIosNotificationsOutline size={25}/>
+                        <span className={`text-sm  ml-4 duration-500 ease-in-out `}>Notifications</span>
                         <label className='bg-danger w-4 h-4 rounded-full absolute left-4 top-1 text-secondary text-[9px] p-0.5'>
                             10
                         </label>
                     </li>
                     
-                    <li className={`flex w-full justify-between rounded-l-full py-2 pl-2  hover:text-opacity-70 cursor-pointer items-center mb-6`} onClick={()=>navigate("/users/admin/login")}>
+                    <li className={`flex w-full justify-between rounded-l-full py-2 pl-2  hover:text-opacity-70 cursor-pointer items-center mb-6`} onClick={()=>props.handleLogout()}>
                         <div className="flex items-center px-3">
                             <CiLogout  size={25}/>
                             <span className={`text-sm  ml-4 duration-500 ease-in-out `}>Logout</span>

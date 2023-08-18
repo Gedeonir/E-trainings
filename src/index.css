@@ -59,6 +59,11 @@
   .ql-container {
     padding-top:50px,
   }
+
+  ul{
+    list-style-type: disc;
+    padding-left: 25px;
+  }
   
 
 }
