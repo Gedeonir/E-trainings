@@ -71,7 +71,7 @@ const NavBar = (props) => {
                                 )}
                             </li>
 
-                            <li className="px-3 py-2 w-full text-md text-left flex gap-4 justify-between hover:bg-text_secondary hover:bg-opacity-10" onClick={()=>handleLogout()}>
+                            <li className="px-3 py-2 w-full text-md text-center hover:bg-text_secondary hover:bg-opacity-10 delay-100 duration-200 cursor-pointer" onClick={()=>handleLogout()}>
                                 Sign out
                             </li>
                         </ul>

@@ -31,10 +31,7 @@ const Sidebar=(props) =>{
                 </div>
                 <ul className="mt-4 font-semibold text-secondary">
                     <li className={`flex w-full justify-between rounded-l-full py-2 pl-4 my-8   hover:text-opacity-70 cursor-pointer items-center mb-6 ${location.pathname==="/users/admin/profile" && ' bg-secondary bg-opacity-90 text-text_secondary'}  `}>
-                        {props?.data?.adminProfile?.loading?(
-                            <Loading size={20}/>
-                        ):
-                        (props?.data?.adminProfile?.success?(
+                        {props?.data?.adminProfile?.success?(
                         <Link to="" className="py-2 border-text_secondary_2 w-full flex gap-2 justify-start">
                             <div className="h-10 w-10 rounded-full">
                                 <img 
@@ -48,7 +45,7 @@ const Sidebar=(props) =>{
                             
                         </Link>):(
                             <p></p>
-                        ))}
+                        )}
                     </li>
                     <li className={`flex w-full rounded-l-full py-2 pl-4 justify-start ${location.pathname==="/users/admin/home"&&'bg-secondary bg-opacity-90 text-text_secondary'}   hover:text-opacity-70 cursor-pointer items-center mb-6`} onClick={()=>navigate("/users/admin/home",{replace:true})}>
                         <CiGrid41 size={25}/>

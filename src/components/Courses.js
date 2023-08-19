@@ -61,7 +61,7 @@ const Courses = (props) => {
             </div>
             )
         ):(
-            <p></p>
+            <p className='text-text_secondary text-center'>{props?.data?.allCourses?.error?.response?.data?.message}</p>
         ))}
         
     </div>

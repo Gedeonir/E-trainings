@@ -35,8 +35,8 @@ const SignIn=(props)=>{
             );
             setTimeout(() => {
                 sessionStorage.setItem('memberToken', JSON.stringify(response?.data?.token));
-            }, "1000");
-            
+            },2000);
+
             navigate("../");
 
           } catch (error) {

@@ -25,7 +25,7 @@ function Overview({Overview}){
     )
 }
 
-function Lessons({openModel,setOpenModel}){
+function Lessons({openModel,setOpenModel,Lessons}){
     const location=useLocation()
 
     return(
@@ -38,68 +38,41 @@ function Lessons({openModel,setOpenModel}){
                 </div>}
 
             </div>
+            {Lessons.length <=0?(
+                <div className='h-56 flex items-center justify-center lg:col-span-3'>
+                    <p className='text-text_secondary text-center text-sm'>No lesson is added yet</p>
+                </div>
+            ):(
+                Lessons?.map((lesson,index)=>{
+                    <div className="flex justify-between py-4 border-b border-text_secondary_2">
+                        <div className="flex justify-start gap-3 text-text_secondary font-normal text-md w-full">
+                            <BsJournalBookmark size={20}/>
+                            <Link to="lesson/:lesson" className="">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Link>
+                        </div>
+                        <div className="w-12 text-text_secondary">
+                            <CiLock size={20}/>
+                        </div>
+                    </div>
+                })
+                
+            )}
 
-            <div className="flex justify-between py-4 border-b border-text_secondary_2">
-                <div className="flex justify-start gap-3 text-text_secondary font-normal text-md w-full">
-                    <BsJournalBookmark size={20}/>
-                    <Link to="lesson/:lesson" className="">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Link>
-                </div>
-                <div className="w-12 text-text_secondary">
-                    <CiLock size={20}/>
-                </div>
-            </div>
-
-            <div className="flex justify-between py-4 border-b border-text_secondary_2">
-                <div className="flex justify-start gap-3 text-text_secondary font-normal text-md w-full">
-                    <BsJournalBookmark size={20}/>
-                    <Link to="?Lesson=1" className="">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Link>
-                </div>
-                <div className="w-12 text-text_secondary">
-                    <CiLock size={20}/>
-                </div>
-            </div>
-
-            <div className="flex justify-between py-4 border-b border-text_secondary_2">
-                <div className="flex justify-start gap-3 text-text_secondary font-normal text-md w-full">
-                    <BsJournalBookmark size={20}/>
-                    <Link to="?Lesson=1" className="">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Link>
-                </div>
-                <div className="w-12 text-text_secondary">
-                    <CiLock size={20}/>
-                </div>
-            </div>
-
-            <div className="flex justify-between py-4 border-b border-text_secondary_2">
-                <div className="flex justify-start gap-3 text-text_secondary font-normal text-md w-full">
-                    <BsJournalBookmark size={20}/>
-                    <Link to="?Lesson=1" className="">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Link>
-                </div>
-                <div className="w-12 text-text_secondary">
-                    <CiLock size={20}/>
-                </div>
-            </div>
-
-            <div className="flex justify-between py-4 border-b border-text_secondary_2">
-                <div className="flex justify-start gap-3 text-text_secondary font-normal text-md w-full">
-                    <BsJournalBookmark size={20}/>
-                    <Link to="?Lesson=1" className="">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Link>
-                </div>
-                <div className="w-12 text-text_secondary">
-                    <CiLock size={20}/>
-                </div>
-            </div>
+            
 
         </div>
     )
 }
 
-const users=[1,2,3,4,5,6,7,8,9,0]
 
-function EnrolledUsers(){
+function EnrolledUsers({enrolledMembers}){
     return(
         <div className="grid lg:grid-cols-3 gap-4">
-            {users.map((user)=>(
-                <Link to="" className="py-2 lg:border-b-0 border-b border-text_secondary_2 rounded-md flex gap-2 justify-start hover:shadow-sm delay-100 duration-500">
+            {enrolledMembers?.length <=0 ?(
+                <div className='h-56 flex items-center justify-center lg:col-span-3'>
+                    <p className='text-text_secondary text-center text-sm'>No member is enrolled yet</p>
+                </div>
+            ):(enrolledMembers.map((member,index)=>(
+                <Link to="" key={index} className="py-2 lg:border-b-0 border-b border-text_secondary_2 rounded-md flex gap-2 justify-start hover:shadow-sm delay-100 duration-500">
                     <div className="h-12 w-12 rounded-full p-1 border border-text_secondary_2">
                         <div className="h-10 w-10 rounded-full">
                             <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlvXSXf73LjjqJMqhsbH0vntbFV_r84i6qkQ&usqp=CAU' className='w-full h-full object-cover rounded-full'/>
@@ -107,148 +80,158 @@ function EnrolledUsers(){
                     </div>
     
                     <div className="grid text-text_secondary">
-                        <label className="font-bold text-sm">User name</label>
-                        <small>Lorem ipsum</small>
+                        <label className="font-bold text-sm">{member?.fullNames}</label>
+                        <small>{member?.memberCategory}</small>
                     </div>
                     
                 </Link>
-            ))}
+            )))}
         </div>
     )
 }
 
-function Reviews(){
+function Reviews({reviews}){
     const location=useLocation()
 
     return(
         <div>
-            <h1 className="text-text_secondary font-bold text-lg mb-4">Table of contents</h1>
+            <h1 className="text-text_secondary font-bold text-lg mb-4">Ratings and review</h1>
 
-            <div className="grid grid-cols-3 gap-8">
-                <div>
-                    <label className="lg:text-sm text-xs font-normal text-text_secondary">Average rating</label>
-
-                    <div className="bg-secondary p-2 rounded-md py-4 my-4">
-                        <p className='lg:text-6xl text-3xl p-2 font-bold text-primary text-center w-full'>4.5</p>
-                        <div className='flex justify-center mt-8'>
-                            <AiFillStar color='#ca8a04'/>
-                            <AiFillStar color='#ca8a04'/>
-                            <AiFillStar color='#ca8a04'/>
-                            <AiFillStar color='#ca8a04'/>
-                            <AiFillStar color='#6b7280'/>
-
-                        </div>
-
-                        <p className="text-center lg:text-sm text-xs font-normal text-text_secondary">9 Reviews</p>
-                    </div>
+            {reviews.length <=0 ?(
+                <div className='flex items-center justify-center'>
+                    <p className='text-text_secondary text-center text-sm'>Course have no review yet</p>
                 </div>
-                <div className="col-span-2">
-                    <label className="lg:text-sm text-xs font-normal text-text_secondary">Detailed rating</label>
-                    <div className="bg-secondary p-2 rounded-md py-4 my-4">
-                        <div className="py-2">
-                            <div className='w-full flex justify-between gap-2'>
-                                <div className='h-1 w-11/12 bg-text_secondary_2 rounded-full'>
-                                    <div
-                                        style={{ width: `100%`}}
-                                        className={`h-full bg-primary rounded-full`}>
-                                    </div>
-                                </div>
-                                <label className='text-text_secondary font-bold lg:text-sm text-xs -mt-2'>100%</label>
-                            </div>
-                        </div>
-
-                        <div className="py-2">
-                            <div className='w-full flex justify-between gap-2'>
-                                <div className='h-1 w-11/12 bg-text_secondary_2 rounded-full'>
-                                    <div
-                                        style={{ width: `30%`}}
-                                        className={`h-full bg-primary rounded-full`}>
-                                    </div>
-                                </div>
-                                <label className='text-text_secondary font-bold lg:text-sm text-xs -mt-2'>30%</label>
-                            </div>
-                        </div>
-
-                        <div className="py-2">
-                            <div className='w-full flex justify-between gap-2'>
-                                <div className='h-1 w-11/12 bg-text_secondary_2 rounded-full'>
-                                    <div
-                                        style={{ width: `10%`}}
-                                        className={`h-full bg-primary rounded-full`}>
-                                    </div>
-                                </div>
-                                <label className='text-text_secondary font-bold lg:text-sm text-xs -mt-2'>10%</label>
-                            </div>
-                        </div>
-
-                        <div className="py-2">
-                            <div className='w-full flex justify-between gap-2'>
-                                <div className='h-1 w-11/12 bg-text_secondary_2 rounded-full'>
-                                    <div
-                                        style={{ width: `5%`}}
-                                        className={`h-full bg-primary rounded-full`}>
-                                    </div>
-                                </div>
-                                <label className='text-text_secondary font-bold lg:text-sm text-xs -mt-2'>5%</label>
-                            </div>
-                        </div>
-
-                        <div className="py-2">
-                            <div className='w-full flex justify-between gap-2'>
-                                <div className='h-1 w-11/12 bg-text_secondary_2 rounded-full'>
-                                    <div
-                                        style={{ width: `0%`}}
-                                        className={`h-full bg-primary rounded-full`}>
-                                    </div>
-                                </div>
-                                <label className='text-text_secondary font-bold text-sm -mt-2'>0%</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-
-            <div className="my-4">
-                <h1 className="text-text_secondary text-lg mb-4">Comments(1)</h1>
-
-
-                <div className='border-b border-text_secondary_2 pt-3 pb-4'>
-                    <div className="flex justify-start gap-4">
-                        <div className="py-3 w-20">
-                            <div className="h-14 w-14 rounded-full">
-                                <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlvXSXf73LjjqJMqhsbH0vntbFV_r84i6qkQ&usqp=CAU' className='w-full h-full object-cover rounded-full'/>
-                            </div>
-                        </div>
-                        <div className="w-full px-4">
-                            <div className="lg:flex justify-between">
-                                <div className="grid text-text_secondary mb-4">
-                                    <label className="font-bold text-sm">User name</label>
-                                    <small>August 8, 2012 at 9:22 am</small>
-                                </div>
-
-                                <div className='flex justify-center'>
-                                    <AiFillStar color='#ca8a04'/>
-                                    <AiFillStar color='#ca8a04'/>
-                                    <AiFillStar color='#ca8a04'/>
-                                    <AiFillStar color='#ca8a04'/>
-                                    <AiFillStar color='#6b7280'/>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            ):(
+                <>
+                <div className="grid grid-cols-3 gap-8">
                     <div>
-                        <p className="text-text_secondary font-normal text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce quam massa, tempus sit amet ullamcorper eget, pharetra vel dolor. Nulla varius augue ut dolor vulputate dapibus in quis leo.</p>
-                    </div>
-                </div>
-               
+                        <label className="lg:text-sm text-xs font-normal text-text_secondary">Average rating</label>
 
-            </div>
+                        <div className="bg-secondary p-2 rounded-md py-4 my-4">
+                            <p className='lg:text-6xl text-3xl p-2 font-bold text-primary text-center w-full'>4.5</p>
+                            <div className='flex justify-center mt-8'>
+                                <AiFillStar color='#ca8a04'/>
+                                <AiFillStar color='#ca8a04'/>
+                                <AiFillStar color='#ca8a04'/>
+                                <AiFillStar color='#ca8a04'/>
+                                <AiFillStar color='#6b7280'/>
+
+                            </div>
+
+                            <p className="text-center lg:text-sm text-xs font-normal text-text_secondary">9 Reviews</p>
+                        </div>
+                    </div>
+                    <div className="col-span-2">
+                        <label className="lg:text-sm text-xs font-normal text-text_secondary">Detailed rating</label>
+                        <div className="bg-secondary p-2 rounded-md py-4 my-4">
+                            <div className="py-2">
+                                <div className='w-full flex justify-between gap-2'>
+                                    <div className='h-1 w-11/12 bg-text_secondary_2 rounded-full'>
+                                        <div
+                                            style={{ width: `100%`}}
+                                            className={`h-full bg-primary rounded-full`}>
+                                        </div>
+                                    </div>
+                                    <label className='text-text_secondary font-bold lg:text-sm text-xs -mt-2'>100%</label>
+                                </div>
+                            </div>
+
+                            <div className="py-2">
+                                <div className='w-full flex justify-between gap-2'>
+                                    <div className='h-1 w-11/12 bg-text_secondary_2 rounded-full'>
+                                        <div
+                                            style={{ width: `30%`}}
+                                            className={`h-full bg-primary rounded-full`}>
+                                        </div>
+                                    </div>
+                                    <label className='text-text_secondary font-bold lg:text-sm text-xs -mt-2'>30%</label>
+                                </div>
+                            </div>
+
+                            <div className="py-2">
+                                <div className='w-full flex justify-between gap-2'>
+                                    <div className='h-1 w-11/12 bg-text_secondary_2 rounded-full'>
+                                        <div
+                                            style={{ width: `10%`}}
+                                            className={`h-full bg-primary rounded-full`}>
+                                        </div>
+                                    </div>
+                                    <label className='text-text_secondary font-bold lg:text-sm text-xs -mt-2'>10%</label>
+                                </div>
+                            </div>
+
+                            <div className="py-2">
+                                <div className='w-full flex justify-between gap-2'>
+                                    <div className='h-1 w-11/12 bg-text_secondary_2 rounded-full'>
+                                        <div
+                                            style={{ width: `5%`}}
+                                            className={`h-full bg-primary rounded-full`}>
+                                        </div>
+                                    </div>
+                                    <label className='text-text_secondary font-bold lg:text-sm text-xs -mt-2'>5%</label>
+                                </div>
+                            </div>
+
+                            <div className="py-2">
+                                <div className='w-full flex justify-between gap-2'>
+                                    <div className='h-1 w-11/12 bg-text_secondary_2 rounded-full'>
+                                        <div
+                                            style={{ width: `0%`}}
+                                            className={`h-full bg-primary rounded-full`}>
+                                        </div>
+                                    </div>
+                                    <label className='text-text_secondary font-bold text-sm -mt-2'>0%</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div className="my-4">
+                    <h1 className="text-text_secondary text-lg mb-4">Comments({reviews.length})</h1>
+
+
+                    <div className='border-b border-text_secondary_2 pt-3 pb-4'>
+                        <div className="flex justify-start gap-4">
+                            <div className="py-3 w-20">
+                                <div className="h-14 w-14 rounded-full">
+                                    <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlvXSXf73LjjqJMqhsbH0vntbFV_r84i6qkQ&usqp=CAU' className='w-full h-full object-cover rounded-full'/>
+                                </div>
+                            </div>
+                            <div className="w-full px-4">
+                                <div className="lg:flex justify-between">
+                                    <div className="grid text-text_secondary mb-4">
+                                        <label className="font-bold text-sm">User name</label>
+                                        <small>August 8, 2012 at 9:22 am</small>
+                                    </div>
+
+                                    <div className='flex justify-center'>
+                                        <AiFillStar color='#ca8a04'/>
+                                        <AiFillStar color='#ca8a04'/>
+                                        <AiFillStar color='#ca8a04'/>
+                                        <AiFillStar color='#ca8a04'/>
+                                        <AiFillStar color='#6b7280'/>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <p className="text-text_secondary font-normal text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce quam massa, tempus sit amet ullamcorper eget, pharetra vel dolor. Nulla varius augue ut dolor vulputate dapibus in quis leo.</p>
+                        </div>
+                    </div>
+                
+
+                </div>
+                </>
+            )}
+
+
 
             {!location.pathname.includes("users/admin/courses") &&
-            <div className="my-4">
+            <div className="my-2">
                 <h1 className="text-text_secondary text-lg mb-4">Leave Comment</h1>
                 
                 <div className='flex justify-start my-4'>
@@ -261,7 +244,7 @@ function Reviews(){
 
                 </div>
 
-                <textarea type="text" className="bg-secondary shadow-lg text-text_secondary text-sm outline-none block w-full p-2.5 dark:bg-gray-700 placeholder-text_secondary_2 mb-3" rows="10" placeholder="Type in keyword" required/>
+                <textarea type="text" className=" border border-text_secondary_2 rounded-lg shadow-sm text-text_secondary text-sm outline-none block w-full p-2.5 placeholder-text_secondary_2 mb-3" rows="4" placeholder="Type in keyword" required/>
                 <Button className='lg:w-1/5 w-full my-4 bg-primary text-sm text-secondary py-3'>Submit Review</Button>
 
                 
@@ -286,9 +269,6 @@ const CoursesDetails = (props) => {
         props.fetchOneCourses(params.id)
         props.fetchAllCoursesLessons(params.id)
     },[])
-
-    console.log(props);
-
 
   return (
     <div>
@@ -357,11 +337,11 @@ const CoursesDetails = (props) => {
                         </ul>
                     </div>
 
-                    <div className='px-4 py-4 bg-btn_primary'>
+                    <div className='px-4 py-4 bg-btn_primary h-96 overflow-y-auto'>
                         {section==='overview' && <Overview Overview={props?.data?.oneCourse?.resp?.data?.getCourse?.overview}/>}
-                        {section==="curicullum" && <Lessons openModel={props.openModel} setOpenModel={props.setOpenModel}/>}
-                        {section==="enrolled" && <EnrolledUsers/>}
-                        {section==="ratings" && <Reviews/>}
+                        {section==="curicullum" && <Lessons openModel={props.openModel} setOpenModel={props.setOpenModel} Lessons={props?.data?.courseLessons?.resp?.data}/>}
+                        {section==="enrolled" && <EnrolledUsers enrolledMembers={props?.data?.oneCourse?.resp?.data?.getCourse?.enrolledMembers}/>}
+                        {section==="ratings" && <Reviews reviews={props?.data?.oneCourse?.resp?.data?.getCourse?.ratingsAndReviews}/>}
                     </div>
                     
                 </div>
