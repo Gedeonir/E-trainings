@@ -32,7 +32,9 @@ const AdminLogin = (props) => {
             );
       
             console.log('Post response:', response.data);
-            sessionStorage.setItem('userToken', JSON.stringify(response?.data?.token));
+            setTimeout(() => {
+                sessionStorage.setItem('userToken', JSON.stringify(response?.data?.token));
+            }, "1000");
             navigate("../users/admin/home");
 
           } catch (error) {

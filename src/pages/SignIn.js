@@ -33,8 +33,10 @@ const SignIn=(props)=>{
               `${process.env.BACKEND_URL}/member/login`,
               formData
             );
-      
-            sessionStorage.setItem('memberToken', JSON.stringify(response?.data?.token));
+            setTimeout(() => {
+                sessionStorage.setItem('memberToken', JSON.stringify(response?.data?.token));
+            }, "1000");
+            
             navigate("../");
 
           } catch (error) {

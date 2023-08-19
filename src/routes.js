@@ -13,26 +13,67 @@ import AdminLesson from "./pages/Admin/pages/AdminLesson";
 import SignIn from "./pages/SignIn";
 import AddNewCourse from "./pages/Admin/pages/AddLesson";
 import MyProfile from "./pages/MyProfile";
+import  NotFound from "./components/notFound";
+import Protected from "./utils/ProtectedRoutes";
 
 const AppRoutes = (prop) => {
-  
-    return (
-      <div className="">
-        <Routes>
-            <Route path="/" index element={<Homepage />} />
-            <Route path="/courses/:id" element={<CourseDetailsUser/>}/>
-            <Route path="/courses/:id/lesson/:lesson" element={<LessonUser/>}/>
-            <Route path="my/profile" element={<MyProfile/>}/>
-            <Route path="/signup" element={<SignUp/>}/>
-            <Route path="/signin" element={<SignIn/>}/>
-            <Route path="/users/admin/addnewcourse" element={<AddNewCourse/>}/>
-            <Route path="/users/admin/home" element={<AdminHome/>}/>
-            <Route path="/users/admin/courses" element={<AdminCourses/>}/>
-            <Route path="/users/admin/courses/:id" element={<AdminCourseDetail/>}/>
-            <Route path="/users/admin/courses/:id/lesson/:lesson" element={<AdminLesson/>}/>\
-          <Route path="users/admin/login" element={<AdminLogin/>}/>
-        </Routes>
-      </div>
+  const tokenMember = sessionStorage.getItem('memberToken');
+  const tokenAdmin= sessionStorage.getItem('userToken');
+
+  return (
+    <Routes>
+        <Route path="/" index element={
+          <Protected token={tokenMember} route="/signin">              
+            <Homepage />
+          </Protected>
+        } />
+        <Route path="/courses/:id" element={
+          <Protected token={tokenMember} route="/signin">              
+            <CourseDetailsUser/>
+          </Protected>
+        }/>
+        <Route path="/courses/:id/lesson/:lesson" element={
+          <Protected token={tokenMember} route="/signin">              
+            <LessonUser/>
+          </Protected>
+        }/>
+        <Route path="my/profile" element={
+          <Protected token={tokenMember} route="/signin">              
+            <MyProfile/>
+          </Protected>
+        }/>
+        <Route path="/signup" element={<SignUp/>}/>
+        <Route path="/signin" element={<SignIn/>}/>
+
+        <Route path="/users/admin/addnewcourse" element={
+          <Protected token={tokenAdmin} route="/users/admin/login">              
+            <AddNewCourse/>
+          </Protected>
+        }/>
+        <Route path="/users/admin/home" element={
+          <Protected token={tokenAdmin} route="/users/admin/login">   
+            <AdminHome/>
+          </Protected>
+        }/>
+        <Route path="/users/admin/courses" element={
+          <Protected token={tokenAdmin} route="/users/admin/login">   
+            <AdminCourses/>
+          </Protected>
+        }/>
+        <Route path="/users/admin/courses/:id" element={
+          <Protected token={tokenAdmin} route="/users/admin/login">   
+            <AdminCourseDetail/>
+          </Protected>
+        }/>
+        <Route path="/users/admin/courses/:id/lesson/:lesson" element={
+          <Protected token={tokenAdmin} route="/users/admin/login">   
+            <AdminLesson/>
+          </Protected>}
+        />
+        <Route path="/users/admin/login" element={<AdminLogin/>}/>
+        <Route path="*" element={<NotFound/>} />
+
+    </Routes>
     );
   };
   

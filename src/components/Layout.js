@@ -25,17 +25,7 @@ const Layout = (props) => {
   }
 
   
-  React.useEffect(() => {
-    if (!token) {
-      navigate("/signin");
-    }else{
-      const decodedJwt = parseToken(token);
-      if (decodedJwt.exp * 1000 < Date.now()) {
-        sessionStorage.clear();
-        navigate("/signin");
-      }
-    }
-
+  React.useEffect(() => { 
     props.memberFetchProfileAction();
   }, [])
   

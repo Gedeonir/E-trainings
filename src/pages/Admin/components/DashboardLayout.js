@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import NavBar from "./NavBar";
 import Sidebar from "./Sidebar";
 import Notifications from './Notifications'
@@ -26,6 +26,7 @@ function DashboardLayout(props) {
     const [openNotificationAction,setOpenNotificationAction]=React.useState(false);
     const location=useLocation();
     const [openMobileMenu,setOpenMobileMenu]=React.useState(false);
+    const [sessionExpired,setSessionExpired]=useState(false)
     const navigate=useNavigate()
 
     const token = getToken();
@@ -41,28 +42,13 @@ function DashboardLayout(props) {
 
     
     React.useEffect(() => {
-        if (!token) {
-            navigate("/users/admin/login");
-        }else{
-            const decodedJwt = parseToken(token);
-            if (decodedJwt.exp * 1000 < Date.now()) {
-                sessionStorage.clear();
-                navigate("users/admin/login");
-            }
-        }
-
         props.adminFetchProfileAction();
 
-        if(props?.data?.adminProfile?.error?.code==="ERR_BAD_RESPONSE"){
-            console.log("Your session expired")
-        }
-
-
-    }, [props?.data?.adminProfile?.success]) 
+    }, []) 
 
     const handleLogout=()=>{
         sessionStorage.removeItem('userToken')
-        navigate("/users/admin/login")
+        navigate("/users/admin/login",{replace:true})
     }
 
 
@@ -126,7 +112,7 @@ function DashboardLayout(props) {
                 
             </div>
             }
-            {props?.data?.adminProfile?.error?.code==="ERR_BAD_RESPONSE" &&
+            {props?.data?.addLecture?.error?.response?.data?.message==='Not Authorized token expired, Please Login again' &&
                 <div className="min-h-screen max-h-screen w-full left-0 right-0 z-40 flex justify-center items-center absolute top-0 bg-primary bg-opacity-40">
                     <div className="lg:w-2/5 px-8 py-4 rounded-lg shadow-lg w-full bg-secondary">
                         <div className="flex justify-start gap-4">
