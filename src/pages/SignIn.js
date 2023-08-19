@@ -34,7 +34,7 @@ const SignIn=(props)=>{
               formData
             );
 
-	    sessionStorage.setItem('memberToken', JSON.stringify(response?.data?.token));
+	        sessionStorage.setItem('memberToken', JSON.stringify(response?.data?.token));
 
             navigate("../");
 

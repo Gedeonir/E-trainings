@@ -21,7 +21,6 @@ const Courses = (props) => {
         props.fetchAllLectures()
     },[])
 
-    console.log(props);
 
   return (
     <div className='mb-4 py-2'>

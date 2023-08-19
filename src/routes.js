@@ -16,9 +16,13 @@ import MyProfile from "./pages/MyProfile";
 import  NotFound from "./components/notFound";
 import Protected from "./utils/ProtectedRoutes";
 
-const AppRoutes = async(prop) => {
-  const tokenMember = await sessionStorage.getItem('memberToken');
-  const tokenAdmin= await sessionStorage.getItem('userToken');
+const AppRoutes = (prop) => {
+  const tokenMember = setTimeout(()=>{
+    return sessionStorage.getItem('memberToken');
+  },2000);
+  const tokenAdmin=setTimeout(()=>{
+    sessionStorage.getItem('userToken');
+  },2000); 
 
   return (
     <Routes>
