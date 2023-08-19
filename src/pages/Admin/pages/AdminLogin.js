@@ -31,10 +31,8 @@ const AdminLogin = (props) => {
               formData
             );
       
-            console.log('Post response:', response.data);
-            setTimeout(() => {
-                sessionStorage.setItem('userToken', JSON.stringify(response?.data?.token));
-            }, 2000);
+
+	    sessionStorage.setItem('userToken', JSON.stringify(response?.data?.token));
             navigate("../users/admin/home");
 
           } catch (error) {
