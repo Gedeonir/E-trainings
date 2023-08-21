@@ -40,3 +40,19 @@ export const memberFetchProfileAction=()=>async(dispatch)=>{
         dispatch({type:types.VIEW_MEMBER_PROFILE_FAIL,payload:error})
     }
 }
+
+export const getMyCourses=()=>async(dispatch)=>{
+    try {
+        dispatch({
+            type:types.GET_MEMBER_COURSES_LOADING
+        })
+
+        const res=await axios.get(`${process.env.BACKEND_URL}/member/my/courses`);
+
+        dispatch({
+            type:types.GET_MEMBER_COURSES_SUCCESS,payload:res
+        })
+    } catch (error) {
+        dispatch({type:types.GET_MEMBER_COURSES_FAIL,payload:error});
+    }
+}

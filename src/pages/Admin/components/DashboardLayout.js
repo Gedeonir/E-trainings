@@ -29,8 +29,6 @@ function DashboardLayout(props) {
     const [sessionExpired,setSessionExpired]=useState(false)
     const navigate=useNavigate()
 
-    const token = getToken();
-
 
     const parseToken=(jwtToken)=>{
         try {
@@ -129,7 +127,7 @@ function DashboardLayout(props) {
                 
             </div>
             }
-            {props?.data?.addLecture?.error?.response?.data?.message==='Not Authorized token expired, Please Login again' &&
+            {props?.data?.adminProfile?.error?.response?.data?.message==='Not Authorized token expired, Please Login again' &&
                 <div className="min-h-screen max-h-screen w-full left-0 right-0 z-40 flex justify-center items-center absolute top-0 bg-primary bg-opacity-40">
                     <div className="lg:w-2/5 px-8 py-4 rounded-lg shadow-lg w-full bg-secondary">
                         <div className="flex justify-start gap-4">

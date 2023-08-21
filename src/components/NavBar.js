@@ -63,7 +63,7 @@ const NavBar = (props) => {
                                         ${!props?.data?.memberProfile?.resp?.data?.getProfile?.profilePicture?'bg-[url(https://www.pngfind.com/pngs/m/610-6104451_image-placeholder-png-user-profile-placeholder-image-png.png)]':`bg-[url(${props?.data?.memberProfile?.resp?.data?.getProfile?.profilePicture})]`} bg-cover bg-center bg-no-repeat`}/>
                                         <div className='text-text_secondary'>
                                             <label className='font-bold text-md'>{props?.data?.memberProfile?.resp?.data?.getProfile?.fullNames}</label>
-                                            <p className='text-sm'>View my profile</p>
+                                            <p className='text-sm'><span className='text-primary mr-2'>#Rank</span>{props?.data?.memberProfile?.resp?.data?.getProfile?.memberCategory}</p>
                                         </div>
                                     </Link>
                                 ):(

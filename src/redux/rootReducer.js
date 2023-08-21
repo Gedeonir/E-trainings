@@ -3,7 +3,7 @@ import { combineReducers } from 'redux';
 
 
 import reducer from './Reducers/counterReducer';
-import { memberRegisterReducer, viewMemberProfileReducer } from './Reducers/memberReducers';
+import { getMyCoursesReducer, memberRegisterReducer, viewMemberProfileReducer } from './Reducers/memberReducers';
 import { viewAdminProfileReducer } from './Reducers/adminReducers';
 import { addCourseReducer, fetchAllCoursesLessonsReducer, fetchAllCoursesReducer, fetchOneCourseReducer } from './Reducers/CoursesReducer';
 import { fetchAllCategoryReducer } from './Reducers/categoryReducers';
@@ -21,7 +21,8 @@ const rootReducer = combineReducers({
     addLecture:addLecturesReducer,
     addCourse:addCourseReducer,
     courseLessons:fetchAllCoursesLessonsReducer,
-    oneCourse:fetchOneCourseReducer
+    oneCourse:fetchOneCourseReducer,
+    myCourses:getMyCoursesReducer
 });
 
 export default rootReducer;

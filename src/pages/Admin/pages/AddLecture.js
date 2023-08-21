@@ -24,7 +24,7 @@ export const AddLecture = (props) => {
     <form className='lg:w-1/4 w-full shadow-lg bg-[white] mx-auto py-4 px-4 rounded-xl' onSubmit={(event)=>handleSubmit(event)}>
         {props?.data?.addLecture?.success?<p className='text-sm text-primary font-bold text-center p-2'>{props?.data?.addLecture?.resp?.data?.message}</p>
         :
-        <p className='text-sm text-danger text-center p-2'>{props?.data?.addLecture?.error?.response?.data?.message}</p>}
+        <p className={`text-sm text-danger text-center p-2 ${props?.data?.addLecture?.error && 'bg-danger'} bg-opacity-20`}>{props?.data?.addLecture?.error?.response?.data?.message}</p>}
 
         <div className="mb-4">
             <label className="text-text_secondary font-bold text-xs mb-2">Full names<span className="text-[red]">*</span></label>

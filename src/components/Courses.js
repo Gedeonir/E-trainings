@@ -19,12 +19,13 @@ const Courses = (props) => {
         props.fetchAllCourses()
         props.fetchAllCategory()
         props.fetchAllLectures()
-    },[])
+    },[props.data?.allCourses?.success])
 
 
   return (
     <div className='mb-4 py-2'>
-        <div className='lg:flex justify-end gap-4 relative'>
+        <div className='flex justify-end gap-4 relative'>
+            {location.pathname.includes("users/admin/courses")&&
             <div className='w-full h-8 text-text_secondary font-medium lg:px-8 flex lg:justify-end justify-between lg:gap-4 gap-2'>
                 {props.data?.allCategories?.success?(
                     <div className='flex lg:justify-end justify-between lg:gap-4 gap-2'>
@@ -34,10 +35,11 @@ const Courses = (props) => {
                         ))}
                     </div>
                 ):(<p></p>)}
-                <div className='text-text_secondary font-bold relative text-lg mt-1'>
-                    <BsSearch  className='cursor-pointer hover:text-primary' onClick={()=>setToogleSearch(!toogleSearch)}/>
-                </div>
-            </div>                    
+            </div>
+            }  
+            <div className='text-text_secondary font-bold relative text-lg mt-1'>
+                <BsSearch  className='cursor-pointer hover:text-primary' onClick={()=>setToogleSearch(!toogleSearch)}/>
+            </div>                  
         </div>
 
         <div className={`text-text_secondary font-bold relative py-2 shadow-sm ${toogleSearch?'block':'hidden'}`}>

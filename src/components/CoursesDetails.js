@@ -1,4 +1,4 @@
-import React, { Children, useEffect } from 'react'
+import React, { Children, useEffect, useState } from 'react'
 import Layout from './Layout'
 import { Link, useLocation, useParams } from 'react-router-dom'
 import {LiaChalkboardTeacherSolid} from 'react-icons/lia'
@@ -13,6 +13,7 @@ import { connect } from 'react-redux'
 import { fetchOneCourses } from '../redux/Actions/CoursesAction'
 import {AiOutlineLoading3Quarters} from "react-icons/ai"
 import { fetchAllCoursesLessons } from '../redux/Actions/CoursesAction';
+import axios from '../redux/Actions/axiosConfig'
 
 function Overview({Overview}){
 
@@ -80,8 +81,8 @@ function EnrolledUsers({enrolledMembers}){
                     </div>
     
                     <div className="grid text-text_secondary">
-                        <label className="font-bold text-sm">{member?.fullNames}</label>
-                        <small>{member?.memberCategory}</small>
+                        <label className="font-bold text-sm">{member?.member?.fullNames}</label>
+                        <small>{member?.member?.memberCategory}</small>
                     </div>
                     
                 </Link>
@@ -260,26 +261,51 @@ function Reviews({reviews}){
 const CoursesDetails = (props) => {
 
     const [section,setSections]=React.useState("overview");
+    const [loading,setLoading]=useState(false)
+    const[error,setError]=useState("");
+    const [success,setSuccesMsg]=useState({
+        status:false,
+        succesMsg:""
+    })
+
 
     const location=useLocation()
 
     const params=useParams();
+
+    const handleEnroll=async()=>{
+        
+        setLoading(true);
+
+        try {
+            const response = await axios.patch(
+              `${process.env.BACKEND_URL}/member/enroll/${params.id}`,
+            );
+
+
+            setSuccesMsg({
+                ...success,
+                status:true,
+                succesMsg:response?.data?.message
+            })
+
+            props.fetchOneCourses(params.id)
+
+          } catch (error) {
+            setError(error?.response?.data?.message)
+        }
+        setLoading(false);
+    }
 
     useEffect(()=>{
         props.fetchOneCourses(params.id)
         props.fetchAllCoursesLessons(params.id)
     },[])
 
+
   return (
     <div>
-        {props?.data?.oneCourse?.loading?(
-            <div className='flex items-center justify-center min-h-screen'>
-                <div className='w-12 h-12 text-primary text-center'>
-                    <AiOutlineLoading3Quarters size={20} className="animate-spin w-12 h-12"/>
-                </div>
-            </div>
-        ):(
-        props?.data?.oneCourse?.success?(
+        {props?.data?.oneCourse?.success?(
             <>
             <div className={`h-64 bg-cover bg-center bg-no-repeat ${props?.data?.oneCourse?.resp?.data?.getCourse?.courseIcon?`bg-url[${props?.data?.oneCourse?.resp?.data?.getCourse?.courseIcon}`:'bg-url[https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPPqmpE5TW_Ks80SvlDQzbL_BC2kr21WPPWA&usqp=CAU]'} w-full bg-cover bg-center`}>
                 <div className='h-64 bg-secondary w-full lg:px-14 px-4 bg-opacity-95 lg:flex block gap-4 justify-between py-8'>
@@ -345,7 +371,7 @@ const CoursesDetails = (props) => {
                     </div>
                     
                 </div>
-                <div className='lg:w-64 w-full h-72 bg-secondary shadow-md rounded-md px-4 py-2'>
+                <div className='lg:w-64 w-full h-full bg-secondary shadow-md rounded-md px-4 py-2'>
                     <div className='flex justify-start gap-1 border-b border-text_secondary_2 py-4 text-text_secondary'>
                         <LiaChalkboardTeacherSolid size={20}/>
                         <label className='text-sm font-bold text-text_secondary'>Instructor:</label>
@@ -372,14 +398,27 @@ const CoursesDetails = (props) => {
                     {location.pathname.includes("users/admin/courses")?(
                         <Button className='w-full my-2 bg-danger text-sm text-secondary py-3'>Delete Course</Button>
                     ):(
-                        <Button className='w-full my-2 bg-primary text-sm text-secondary py-3'>Enroll</Button>
+                        <div>
+                            {success.status?<p className='text-xs text-primary font-bold text-center p-2 bg-primary bg-opacity-20'>{success.succesMsg}</p>
+                            :
+                            <p className={`text-xs text-danger text-center p-2 ${error && 'bg-danger'} bg-opacity-20`}>{error}</p>}
+                            {props?.data?.oneCourse?.resp?.data?.getCourse?.enrolledMembers.some(async(obj) => obj._id === await props?.data?.memberProfile?.resp?.data?.getProfile?._id)?(
+                                <button size='sm' className={`my-4 bg-text_secondary bg-opacity-20 text-sm text-center text-text_secondary font-bold p-2 w-full cursor-not-allowed `} disabled={true}>
+                                    Enrolled                                
+                                </button>
+                            ):(
+                                <button type='submit' size='sm' className={`my-4 bg-primary text-sm text-center text-secondary p-2 w-full ${loading? 'cursor-not-allowed ':'cursor-pointer'}`} disabled={loading? true : false} onClick={()=>handleEnroll()}>
+                                    {loading?<p className="flex justify-center gap-2"><AiOutlineLoading3Quarters size={20} className="animate-spin h-5 w-5"/>Enrolling</p>:'Enroll'}
+                                </button>
+                            )}
+                        </div>
                     )}
 
                 </div>
             </div>
             </>
-        ):(<p></p>)
-        )}
+        ):(<p>{props?.data?.oneCourse?.error?.response?.data?.message}</p>)
+        }
        
     </div>
   )
@@ -391,5 +430,5 @@ const mapState=(data)=>({
 
 export default connect(mapState,{
     fetchOneCourses,
-    fetchAllCoursesLessons
+    fetchAllCoursesLessons,
 }) (CoursesDetails)

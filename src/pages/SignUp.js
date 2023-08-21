@@ -1,9 +1,6 @@
 import React, { useRef } from 'react';
-import Layout from '../components/Layout';
 import { Link } from 'react-router-dom'
-import { Button } from '@material-tailwind/react'
-import {BsArrowRight,BsSearch} from 'react-icons/bs'
-import NavBar from '../components/NavBar';
+import {BsArrowRight} from 'react-icons/bs'
 import { connect } from "react-redux";
 import {churches} from '../utils/churches'
 import { memberRegisterAction } from '../redux/Actions/membersAction';
@@ -70,8 +67,10 @@ const SignUp=(props)=>{
             setPhoneError({...phoneError,error:false});
             setPasswordError({...passwordError,error:false});
 
-            props.memberRegisterAction(formData)
+            props.memberRegisterAction(formData);
+            event.target.reset();
         }
+        
 
 
     }
@@ -142,7 +141,7 @@ const SignUp=(props)=>{
 
                                         </div>
                                         <div className="text-xs px-2 py-0.5 text-text_secondary">
-                                            <label>+250</label>
+                                            <label>+25</label>
                                         </div>
                                     </div>
                                     <input type="number" value={formData.mobile}
@@ -265,7 +264,7 @@ const SignUp=(props)=>{
 
                         {props?.data?.memberRegister?.success?<p className='text-sm text-primary font-bold text-center p-2'>{props?.data?.memberRegister?.resp?.data?.message}</p>
                         :
-                        <p className='text-sm text-danger text-center p-2 bg-danger bg-opacity-20'>{props?.data?.memberRegister?.error?.response?.data?.message}</p>}
+                        <p className={`text-sm text-danger text-center p-2 ${props?.data?.memberRegister?.error && 'bg-danger'} bg-opacity-20`}>{props?.data?.memberRegister?.error?.response?.data?.message}</p>}
 
                         <button type='submit' size='sm' className={`my-4 bg-primary text-sm text-center text-secondary p-2 w-full ${props?.data?.memberRegister?.loading? 'cursor-not-allowed ':'cursor-pointer'}`} disabled={props?.data?.memberRegister?.loading? true : false}>
                             {props?.data?.memberRegister?.loading?<p className="flex justify-center gap-2"><AiOutlineLoading3Quarters size={20} className="animate-spin h-5 w-5"/>Saving</p>:'Register member'}
