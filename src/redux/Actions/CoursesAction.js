@@ -58,6 +58,31 @@ export const addCourseAction=(courseData)=>async(dispatch)=>{
     }
 }
 
+export const addCourseLessonAction=(courseData)=>async(dispatch)=>{
+    try {
+        dispatch({
+            type:types.ADD_COURSE_LESSON_LOADING
+        })
+
+        const res=await axios.post(`${process.env.BACKEND_URL}/course/addNewCourse`,courseData,
+        {headers:{
+            "Content-Type":"application/json"
+        }});
+
+        dispatch({
+            type:types.ADD_COURSE_LESSON_SUCCESS,
+            payload:res
+        })
+
+
+    } catch (error) {
+        dispatch({
+            type:types.ADD_COURSE_LESSON_FAIL,
+            payload:error
+        })
+    }
+}
+
 
 export const fetchAllCoursesLessons=(courseId)=>async(dispatch)=>{
     try {

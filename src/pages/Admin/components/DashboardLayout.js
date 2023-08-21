@@ -28,7 +28,7 @@ function DashboardLayout(props) {
     const [openMobileMenu,setOpenMobileMenu]=React.useState(false);
     const [sessionExpired,setSessionExpired]=useState(false)
     const navigate=useNavigate()
-
+    console.log(props);
 
     const parseToken=(jwtToken)=>{
         try {

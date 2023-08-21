@@ -14,6 +14,8 @@ import { fetchOneCourses } from '../redux/Actions/CoursesAction'
 import {AiOutlineLoading3Quarters} from "react-icons/ai"
 import { fetchAllCoursesLessons } from '../redux/Actions/CoursesAction';
 import axios from '../redux/Actions/axiosConfig'
+import * as XLSX from 'xlsx';
+import {FaFileExport} from 'react-icons/fa'
 
 function Overview({Overview}){
 
@@ -65,27 +67,63 @@ function Lessons({openModel,setOpenModel,Lessons}){
 }
 
 
-function EnrolledUsers({enrolledMembers}){
+function EnrolledUsers({enrolledMembers,courseTitle}){
+
+    const data = enrolledMembers?.map((member)=>{
+        const { _id,isMarried,yearOfMarriage,password,isDisabled,profilePicture,enrolledCourses,createdAt,updatedAt,__v,...rest } = member?.member;
+
+        return rest;
+    });
+
+    const exportToExcel = async() => {
+        const ws = XLSX.utils.json_to_sheet(data);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+      
+        // Save the file
+        const fileName = `List of member enrolled in ${courseTitle} course .xlsx`;
+        XLSX.writeFile(wb, fileName);
+    }
+
+
+    const fields=["full names","category","contact","district","church"]
     return(
-        <div className="grid lg:grid-cols-3 gap-4">
+        <div className="grid">
+            <div className='flex justify-between mb-4'>
+                <h1 className="text-text_secondary font-bold text-lg">Enrolled members list</h1>
+                <button className='text-sm text-primary' onClick={()=>exportToExcel()}><FaFileExport size={20}/></button>
+            </div>
+
+            <div className="py-2 px-2 border-text_secondary_2 grid grid-cols-5 gap-2 justify-start hover:shadow-sm delay-100 duration-500">    
+                {fields.map((field,index)=>(
+                <div key={index} className="grid text-text_secondary">
+                    <label className="font-bold lg:text-sm text-xs text-justify lg:mx-0 mx-auto">{field}</label>
+                </div>  
+                ))}
+
+            </div>
             {enrolledMembers?.length <=0 ?(
                 <div className='h-56 flex items-center justify-center lg:col-span-3'>
                     <p className='text-text_secondary text-center text-sm'>No member is enrolled yet</p>
                 </div>
             ):(enrolledMembers.map((member,index)=>(
-                <Link to="" key={index} className="py-2 lg:border-b-0 border-b border-text_secondary_2 rounded-md flex gap-2 justify-start hover:shadow-sm delay-100 duration-500">
-                    <div className="h-12 w-12 rounded-full p-1 border border-text_secondary_2">
-                        <div className="h-10 w-10 rounded-full">
-                            <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlvXSXf73LjjqJMqhsbH0vntbFV_r84i6qkQ&usqp=CAU' className='w-full h-full object-cover rounded-full'/>
-                        </div>
-                    </div>
-    
+                <div key={index} className="py-2 px-2 grid grid-cols-5 gap-2 justify-start hover:shadow-sm delay-100 duration-500">    
                     <div className="grid text-text_secondary">
-                        <label className="font-bold text-sm">{member?.member?.fullNames}</label>
-                        <small>{member?.member?.memberCategory}</small>
+                        <label className=" lg:text-sm text-xs mx-auto text-justify lg:mx-0">{member?.member?.fullNames}</label>
                     </div>
-                    
-                </Link>
+                    <div className="grid text-text_secondary">
+                        <label className="lg:text-sm text-xs mx-auto text-justify lg:mx-0">{member?.member?.memberCategory}</label>
+                    </div>
+                    <div className="grid text-text_secondary">
+                        <label className="lg:text-sm text-xs mx-auto text-justify lg:mx-0">{member?.member?.mobile}</label>
+                    </div>  
+                    <div className="grid text-text_secondary">
+                        <label className="lg:text-sm text-xs mx-auto text-justify lg:mx-0">{member?.member?.district}</label>
+                    </div>    
+                    <div className="grid text-text_secondary">
+                        <label className="lg:text-sm text-xs mx-auto text-justify lg:mx-0">{member?.member?.church}</label>
+                    </div>  
+                </div>
             )))}
         </div>
     )
@@ -366,7 +404,7 @@ const CoursesDetails = (props) => {
                     <div className='px-4 py-4 bg-btn_primary h-96 overflow-y-auto'>
                         {section==='overview' && <Overview Overview={props?.data?.oneCourse?.resp?.data?.getCourse?.overview}/>}
                         {section==="curicullum" && <Lessons openModel={props.openModel} setOpenModel={props.setOpenModel} Lessons={props?.data?.courseLessons?.resp?.data}/>}
-                        {section==="enrolled" && <EnrolledUsers enrolledMembers={props?.data?.oneCourse?.resp?.data?.getCourse?.enrolledMembers}/>}
+                        {section==="enrolled" && <EnrolledUsers enrolledMembers={props?.data?.oneCourse?.resp?.data?.getCourse?.enrolledMembers} courseTitle={props?.data?.oneCourse?.resp?.data?.getCourse?.courseTitle}/>}
                         {section==="ratings" && <Reviews reviews={props?.data?.oneCourse?.resp?.data?.getCourse?.ratingsAndReviews}/>}
                     </div>
                     
