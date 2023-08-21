@@ -16,7 +16,6 @@ const Card2 = (props) => {
         return (item?.totalLessonsCompleted?.length * 100)/props?.data?.courseLessons?.resp?.data?.length==0?1:props?.data?.courseLessons?.resp?.data?.length
     });
 
-    console.log(progressPercentage);
   return (
     <div className='rounded-sm p-2 bg-text_secondary bg-opacity-10 shadow-sm cursor-pointer'>
         <h3 className='my-3 font-medium truncate'>{props?.course?.courseTitle} </h3>
