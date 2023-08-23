@@ -16,6 +16,7 @@ import { fetchAllCoursesLessons } from '../redux/Actions/CoursesAction';
 import axios from '../redux/Actions/axiosConfig'
 import * as XLSX from 'xlsx';
 import {FaFileExport} from 'react-icons/fa'
+import Lessons from './Lessons'
 
 function Overview({Overview}){
 
@@ -23,48 +24,11 @@ function Overview({Overview}){
         <div>
             <h1 className="text-text_secondary font-bold text-lg mb-4">Course description</h1>
 
-            <div className="leading-8 text-justify text-md text-text_secondary" dangerouslySetInnerHTML={{ __html: Overview }} />
+            <div className="leading-8 text-justify text-md text-text_secondary text-sm" dangerouslySetInnerHTML={{ __html: Overview }} />
         </div>
     )
 }
 
-function Lessons({openModel,setOpenModel,Lessons}){
-    const location=useLocation()
-
-    return(
-        <div>
-            <div className='flex justify-between mb-4'>
-                <h1 className="text-text_secondary font-bold text-lg py-2">Table of contents</h1>
-                {location.pathname.includes("users/admin/courses") &&
-                <div>
-                    <Button size="sm" className='bg-primary text-sm text-secondary' onClick={()=>setOpenModel(!openModel)}>Add lesson</Button>
-                </div>}
-
-            </div>
-            {Lessons.length <=0?(
-                <div className='h-56 flex items-center justify-center lg:col-span-3'>
-                    <p className='text-text_secondary text-center text-sm'>No lesson is added yet</p>
-                </div>
-            ):(
-                Lessons?.map((lesson,index)=>{
-                    <div className="flex justify-between py-4 border-b border-text_secondary_2">
-                        <div className="flex justify-start gap-3 text-text_secondary font-normal text-md w-full">
-                            <BsJournalBookmark size={20}/>
-                            <Link to="lesson/:lesson" className="">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Link>
-                        </div>
-                        <div className="w-12 text-text_secondary">
-                            <CiLock size={20}/>
-                        </div>
-                    </div>
-                })
-                
-            )}
-
-            
-
-        </div>
-    )
-}
 
 
 function EnrolledUsers({enrolledMembers,courseTitle}){
@@ -88,13 +52,14 @@ function EnrolledUsers({enrolledMembers,courseTitle}){
 
     const fields=["full names","category","contact","district","church"]
     return(
-        <div className="grid">
-            <div className='flex justify-between mb-4'>
+        <div className="block">
+            <div className='flex justify-between mb-4 w-full'>
                 <h1 className="text-text_secondary font-bold text-lg">Enrolled members list</h1>
-                <button className='text-sm text-primary' onClick={()=>exportToExcel()}><FaFileExport size={20}/></button>
+                {location.pathname.includes("users/admin/courses") &&
+                <button className='text-sm text-primary' onClick={()=>exportToExcel()}><FaFileExport size={20}/></button>}
             </div>
 
-            <div className="py-2 px-2 border-text_secondary_2 grid grid-cols-5 gap-2 justify-start hover:shadow-sm delay-100 duration-500">    
+            <div className="py-2 px-2 w-full border-text_secondary_2 grid grid-cols-5 gap-2 justify-start hover:shadow-sm delay-100 duration-500">    
                 {fields.map((field,index)=>(
                 <div key={index} className="grid text-text_secondary">
                     <label className="font-bold lg:text-sm text-xs text-justify lg:mx-0 mx-auto">{field}</label>
@@ -106,7 +71,7 @@ function EnrolledUsers({enrolledMembers,courseTitle}){
                 <div className='h-56 flex items-center justify-center lg:col-span-3'>
                     <p className='text-text_secondary text-center text-sm'>No member is enrolled yet</p>
                 </div>
-            ):(enrolledMembers.map((member,index)=>(
+            ):(enrolledMembers?.map((member,index)=>(
                 <div key={index} className="py-2 px-2 grid grid-cols-5 gap-2 justify-start hover:shadow-sm delay-100 duration-500">    
                     <div className="grid text-text_secondary">
                         <label className=" lg:text-sm text-xs mx-auto text-justify lg:mx-0">{member?.member?.fullNames}</label>
@@ -403,16 +368,16 @@ const CoursesDetails = (props) => {
 
                     <div className='px-4 py-4 bg-btn_primary h-96 overflow-y-auto'>
                         {section==='overview' && <Overview Overview={props?.data?.oneCourse?.resp?.data?.getCourse?.overview}/>}
-                        {section==="curicullum" && <Lessons openModel={props.openModel} setOpenModel={props.setOpenModel} Lessons={props?.data?.courseLessons?.resp?.data}/>}
+                        {section==="curicullum" && <Lessons openModel={props.openModel} setOpenModel={props.setOpenModel} Lessons={props?.data?.courseLessons?.resp?.data} enrolledMembers={props?.data?.oneCourse?.resp?.data?.getCourse?.enrolledMembers}/>}
                         {section==="enrolled" && <EnrolledUsers enrolledMembers={props?.data?.oneCourse?.resp?.data?.getCourse?.enrolledMembers} courseTitle={props?.data?.oneCourse?.resp?.data?.getCourse?.courseTitle}/>}
                         {section==="ratings" && <Reviews reviews={props?.data?.oneCourse?.resp?.data?.getCourse?.ratingsAndReviews}/>}
                     </div>
                     
                 </div>
                 <div className='lg:w-64 w-full h-full bg-secondary shadow-md rounded-md px-4 py-2'>
-                    <div className='flex justify-start gap-1 border-b border-text_secondary_2 py-4 text-text_secondary'>
+                    <div className='flex flex-wrap justify-start gap-1 border-b border-text_secondary_2 py-4 text-text_secondary'>
                         <LiaChalkboardTeacherSolid size={20}/>
-                        <label className='text-sm font-bold text-text_secondary'>Instructor:</label>
+                        <label className='text-sm font-bold text-text_secondary'>Teacher:</label>
                         <label className='text-sm font-normal'>{props?.data?.oneCourse?.resp?.data?.getCourse?.courseTutors?.fullNames}</label>
                     </div>
 

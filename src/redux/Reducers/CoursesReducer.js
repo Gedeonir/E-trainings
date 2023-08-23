@@ -92,6 +92,34 @@ export const fetchAllCoursesLessonsReducer=(state=initialState,action)=>{
     }
 }
 
+export const fetchOneCoursesLessonsReducer=(state=initialState,action)=>{
+    switch(action.type){
+        case types.FETCH_COURSE_LESSON_LOADING:
+            return{
+                ...state,
+                loading:true
+            }
+        case types.FETCH_COURSE_LESSON_SUCCESS:
+            return{
+                ...state,
+                resp:action.payload,
+                success:true,
+                loading:false,
+                error:null
+            }
+        case types.FETCH_COURSE_LESSON_FAIL:
+            return{
+                ...state,
+                error:action.payload,
+                success:false,
+                loading:false,
+                resp:null
+            }
+        default:
+            return state;
+    }
+}
+
 export const fetchOneCourseReducer=(state=initialState,action)=>{
     switch(action.type){
         case types.GET_ONE_COURSE_LOADING:
@@ -108,6 +136,34 @@ export const fetchOneCourseReducer=(state=initialState,action)=>{
                 error:null
             }
         case types.GET_ONE_COURSE_FAIL:
+            return{
+                ...state,
+                error:action.payload,
+                success:false,
+                loading:false,
+                resp:null
+            }
+        default:
+            return state;
+    }
+}
+
+export const addLessonReducer=(state=initialState,action)=>{
+    switch(action.type){
+        case types.ADD_COURSE_LESSON_LOADING:
+            return{
+                ...state,
+                loading:true
+            }
+        case types.ADD_COURSE_LESSON_SUCCESS:
+            return{
+                ...state,
+                resp:action.payload,
+                success:true,
+                loading:false,
+                error:null
+            }
+        case types.ADD_COURSE_LESSON_FAIL:
             return{
                 ...state,
                 error:action.payload,

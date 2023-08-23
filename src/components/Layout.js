@@ -14,9 +14,9 @@ const Layout = (props) => {
   
   
   return (
-    <div>
-        <NavBar/>
-        <div className='mt-4'>{props.children}</div>
+    <div className='max-h-screen overflow-hidden'>
+      <NavBar/>
+      <div>{props.children}</div>
     </div>
   )
 }

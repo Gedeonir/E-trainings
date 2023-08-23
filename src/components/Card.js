@@ -1,18 +1,33 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import {BsJournalBookmark} from 'react-icons/bs'
 import {GoPeople} from 'react-icons/go'
 import {AiOutlineHeart} from 'react-icons/ai'
 import { useNavigate, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchAllCoursesLessons } from '../redux/Actions/CoursesAction';
-
+import axios from '../redux/Actions/axiosConfig'
 
 const Card = (props) => {
     const navigate=useNavigate()
+    const [error,setError] = React.useState("")
+    const [loading,setLoading]=React.useState(false);
+    const [data,setData]=useState([])
+    const getLessons=async()=>{
+        setLoading(true);
 
+        try {
+            const response = await axios.get(`${process.env.BACKEND_URL}/course/${props?.course?._id}/lessons`);
+
+            setData(response?.data);
+
+          } catch (error) {
+            setError(error?.response?.data?.message)
+        }
+        setLoading(false);
+    }
 
     useEffect(()=>{
-        props.fetchAllCoursesLessons(props?.course?._id)
+        getLessons()
     },[])
 
     
@@ -42,7 +57,7 @@ const Card = (props) => {
             <div className='grid grid-cols-2 gap-2 py-2'>
                 <div className='flex justify-start gap-1 text-text_secondary'>
                     <BsJournalBookmark size={15}/>
-                    <label className='text-xs font-bold'>{props?.data?.courseLessons?.resp?.data?.length} lessons</label>
+                    <label className='text-xs font-bold'>{data?.length} lessons</label>
                 </div>
                 <div className='flex justify-end gap-1 text-text_secondary'>
                     <GoPeople size={15}/>

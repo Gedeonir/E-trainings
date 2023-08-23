@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from "prop-types";
 
 const YoutubeEmbed = ({ embedId }) => (
-    <div className="w-full lg:px-4 py-4">
+    <div className="w-full py-4">
       <iframe
         className='w-full lg:h-96 h-56'
         src={`https://www.youtube.com/embed/${embedId}`}

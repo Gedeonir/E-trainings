@@ -5,7 +5,9 @@ import CoursesDetails from '../components/CoursesDetails'
 const CourseDetailsUser = () => {
   return (
     <Layout>
-        <CoursesDetails/>
+      <div className="overflow-y-auto max-h-screen pb-24">
+        <CoursesDetails />
+      </div>
     </Layout>
   )
 }

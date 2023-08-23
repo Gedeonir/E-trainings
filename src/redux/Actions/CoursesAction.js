@@ -58,13 +58,13 @@ export const addCourseAction=(courseData)=>async(dispatch)=>{
     }
 }
 
-export const addCourseLessonAction=(courseData)=>async(dispatch)=>{
+export const addCourseLessonAction=(courseData,course)=>async(dispatch)=>{
     try {
         dispatch({
             type:types.ADD_COURSE_LESSON_LOADING
         })
 
-        const res=await axios.post(`${process.env.BACKEND_URL}/course/addNewCourse`,courseData,
+        const res=await axios.post(`${process.env.BACKEND_URL}/course/${course}/addLesson`,courseData,
         {headers:{
             "Content-Type":"application/json"
         }});
@@ -97,5 +97,21 @@ export const fetchAllCoursesLessons=(courseId)=>async(dispatch)=>{
         })
     } catch (error) {
         dispatch({type:types.FETCH_COURSE_LESSONS_FAIL,payload:error})
+    }
+}
+
+export const fetchOneCoursesLesson=(courseId,lesson)=>async(dispatch)=>{
+    try {
+        dispatch({
+            type:types.FETCH_COURSE_LESSON_LOADING
+        })
+
+        const res=await axios.get(`${process.env.BACKEND_URL}/course/${courseId}/lessons/${lesson}`);
+
+        dispatch({
+            type:types.FETCH_COURSE_LESSON_SUCCESS,payload:res
+        })
+    } catch (error) {
+        dispatch({type:types.FETCH_COURSE_LESSON_FAIL,payload:error})
     }
 }

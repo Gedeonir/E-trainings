@@ -28,7 +28,6 @@ function DashboardLayout(props) {
     const [openMobileMenu,setOpenMobileMenu]=React.useState(false);
     const [sessionExpired,setSessionExpired]=useState(false)
     const navigate=useNavigate()
-    console.log(props);
 
     const parseToken=(jwtToken)=>{
         try {
@@ -126,27 +125,7 @@ function DashboardLayout(props) {
                 </div>
                 
             </div>
-            }
-            {props?.data?.adminProfile?.error?.response?.data?.message==='Not Authorized token expired, Please Login again' &&
-                <div className="min-h-screen max-h-screen w-full left-0 right-0 z-40 flex justify-center items-center absolute top-0 bg-primary bg-opacity-40">
-                    <div className="lg:w-2/5 px-8 py-4 rounded-lg shadow-lg w-full bg-secondary">
-                        <div className="flex justify-start gap-4">
-                            <div className="bg-secondary  text-text_secondary h-12 w-12 p-2 rounded-full text-center flex items-center">
-                                <CiWarning size={50}/>
-                            </div>
-                            <div className="text-text_secondary">
-                                <h1 className="font-bold">Your session has been expired</h1>
-                                <label className="text-sm">Please log in again to continue using the app.</label>
-                            </div>
-                            
-                        </div>
-                        <div className="flex w-full justify-end">
-                            <button className="bg-primary text-sm p-2 text-secondary" onClick={()=>handleLogout()}>Sign in</button>
-                        </div>
-                    </div>
-                </div>
-            }
-            
+            }            
         </div>
     );
 }

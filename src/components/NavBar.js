@@ -14,7 +14,7 @@ const NavBar = (props) => {
         navigate("/signin")
     }
   return (
-    <header aria-label="Site Header" className="body-font top-0 z-40 w-full py-2 lg:px-14 px-4 border-b border-primary bg-btn_primary bg-opacity-90">
+    <header aria-label="Site Header" className="body-font sticky top-0 z-40 w-full py-2 lg:px-8 px-4 bg-btn_primary bg-opacity-90">
         <div className="flex justify-between">
             <div className="flex items-center w-20">
                 <img src={WMLogo} className='w-full h-full object-cover'/>

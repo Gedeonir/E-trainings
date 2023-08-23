@@ -5,8 +5,8 @@ import Lesson from '../../../components/Lesson'
 const AdminLesson = () => {
   return (
     <DashboardLayout>
-        <div className='lg:px-8 overflow-y-auto max-h-screen'>
-            <Lesson/>
+        <div className='overflow-y-hidden max-h-screen'>
+            <Lesson path={'users/admin/courses'}/>
         </div>
     </DashboardLayout>
   )
