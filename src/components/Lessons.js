@@ -4,6 +4,8 @@ import { Button } from '@material-tailwind/react'
 import {BsJournalBookmark} from 'react-icons/bs'
 import {CiLock,CiUnlock} from 'react-icons/ci'
 import { connect } from 'react-redux'
+import {TiTick} from 'react-icons/ti'
+
 
 function Lessons(props){
     const location=useLocation()
@@ -28,16 +30,17 @@ function Lessons(props){
                 props?.Lessons?.map((lesson,index)=>(
                     !location.pathname.includes("users/admin/courses")?(
                         <button key={index} onClick={()=>navigate(`lesson/${lesson?._id}`,{replace:true})}
-                        className={`flex justify-between py-4 border-b border-text_secondary_2 w-full hover:opacity-80 delay-100 duration-200 ${props?.enrolledMembers.some(async(obj) => obj._id === await props?.data?.memberProfile?.resp?.data?.getProfile?._id) && !location.pathname.includes("users/admin/courses")?'cursor-pointer':'cursor-not-allowed'}`} 
+                        className={`flex relative justify-between py-4 border-b border-text_secondary_2 w-full hover:opacity-80 delay-100 duration-200 ${props?.enrolledMembers.some(async(obj) => obj._id === await props?.data?.memberProfile?.resp?.data?.getProfile?._id) && !location.pathname.includes("users/admin/courses")?'cursor-pointer':'cursor-not-allowed'}`} 
                         disabled={props?.enrolledMembers.some(async(obj) => obj._id === await props?.data?.memberProfile?.resp?.data?.getProfile?._id) && !location.pathname.includes("users/admin/courses")?false:true }>
                             <div className="flex justify-start gap-3 text-text_secondary font-normal text-sm w-full">
                                 <BsJournalBookmark size={20}/>
                                 {lesson?.lessonTitle}
                             </div>
                             
-                                <div className="w-12 text-text_secondary">
-                                    {props?.enrolledMembers.some(async(obj) => obj._id === await props?.data?.memberProfile?.resp?.data?.getProfile?._id)?<CiUnlock size={20}/>:<CiLock size={20}/>}
-                                </div>
+                            <div className="w-12 text-text_secondary">
+                                {props?.enrolledMembers.some(async(obj) => obj._id === await props?.data?.memberProfile?.resp?.data?.getProfile?._id)?<CiUnlock size={20}/>:<CiLock size={20}/>}
+                            </div>
+                            {!location.pathname.includes("users/admin/courses") && lesson?.completedBy.some(async(obj) => obj._id === await props?.data?.memberProfile?.resp?.data?.getProfile?._id) &&<TiTick size={20} className='text-primary absolute right-1'/>}
                             
                         </button>
                     ):(

@@ -8,12 +8,19 @@ const Card2 = (props) => {
     const [data,setData]=useState([])
     const [error,setError] = React.useState("")
     const [loading,setLoading]=React.useState(false);
+    const [percentage,setPercentage]=useState(0)
+
     const getLessons=async()=>{
         setLoading(true);
 
         try {
             const response = await axios.get(`${process.env.BACKEND_URL}/course/${props?.course?._id}/lessons`);
 
+            
+            const getLessonsCompleted=data?.filter((lesson)=>lesson.completedBy.some(async (entry) => entry.member === await props?.data?.memberProfile?.resp?.data?.getProfile?._id))
+            const progressPercentage= getLessonsCompleted?.length * 100
+            const allLessons=response?.data?.length<=0?1:response?.data?.length
+            setPercentage(progressPercentage/allLessons);
             setData(response?.data);
 
           } catch (error) {
@@ -24,14 +31,10 @@ const Card2 = (props) => {
 
     useEffect(()=>{
         getLessons()
-    },[])
 
-    const calculateProgress=props?.course?.enrolledMembers.filter((member)=>member?.member =="64dd5cd68bd0d1ff10fe1dba")
+    },[data])
 
-    const progressPercentage= calculateProgress?.map((item)=>{
-        const lessons=data?.length==0?1:data?.length
-        return (item?.totalLessonsCompleted?.length * 100)/lessons
-    });
+
 
   return (
     <div className='rounded-sm p-2 bg-text_secondary bg-opacity-10 shadow-sm cursor-pointer'>
@@ -40,11 +43,11 @@ const Card2 = (props) => {
         <div className='w-full flex justify-between py-2 gap-2'>
             <div className='h-2 w-11/12 bg-text_secondary_2 rounded-full'>
                 <div
-                    style={{ width: `${progressPercentage}%`}}
+                    style={{ width: `${percentage}%`}}
                     className={`h-full bg-primary rounded-full`}>
                 </div>
             </div>
-            <label className='text-primary font-bold text-sm -mt-2'>{progressPercentage}%</label>
+            <label className='text-primary font-bold text-sm -mt-2'>{percentage}%</label>
         </div>
 
         <div className='flex justify-start gap-1 text-text_secondary my-3'>

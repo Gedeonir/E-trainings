@@ -357,9 +357,11 @@ const CoursesDetails = (props) => {
                             <li className="mr-2" role="presentation" onClick={()=>setSections("curicullum")}>
                                 <button className={`inline-block p-4 border-t-2 ${section==="curicullum" ?'border-primary bg-btn_primary text-primary':'border-secondary'} rounded-t-sm hover:text-primary hover:border-primary flex justify-start gap-2`}><SlBookOpen size={20}/>Table of contents</button>
                             </li>
+                            {location.pathname.includes("users/admin/courses") &&
                             <li className="mr-2" role="presentation" onClick={()=>setSections("enrolled")}>
                                 <button className={`inline-block p-4 border-t-2 ${section==="enrolled" ?'border-primary bg-btn_primary text-primary':'border-secondary'} rounded-t-sm hover:text-primary hover:border-primary flex justify-start gap-2`}><GoPeople size={20}/>Enrolled</button>
                             </li>
+                            }
                             <li role="presentation" onClick={()=>setSections("ratings")}>
                                 <button className={`inline-block p-4 border-t-2 ${section==="ratings" ?'border-primary bg-btn_primary text-primary':'border-secondary'} rounded-t-sm hover:text-primary hover:border-primary flex justify-start gap-2`}><AiFillStar size={20}/>Ratings & Reviews</button>
                             </li>

@@ -7,12 +7,16 @@ import { connect } from 'react-redux'
 import { fetchAllCoursesLessons, fetchOneCoursesLesson } from '../redux/Actions/CoursesAction'
 import {AiOutlineLoading3Quarters} from 'react-icons/ai'
 import { fetchOneCourses } from '../redux/Actions/CoursesAction'
+import axios from '../redux/Actions/axiosConfig'
+import {TiTick} from 'react-icons/ti'
 
 const Lesson = (props) => {
 
     const params=useParams()
     const location=useLocation()
     const navigate=useNavigate()
+    const [error,setError] = React.useState("")
+    const [loading,setLoading]=React.useState(false);
 
     const courseLessons=props?.data?.courseLessons?.resp?.data
     const [idToIndexMap, setIdToIndexMap] = useState({});
@@ -30,10 +34,23 @@ const Lesson = (props) => {
     };
 
 
+    const completeLesson=async()=>{
+        setLoading(true);
 
-    const lessonIsCompleted=props?.data?.oneCourse?.resp?.data?.getCourse?.enrolledMembers?.filter(async(memberData)=>{
-        return memberData?.member?._id ==await props?.data?.memberProfile?.resp?.data?.getProfile?._id
-    })
+        try {
+            const response = await axios.patch(`${process.env.BACKEND_URL}/member/complete/${params.lesson}`);
+      
+
+	        setDataMsg(response.data.message);
+
+          } catch (error) {
+            setError(error?.response?.data?.message?error?.response?.data?.message:error?.message);
+            console.log(error);
+        }
+        setLoading(false);
+        props.fetchOneCoursesLesson(params.id,params.lesson);
+        
+    }
 
 
     useEffect(()=>{
@@ -67,7 +84,8 @@ const Lesson = (props) => {
                     <ul className='overflow-y-auto max-h-screen pb-28 list-none p-0 min-h-screen  border-r border-primary '>
                         {props?.data?.courseLessons?.resp?.data?.map((lesson,index)=>(
                             <li 
-                            className={`my-2 ${!location.pathname.includes("users/admin/courses") && 'border-l-4 border-l-primary pl-2 w-full'} `} key={index}>
+                            className={`my-2 relative ${!location.pathname.includes("users/admin/courses") && lesson?.completedBy.some(async(obj) => obj._id === await props?.data?.memberProfile?.resp?.data?.getProfile?._id) && 'border-l-4 border-l-primary w-full'} pl-2  `} key={index}>
+                                {!location.pathname.includes("users/admin/courses") && lesson?.completedBy.some(async(obj) => obj._id === await props?.data?.memberProfile?.resp?.data?.getProfile?._id) &&<TiTick size={20} className='text-primary absolute right-4'/>}
                                 <Link to={`/${props.path}/${params.id}/lesson/${lesson?._id}`}
                                  className={`${lesson?._id==params.lesson?'text-primary font-bold underline':'text-text_secondary'} break-words text-xs hover:text-primary hover:underline delay-100 duration-500`}><span className='font-semibold'>{index+1}:</span>{lesson?.lessonTitle}.</Link>
                             </li>
@@ -80,10 +98,8 @@ const Lesson = (props) => {
                 )}
             </div>
             <div className='col-span-3 overflow-y-auto max-h-screen min-h-screen lg:px-8 px-4 w-full lg:pb-32 relative pt-4'>
-            {props?.data?.oneLesson?.loading?(
-                <p className="flex justify-center gap-2 text-primary my-8"><AiOutlineLoading3Quarters size={20} className="animate-spin h-5 w-5"/></p>
-            ):(
-                props?.data?.oneLesson?.success?(
+
+                {props?.data?.oneLesson?.success?(
                 <>
                 <div className='flex justify-between gap-4 text-text_secondary'>
                     <h1 className='text-lg'>{props?.data?.oneLesson?.resp?.data?.getLesson?.lessonTitle}</h1>
@@ -105,11 +121,22 @@ const Lesson = (props) => {
                 </div>
                 {!location.pathname.includes("users/admin/courses") &&
                     <div className='flex justify-between mb-3'>
-                        <button onClick={()=>goToPrev()} className={`flex gap-2 items-center px-3 border border-primary text-primary font-bold rounded-lg py-1 ${currentIndex<=0?'cursor-not-allowed opacity-50':'cursor-pointer'}`} disabled={currentIndex<=0?true:false}>
+                        <button onClick={()=>goToPrev()} className={`px-3 border border-primary text-primary font-bold rounded-lg py-1 ${currentIndex<=0?'cursor-not-allowed opacity-50':'cursor-pointer'}`} disabled={currentIndex<=0?true:false}>
                             <BsArrowLeft size={20}/>
                         </button>
 
-                        <button onClick={()=>goToNext()} className={`flex gap-2 items-center px-3 border border-primary text-primary font-bold rounded-lg py-1 ${currentIndex >= props?.data?.courseLessons?.resp?.data.length - 1?'cursor-not-allowed opacity-50':'cursor-pointer'}`} disabled={currentIndex > props?.data?.courseLessons?.resp?.data.length - 1?true:false}>
+                        {props?.data?.oneLesson?.resp?.data?.getLesson?.completedBy.some(async(obj) => obj._id === await props?.data?.memberProfile?.resp?.data?.getProfile?._id)?(
+                            <button size='sm' className={`px-3 border border-text_secondary text-text_secondary opacity-20 cursor-not-allowed font-bold rounded-lg py-1`} disabled={true}>
+                                Completed                               
+                            </button>
+                        ):(
+
+                            <button onClick={()=>completeLesson()} className={`px-3 border border-primary text-primary font-bold rounded-lg py-1`}>
+                                {loading?<p className="flex justify-center gap-2"><AiOutlineLoading3Quarters size={20} className="animate-spin h-5 w-5"/></p>:'Mark it as complete'}
+                            </button>
+                        )}
+
+                        <button onClick={()=>goToNext()} className={`px-3 border border-primary text-primary font-bold rounded-lg py-1 ${currentIndex >= props?.data?.courseLessons?.resp?.data.length - 1?'cursor-not-allowed opacity-50':'cursor-pointer'}`} disabled={currentIndex > props?.data?.courseLessons?.resp?.data.length - 1?true:false}>
                             <BsArrowRight size={20}/>
                         </button>
                     </div>
@@ -117,8 +144,7 @@ const Lesson = (props) => {
                 </>
                 ):(
                     <p className={`text-sm text-danger text-center p-2 ${props?.data?.oneLessonr?.error && 'bg-danger'} bg-opacity-20`}>{props?.data?.oneLessonr?.error?.response?.data?.message}</p>
-                )
-            )}
+                )}
             </div>
         </div>
         
