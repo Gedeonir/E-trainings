@@ -28,8 +28,8 @@ const Homepage = (props) => {
                     <Link to="#" className='mt-8 flex justify-start text-text_secondary gap-1 text-sm group'><span className='group-hover:mx-2 delay-100 duration-500'>Browse my courses</span> <BsArrowRight className='my-1' size={15}/></Link>
                 </div>
                 {props?.data?.myCourses?.loading?(
-                    <div className='w-12 h-12 text-primary text-center mx-auto my-8'>
-                        <AiOutlineLoading3Quarters size={20} className="animate-spin w-12 h-12"/>
+                    <div className='w-8 h-8 text-primary text-center mx-auto my-8'>
+                        <AiOutlineLoading3Quarters size={20} className="animate-spin w-8 h-8"/>
                     </div>
                 ):(props?.data?.myCourses?.success?(
                     props?.data?.myCourses?.resp?.data?.length <=0?(

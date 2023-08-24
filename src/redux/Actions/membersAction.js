@@ -56,3 +56,19 @@ export const getMyCourses=()=>async(dispatch)=>{
         dispatch({type:types.GET_MEMBER_COURSES_FAIL,payload:error});
     }
 }
+
+export const getAllMembers=()=>async(dispatch)=>{
+    try {
+        dispatch({
+            type:types.GET_ALL_MEMBERS_LOADING
+        })
+
+        const res=await axios.get(`${process.env.BACKEND_URL}/member/all-members`);
+
+        dispatch({
+            type:types.GET_ALL_MEMBERS_SUCCESS,payload:res
+        })
+    } catch (error) {
+        dispatch({type:types.GET_ALL_MEMBERS_FAIL,payload:error});
+    }
+}

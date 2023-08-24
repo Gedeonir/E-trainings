@@ -29,14 +29,6 @@ function DashboardLayout(props) {
     const [sessionExpired,setSessionExpired]=useState(false)
     const navigate=useNavigate()
 
-    const parseToken=(jwtToken)=>{
-        try {
-        return JSON.parse(atob(jwtToken.split('.')[1]));
-        } catch (error) {
-        return null
-        }
-    }
-
     
     React.useEffect(() => {
         props.adminFetchProfileAction();
@@ -47,6 +39,7 @@ function DashboardLayout(props) {
         sessionStorage.removeItem('userToken')
         navigate("/users/admin/login",{replace:true})
     }
+    console.log(props);
 
 
     return (

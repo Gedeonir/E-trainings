@@ -22,7 +22,7 @@ function Overview({Overview}){
 
     return (
         <div>
-            <h1 className="text-text_secondary font-bold text-lg mb-4">Course description</h1>
+            <h1 className="text-text_secondary font-bold text-sm mb-4">Course description</h1>
 
             <div className="leading-8 text-justify text-md text-text_secondary text-sm" dangerouslySetInnerHTML={{ __html: Overview }} />
         </div>
@@ -54,7 +54,7 @@ function EnrolledUsers({enrolledMembers,courseTitle}){
     return(
         <div className="block">
             <div className='flex justify-between mb-4 w-full'>
-                <h1 className="text-text_secondary font-bold text-lg">Enrolled members list</h1>
+                <h1 className="text-text_secondary font-bold text-sm">Enrolled members list</h1>
                 {location.pathname.includes("users/admin/courses") &&
                 <button className='text-sm text-primary' onClick={()=>exportToExcel()}><FaFileExport size={20}/></button>}
             </div>
@@ -99,7 +99,7 @@ function Reviews({reviews}){
 
     return(
         <div>
-            <h1 className="text-text_secondary font-bold text-lg mb-4">Ratings and review</h1>
+            <h1 className="text-text_secondary font-bold text-sm mb-4">Ratings and review</h1>
 
             {reviews.length <=0 ?(
                 <div className='flex items-center justify-center'>

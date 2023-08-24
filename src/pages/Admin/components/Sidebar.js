@@ -11,6 +11,7 @@ import {CiLogout} from 'react-icons/ci'
 import { connect } from 'react-redux';
 import {AiOutlineLoading3Quarters} from "react-icons/ai"
 import Loading from '../../../components/Loading'
+import {GoPeople} from 'react-icons/go'
 
 
 const Sidebar=(props) =>{
@@ -29,8 +30,8 @@ const Sidebar=(props) =>{
                     </button>
                     <span className={`text-lg  ml-4 duration-500 ease-in-out `}>Menu</span>
                 </div>
-                <ul className="mt-4 font-semibold text-secondary">
-                    <li className={`flex w-full justify-between rounded-l-full py-2 pl-4 my-8   hover:text-opacity-70 cursor-pointer items-center mb-6 ${location.pathname==="/users/admin/profile" && ' bg-secondary bg-opacity-90 text-text_secondary'}  `}>
+                <ul className="mt-4 font-semibold text-secondary p-0 list-none">
+                    <li className={`flex w-full justify-between rounded-l-full py-2 pl-4 my-8   hover:text-opacity-70 cursor-pointer items-center mb-2 ${location.pathname==="/users/admin/profile" && ' bg-secondary bg-opacity-90 text-text_secondary'}  `}>
                         {props?.data?.adminProfile?.success?(
                         <Link to="" className="py-2 border-text_secondary_2 w-full flex gap-2 justify-start">
                             <div className="h-10 w-10 rounded-full">
@@ -39,7 +40,7 @@ const Sidebar=(props) =>{
                             </div>
             
                             <div className="grid">
-                                <label className="font-bold text-md">{props?.data?.adminProfile?.resp?.data?.getProfile?.fullNames}</label>
+                                <label className="font-bold text-sm">{props?.data?.adminProfile?.resp?.data?.getProfile?.fullNames}</label>
                                 <p className='text-xs'>View my profile</p>
                             </div>
                             
@@ -47,29 +48,33 @@ const Sidebar=(props) =>{
                             <p></p>
                         )}
                     </li>
-                    <li className={`flex w-full rounded-l-full py-2 pl-4 justify-start ${location.pathname==="/users/admin/home"&&'bg-secondary bg-opacity-90 text-text_secondary'}   hover:text-opacity-70 cursor-pointer items-center mb-6`} onClick={()=>navigate("/users/admin/home",{replace:true})}>
+                    <li className={`flex w-full rounded-l-full py-2 pl-4 justify-start ${location.pathname==="/users/admin/home"&&'bg-secondary bg-opacity-90 text-text_secondary'}   hover:text-opacity-70 cursor-pointer items-center mb-4`} onClick={()=>navigate("/users/admin/home",{replace:true})}>
                         <CiGrid41 size={25}/>
                         <span className={`text-sm  ml-4 duration-500 ease-in-out`}>Home</span>
                     </li>
                     <li onClick={()=>navigate("/users/admin/courses",{replace:true})} 
-                    className={`flex w-full justify-start rounded-l-full py-2 pl-4  hover:text-opacity-70 cursor-pointer items-center mb-6 ${location.pathname==="/users/admin/courses" && ' bg-secondary bg-opacity-90 text-text_secondary'}  `}>
+                    className={`flex w-full justify-start rounded-l-full py-2 pl-4  hover:text-opacity-70 cursor-pointer items-center mb-4 ${location.pathname==="/users/admin/courses" && ' bg-secondary bg-opacity-90 text-text_secondary'}  `}>
                         <BsJournalBookmark size={20}/>
                         <span className={`text-sm  ml-4 duration-500 ease-in-out `}>Courses</span>
                     </li>
-                    <li 
-                    className={`flex relative w-full rounded-l-full py-2 pl-4  hover:text-opacity-70 cursor-pointer items-center mb-6 ${location.pathname==="/users/admin/notifications" && ' bg-secondary bg-opacity-90 text-text_secondary'}  `}>
-                        <IoIosNotificationsOutline size={25}/>
+                    <li className={`flex w-full justify-start rounded-l-full py-2 pl-2  hover:text-opacity-70 cursor-pointer items-center mb-4 ${location.pathname==="/users/admin/members" && ' bg-secondary bg-opacity-90 text-text_secondary'} `} onClick={()=>navigate("/users/admin/members",{replace:true})}>
+                        <GoPeople  size={25}/>
+                        <span className={`text-sm  ml-4 duration-500 ease-in-out `}>Members</span>
+                    </li>
+
+                    {/* <li className={`flex relative w-full justify-start rounded-l-full py-2 pl-2  hover:text-opacity-70 cursor-pointer items-center mb-4 `} onClick={()=>props.handleLogout()}>
+                        <IoIosNotificationsOutline  size={25}/>
                         <span className={`text-sm  ml-4 duration-500 ease-in-out `}>Notifications</span>
                         <label className='bg-danger w-4 h-4 rounded-full absolute left-4 top-1 text-secondary text-[9px] p-0.5'>
                             10
                         </label>
-                    </li>
+                    </li> */}
+
                     
-                    <li className={`flex w-full justify-between rounded-l-full py-2 pl-2  hover:text-opacity-70 cursor-pointer items-center mb-6`} onClick={()=>props.handleLogout()}>
-                        <div className="flex items-center px-3">
-                            <CiLogout  size={25}/>
-                            <span className={`text-sm  ml-4 duration-500 ease-in-out `}>Logout</span>
-                        </div>
+                    
+                    <li className={`flex w-full justify-start rounded-l-full py-2 pl-2  hover:text-opacity-70 cursor-pointer items-center mb-2`} onClick={()=>props.handleLogout()}>
+                        <CiLogout  size={25}/>
+                        <span className={`text-sm  ml-4 duration-500 ease-in-out `}>Logout</span>
                     </li>
                     
                 </ul>

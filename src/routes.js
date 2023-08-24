@@ -15,6 +15,7 @@ import AddNewCourse from "./pages/Admin/pages/AddLesson";
 import MyProfile from "./pages/MyProfile";
 import  NotFound from "./components/notFound";
 import {Protected, ProtectedAdmin} from "./utils/ProtectedRoutes";
+import MembersList from "./pages/Admin/pages/MembersList";
 
 
 const AppRoutes = (prop) => {
@@ -71,6 +72,12 @@ const AppRoutes = (prop) => {
             <AdminLesson/>
           </ProtectedAdmin>}
         />
+
+        <Route path="users/admin/members" element={
+          <ProtectedAdmin route="/users/admin/login">
+            <MembersList/>
+          </ProtectedAdmin>
+        }/>
         <Route path="/users/admin/login" element={<AdminLogin/>}/>
         <Route path="*" element={<NotFound/>} />
 

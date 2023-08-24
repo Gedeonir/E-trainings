@@ -39,7 +39,7 @@ const SignIn=(props)=>{
             navigate("../");
 
           } catch (error) {
-            setError(error?.response?.data?.message)
+            setError(error?.response?.data?.message?error?.response?.data?.message:error?.message);
         }
         setLoading(false);
         

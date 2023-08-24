@@ -12,7 +12,7 @@ function Lessons(props){
     return(
         <div>
             <div className='flex justify-between mb-4'>
-                <h1 className="text-text_secondary font-bold text-lg py-2">Table of contents</h1>
+                <h1 className="text-text_secondary font-bold text-sm py-2">Table of contents</h1>
                 {location.pathname.includes("users/admin/courses") &&
                 <div>
                     <Button size="sm" className='bg-primary text-sm text-secondary' onClick={()=>props?.setOpenModel(!props?.openModel)}>Add lesson</Button>
@@ -30,7 +30,7 @@ function Lessons(props){
                         <button key={index} onClick={()=>navigate(`lesson/${lesson?._id}`,{replace:true})}
                         className={`flex justify-between py-4 border-b border-text_secondary_2 w-full hover:opacity-80 delay-100 duration-200 ${props?.enrolledMembers.some(async(obj) => obj._id === await props?.data?.memberProfile?.resp?.data?.getProfile?._id) && !location.pathname.includes("users/admin/courses")?'cursor-pointer':'cursor-not-allowed'}`} 
                         disabled={props?.enrolledMembers.some(async(obj) => obj._id === await props?.data?.memberProfile?.resp?.data?.getProfile?._id) && !location.pathname.includes("users/admin/courses")?false:true }>
-                            <div className="flex justify-start gap-3 text-text_secondary font-normal text-md w-full">
+                            <div className="flex justify-start gap-3 text-text_secondary font-normal text-sm w-full">
                                 <BsJournalBookmark size={20}/>
                                 {lesson?.lessonTitle}
                             </div>
@@ -41,7 +41,7 @@ function Lessons(props){
                             
                         </button>
                     ):(
-                        <Link key={index} to={`lesson/${lesson?._id}`}  className="flex justify-start py-4 border-b border-text_secondary_2 gap-3 hover:opacity-80 delay-100 duration-200 text-text_secondary font-normal text-md w-full">
+                        <Link key={index} to={`lesson/${lesson?._id}`}  className="flex justify-start py-4 border-b border-text_secondary_2 gap-3 hover:opacity-80 delay-100 duration-200 text-text_secondary font-normal text-sm w-full">
                             <BsJournalBookmark size={20}/>
                             {lesson?.lessonTitle}.
                         </Link>

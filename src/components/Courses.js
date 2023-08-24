@@ -9,11 +9,12 @@ import { connect } from 'react-redux'
 import Loading from './Loading'
 import { fetchAllLectures } from '../redux/Actions/LecturesAction'
 import {AiOutlineLoading3Quarters} from 'react-icons/ai'
-const cards=[1,2,3,4,5,6,7,8,9,0]
 
 const Courses = (props) => {
     const [toogleSearch,setToogleSearch]=React.useState(false);
     const location=useLocation()
+    const [keyWord,setKeyword]=React.useState("")
+    const [categoryName,setCategory] = React.useState("")
 
     React.useEffect(()=>{
         props.fetchAllCourses()
@@ -21,25 +22,31 @@ const Courses = (props) => {
         props.fetchAllLectures()
     },[props.data?.allCourses?.success])
 
+    const filterCourses=props?.data?.allCourses?.resp?.data.filter((course)=>{
+        return course?.courseTitle?.toLowerCase().includes(keyWord.toLowerCase()) && course?.courseCategory?.categoryName?.toLowerCase().includes(categoryName.toLowerCase())
+    })
+
 
   return (
     <div className='mb-4 py-2'>
         <div className='flex justify-end gap-4 relative'>
             {location.pathname.includes("users/admin/courses")&&
-            <div className='w-full h-8 text-text_secondary font-medium lg:px-8 flex lg:justify-end justify-between lg:gap-4 gap-2'>
+            <div className='w-full h-8 text-text_secondary font-medium flex lg:justify-end justify-between lg:gap-4 gap-2'>
                 {props.data?.allCategories?.success?(
-                    <div className='flex lg:justify-end justify-between lg:gap-4 gap-2'>
-                        <label className='text-primary cursor-pointer delay-100 duration-500  border-b-2'>All</label>
+                    <>
+                    <div className='flex lg:justify-end justify-between lg:gap-4 gap-2 text-sm'>
+                        <label className={`cursor-pointer delay-100 duration-100 ${!categoryName && 'text-primary border-b-2'}`} onClick={()=>setCategory("")}>All</label>
                         {props?.data?.allCategories?.resp?.data.map((category)=>(
-                            <label key={category._id} className='cursor-pointer  hover:border-b-2'>{category.categoryName}</label>
+                            <label key={category._id} className={`cursor-pointer transition-all delay-100 duration-100 ease-in-out  hover:text-primary ${category?.categoryName===categoryName && 'text-primary border-b-2'}`} onClick={()=>setCategory(category.categoryName)}>{category.categoryName}</label>
                         ))}
                     </div>
+                     <div className='text-text_secondary font-bold relative text-lg mt-1'>
+                        <BsSearch size={15}  className='cursor-pointer hover:text-primary' onClick={()=>setToogleSearch(!toogleSearch)}/>
+                    </div>  </>  
                 ):(<p></p>)}
             </div>
             }  
-            <div className='text-text_secondary font-bold relative text-lg mt-1'>
-                <BsSearch  className='cursor-pointer hover:text-primary' onClick={()=>setToogleSearch(!toogleSearch)}/>
-            </div>                  
+                         
         </div>
 
         <div className={`text-text_secondary font-bold relative py-2 shadow-sm ${toogleSearch?'block':'hidden'}`}>
@@ -48,17 +55,21 @@ const Courses = (props) => {
             <IoCloseOutline size={20} className='cursor-pointer hover:text-primary absolute top-4 right-4'/>
         </div>
         {props?.data?.allCourses?.loading?(
-            <div className='w-12 h-12 text-primary text-center mx-auto my-8'>
-                <AiOutlineLoading3Quarters size={20} className="animate-spin w-12 h-12"/>
+            <div className='w-8 h-8 text-primary text-center mx-auto my-8'>
+                <AiOutlineLoading3Quarters size={15} className="animate-spin w-8 h-8"/>
             </div>
         ):(props.data?.allCourses?.success?(
             props?.data?.allCourses?.resp?.data?.length <=0?(
                 <p className='text-text_secondary text-center text-sm py-8 px-8'>No course added yet</p>
             ):(
             <div className={`grid lg:grid-cols-4 gap-8 py-2 my-4`}>              
-                {props?.data?.allCourses?.resp?.data.map((course,index)=>(
+                {filterCourses.length <=0?(
+                    <p className='text-text_secondary text-center text-sm py-8 px-8 lg:col-span-4'>No course matches your criteria</p>
+
+                ):(
+                filterCourses.map((course,index)=>(
                     <Card key={index} path={props.path} course={course}/>
-                ))}
+                )))}
             </div>
             )
         ):(

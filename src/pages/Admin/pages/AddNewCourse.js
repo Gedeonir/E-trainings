@@ -13,6 +13,7 @@ import {AiOutlineLoading3Quarters} from "react-icons/ai"
 const AddNewCourse = (props) => {
     const [openLectureModal,setOpenLectureModal]=useState(false);
     const[lecture,setLecture]=useState("")
+    const [keyword,setKeyword]=useState("")
 
     const [formData,setFormData]=useState({
         courseTitle:"",
@@ -28,6 +29,10 @@ const AddNewCourse = (props) => {
         props.addCourseAction(formData)
         props.fetchAllCourses()
     }
+
+    const filteredLectures=props?.data?.allLectures?.resp?.data?.filter((item)=>{
+        return item?.fullNames?.toLowerCase().includes(keyword.toLowerCase())
+    })
 
 
   return (
@@ -68,7 +73,11 @@ const AddNewCourse = (props) => {
                             {lecture?<label className='p-1'>{lecture}</label>:'Select lecture'}
                             <div className='bg-[white] w-full absolute shadow-lg top-[32px] left-0 overflow-y-auto py-2 rounded-lg hidden group-hover:block '>
                                 <div className='flex justify-start gap-2 px-4'>
-                                    <input type="text" size="sm" className="text-text_secondary text-sm outline-primary block w-full px-2 rounded-lg border border-text_secondary_2 placeholder-text_secondary_2" placeholder="search lecture"/>
+                                    <input type="text" size="sm" value={keyword} className="text-text_secondary text-sm outline-primary block w-full px-2 rounded-lg border border-text_secondary_2 placeholder-text_secondary_2" placeholder="search lecture"
+                                    onChange={(e)=>{
+                                        setKeyword(e.target.value)
+                                    }}
+                                    />
                                     <BsFillNodePlusFill size={35} className='text-primary cursor-pointer' onClick={()=>setOpenLectureModal(!openLectureModal)}/>
                                 </div>
                                 {props?.data?.allLectures?.loading?(
@@ -78,7 +87,10 @@ const AddNewCourse = (props) => {
                                             <p className='text-text_secondary text-center text-sm py-8 px-8'>No lecture added yet</p>
                                         ):(
                                         <ul className={`py-2 px-4 text-sm max-h-48 overflow-y-auto border-b border-b-text_secondary_2 p-0 list-none`}>              
-                                            {props?.data?.allLectures?.resp?.data.map((lecture,index)=>(
+                                            {filteredLectures <=0?(
+                                                <li>No lecture matches your criterias</li>
+                                            ):(
+                                                filteredLectures.map((lecture,index)=>(
                                                 <li key={lecture._id} className='cursor-pointer hover:text-primary delay-100 duration-200 my-2' 
                                                 onClick={()=>{
                                                     setFormData({
@@ -89,7 +101,7 @@ const AddNewCourse = (props) => {
                                                 }}>
                                                     {lecture.fullNames}
                                                 </li>
-                                            ))}
+                                            )))}
                                         </ul>
                                         )
                                     ):(
