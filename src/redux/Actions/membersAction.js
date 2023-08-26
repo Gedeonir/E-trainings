@@ -72,3 +72,19 @@ export const getAllMembers=()=>async(dispatch)=>{
         dispatch({type:types.GET_ALL_MEMBERS_FAIL,payload:error});
     }
 }
+
+export const getOneMember=(id)=>async(dispatch)=>{
+    try {
+        dispatch({
+            type:types.GET_ONE_MEMBER_LOADING
+        })
+
+        const res=await axios.get(`${process.env.BACKEND_URL}/member/${id}`);
+
+        dispatch({
+            type:types.GET_ONE_MEMBER_SUCCESS,payload:res
+        })
+    } catch (error) {
+        dispatch({type:types.GET_ONE_MEMBER_FAIL,payload:error});
+    }
+}

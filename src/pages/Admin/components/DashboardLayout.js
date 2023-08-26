@@ -39,13 +39,12 @@ function DashboardLayout(props) {
         sessionStorage.removeItem('userToken')
         navigate("/users/admin/login",{replace:true})
     }
-    console.log(props);
 
 
     return (
         <div className={`max-h-screen w-full overflow-hidden bg-primary grid grid-cols-6 relative`}>
             <Sidebar handleLogout={handleLogout}/>
-            <div className={`mx-auto w-full min-h-screen max-h-screen overflow-hidden duration-1000 delay-300 ease-in-out bg-secondary bg-opacity-90 lg:col-span-5 col-span-6`}>
+            <div className={`mx-auto w-full min-h-screen max-h-screen overflow-hidden duration-1000 delay-300 ease-in-out bg-secondary bg-opacity-90 lg:col-span-5 col-span-6 relative`}>
                 <NavBar setOpenMobileMenu={setOpenMobileMenu} setOpenAccount={setOpenAccount} setOpenNotificationAction={setOpenNotificationAction} openAccount={openAccount} openNotificationAction={openNotificationAction}/>
                 {props.children}
             </div>

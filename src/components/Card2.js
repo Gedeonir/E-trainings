@@ -3,6 +3,7 @@ import {BsJournalBookmark} from 'react-icons/bs'
 import {BsArrowRight} from 'react-icons/bs'
 import { Link } from 'react-router-dom';
 import axios from '../redux/Actions/axiosConfig'
+import { connect } from 'react-redux';
 
 const Card2 = (props) => {
     const [data,setData]=useState([])
@@ -17,7 +18,7 @@ const Card2 = (props) => {
             const response = await axios.get(`${process.env.BACKEND_URL}/course/${props?.course?._id}/lessons`);
 
             
-            const getLessonsCompleted=data?.filter((lesson)=>lesson.completedBy.some(async (entry) => entry.member === await props?.data?.memberProfile?.resp?.data?.getProfile?._id))
+            const getLessonsCompleted=response?.data?.filter((lesson)=>lesson.completedBy.some((entry) => entry?.member===props?.data?.memberProfile?.resp?.data?.getProfile?._id))            
             const progressPercentage= getLessonsCompleted?.length * 100
             const allLessons=response?.data?.length<=0?1:response?.data?.length
             setPercentage(progressPercentage/allLessons);
@@ -63,5 +64,11 @@ const Card2 = (props) => {
 }
 
 
+const mapState=(data)=>({
+    data:data
+})
 
-export default Card2
+
+export default connect(mapState,{
+
+})(Card2)

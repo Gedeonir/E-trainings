@@ -85,7 +85,7 @@ const Lesson = (props) => {
                         {props?.data?.courseLessons?.resp?.data?.map((lesson,index)=>(
                             <li 
                             className={`my-2 relative ${!location.pathname.includes("users/admin/courses") && lesson?.completedBy.some(async(obj) => obj._id === await props?.data?.memberProfile?.resp?.data?.getProfile?._id) && 'border-l-4 border-l-primary w-full'} pl-2  `} key={index}>
-                                {!location.pathname.includes("users/admin/courses") && lesson?.completedBy.some(async(obj) => obj._id === await props?.data?.memberProfile?.resp?.data?.getProfile?._id) &&<TiTick size={20} className='text-primary absolute right-4'/>}
+                                {!location.pathname.includes("users/admin/courses") && lesson?.completedBy.some((obj) => obj?.member === props?.data?.memberProfile?.resp?.data?.getProfile?._id) &&<TiTick size={20} className='text-primary absolute right-4'/>}
                                 <Link to={`/${props.path}/${params.id}/lesson/${lesson?._id}`}
                                  className={`${lesson?._id==params.lesson?'text-primary font-bold underline':'text-text_secondary'} break-words text-xs hover:text-primary hover:underline delay-100 duration-500`}><span className='font-semibold'>{index+1}:</span>{lesson?.lessonTitle}.</Link>
                             </li>
@@ -125,7 +125,7 @@ const Lesson = (props) => {
                             <BsArrowLeft size={20}/>
                         </button>
 
-                        {props?.data?.oneLesson?.resp?.data?.getLesson?.completedBy.some(async(obj) => obj._id === await props?.data?.memberProfile?.resp?.data?.getProfile?._id)?(
+                        {props?.data?.oneLesson?.resp?.data?.getLesson?.completedBy.some((obj) => obj.member?.id ===props?.data?.memberProfile?.resp?.data?.getProfile?._id)?(
                             <button size='sm' className={`px-3 border border-text_secondary text-text_secondary opacity-20 cursor-not-allowed font-bold rounded-lg py-1`} disabled={true}>
                                 Completed                               
                             </button>

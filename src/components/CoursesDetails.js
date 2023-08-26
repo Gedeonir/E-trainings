@@ -39,6 +39,8 @@ function EnrolledUsers({enrolledMembers,courseTitle}){
         return rest;
     });
 
+
+
     const exportToExcel = async() => {
         const ws = XLSX.utils.json_to_sheet(data);
         const wb = XLSX.utils.book_new();
@@ -72,7 +74,7 @@ function EnrolledUsers({enrolledMembers,courseTitle}){
                     <p className='text-text_secondary text-center text-sm'>No member is enrolled yet</p>
                 </div>
             ):(enrolledMembers?.map((member,index)=>(
-                <div key={index} className="py-2 px-2 grid grid-cols-5 gap-2 justify-start hover:shadow-sm delay-100 duration-500">    
+                <div key={index} className="py-2 cursor-pointer px-2 grid grid-cols-5 gap-2 justify-start hover:bg-secondary delay-100 duration-500">    
                     <div className="grid text-text_secondary">
                         <label className=" lg:text-sm text-xs mx-auto text-justify lg:mx-0">{member?.member?.fullNames}</label>
                     </div>
@@ -407,7 +409,7 @@ const CoursesDetails = (props) => {
                             {success.status?<p className='text-xs text-primary font-bold text-center p-2 bg-primary bg-opacity-20'>{success.succesMsg}</p>
                             :
                             <p className={`text-xs text-danger text-center p-2 ${error && 'bg-danger'} bg-opacity-20`}>{error}</p>}
-                            {props?.data?.oneCourse?.resp?.data?.getCourse?.enrolledMembers.some(async(obj) => obj._id === await props?.data?.memberProfile?.resp?.data?.getProfile?._id)?(
+                            {props?.data?.oneCourse?.resp?.data?.getCourse?.enrolledMembers.some((obj) => obj?.member?._id === props?.data?.memberProfile?.resp?.data?.getProfile?._id)?(
                                 <button size='sm' className={`my-4 bg-text_secondary bg-opacity-20 text-sm text-center text-text_secondary font-bold p-2 w-full cursor-not-allowed `} disabled={true}>
                                     Enrolled                                
                                 </button>

@@ -6,12 +6,20 @@ import {BsSearch} from 'react-icons/bs'
 import { fetchAllCategory } from '../../../redux/Actions/CategoryAction'
 import { getAllMembers } from '../../../redux/Actions/membersAction'
 import {AiOutlineLoading3Quarters} from 'react-icons/ai'
+import MemberDetails from './MemberDetails'
 
 
 export const MembersList = (props) => {
     const [toogleSearch,setToogleSearch]=React.useState(false);
     const [keyWord,setKeyword]=useState("")
     const [categoryName,setCategory] = useState("")
+    const [openDetails,setOpenDetails]=useState(false)
+    const [id,setId]=useState("")
+
+    const handleDetails=async(id)=>{
+        setId(id);
+        setOpenDetails(!openDetails);
+    }
 
     React.useEffect(()=>{
         props.fetchAllCategory()
@@ -88,6 +96,8 @@ export const MembersList = (props) => {
                                     <th scope="col" className="px-2 py-4">Marriage year</th>
                                     <th scope="col" className="px-2 py-4">District</th>
                                     <th scope="col" className="px-2 py-4">Church</th>
+                                    <th scope="col" className="px-2 py-4">Status</th>
+
                                 </tr>
                             </thead>
                             <tbody>
@@ -96,7 +106,7 @@ export const MembersList = (props) => {
                                     <td className="px-2 py-4 font-medium text-center" colSpan={9}>No member matches your criterias</td>
                                 </tr>
                             ):(filterMembers?.map((member,index)=>(
-                                    <tr key={index}
+                                    <tr key={index} onClick={()=>handleDetails(member._id)}
                                     className="border-b cursor-pointer delay-100 border-text_secondary_2 transition duration-300 ease-in-out hover:bg-secondary">
                                         <td className="px-2 py-4 font-medium">{index+1}</td>
                                         <td className="px-2 py-4 flex justify-start gap-2">
@@ -113,6 +123,8 @@ export const MembersList = (props) => {
                                         <td className="px-2 py-4">{member?.yearOfMarriage?member?.yearOfMarriage:'-'}</td>
                                         <td className="px-2 py-4">{member?.district}</td>
                                         <td className="px-2 py-4 font-medium">{member?.church}</td>
+                                        <td className="px-2 py-4 font-medium">{member?.isDisabled?<span className='text-danger p-1'>Suspended</span>:(<span className='text-primary p-1'>Active</span>)}</td>
+
                                     </tr>
                                 )))}
 
@@ -127,6 +139,10 @@ export const MembersList = (props) => {
         ):(
             <p className='text-text_secondary text-center'>{props?.data?.AllMembers?.error?.response?.data?.message}</p>
         ))}
+
+        {openDetails &&
+            <MemberDetails id={id} setOpenDetails={setOpenDetails}/>
+        }
        
 
     </DashboardLayout>

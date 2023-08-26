@@ -21,7 +21,7 @@ function Lessons(props){
                 </div>}
 
             </div>
-            {!props?.enrolledMembers.some(async(obj) => obj._id === await props?.data?.memberProfile?.resp?.data?.getProfile?._id) && !location.pathname.includes("users/admin/courses") && <p className='text-sm text-primary'>You have to enroll first to access course lessons</p>}
+            {!props?.enrolledMembers.some((obj) => obj?.member?._id ===props?.data?.memberProfile?.resp?.data?.getProfile?._id) && !location.pathname.includes("users/admin/courses") && <p className='text-sm text-primary'>You have to enroll first to access course lessons</p>}
             {props?.Lessons?.length <=0?(
                 <div className='h-56 flex items-center justify-center lg:col-span-3'>
                     <p className='text-text_secondary text-center text-sm'>No lesson is added yet</p>
@@ -30,17 +30,17 @@ function Lessons(props){
                 props?.Lessons?.map((lesson,index)=>(
                     !location.pathname.includes("users/admin/courses")?(
                         <button key={index} onClick={()=>navigate(`lesson/${lesson?._id}`,{replace:true})}
-                        className={`flex relative justify-between py-4 border-b border-text_secondary_2 w-full hover:opacity-80 delay-100 duration-200 ${props?.enrolledMembers.some(async(obj) => obj._id === await props?.data?.memberProfile?.resp?.data?.getProfile?._id) && !location.pathname.includes("users/admin/courses")?'cursor-pointer':'cursor-not-allowed'}`} 
-                        disabled={props?.enrolledMembers.some(async(obj) => obj._id === await props?.data?.memberProfile?.resp?.data?.getProfile?._id) && !location.pathname.includes("users/admin/courses")?false:true }>
+                        className={`flex relative justify-between py-4 border-b border-text_secondary_2 w-full hover:opacity-80 delay-100 duration-200 ${props?.enrolledMembers.some((obj) => obj?.member?._id === props?.data?.memberProfile?.resp?.data?.getProfile?._id) && !location.pathname.includes("users/admin/courses")?'cursor-pointer':'cursor-not-allowed'}`} 
+                        disabled={props?.enrolledMembers.some((obj) => obj?.member?._id === props?.data?.memberProfile?.resp?.data?.getProfile?._id) && !location.pathname.includes("users/admin/courses")?false:true }>
                             <div className="flex justify-start gap-3 text-text_secondary font-normal text-sm w-full">
                                 <BsJournalBookmark size={20}/>
                                 {lesson?.lessonTitle}
                             </div>
                             
                             <div className="w-12 text-text_secondary">
-                                {props?.enrolledMembers.some(async(obj) => obj._id === await props?.data?.memberProfile?.resp?.data?.getProfile?._id)?<CiUnlock size={20}/>:<CiLock size={20}/>}
+                                {props?.enrolledMembers.some((obj) => obj?.member?._id === props?.data?.memberProfile?.resp?.data?.getProfile?._id)?<CiUnlock size={20}/>:<CiLock size={20}/>}
                             </div>
-                            {!location.pathname.includes("users/admin/courses") && lesson?.completedBy.some(async(obj) => obj._id === await props?.data?.memberProfile?.resp?.data?.getProfile?._id) &&<TiTick size={20} className='text-primary absolute right-1'/>}
+                            {!location.pathname.includes("users/admin/courses") && lesson?.completedBy.some((obj) => obj?.member === props?.data?.memberProfile?.resp?.data?.getProfile?._id) &&<TiTick size={20} className='text-primary absolute right-1'/>}
                             
                         </button>
                     ):(
