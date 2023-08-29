@@ -8,7 +8,11 @@ export const adminFetchProfileAction=()=>async(dispatch)=>{
             type:types.VIEW_ADMIN_PROFILE_LOADING
         })
 
-        const res=await axios.get(`${process.env.BACKEND_URL}/admin/my/profile`);
+        const res=await axios.get(`${process.env.BACKEND_URL}/admin/my/profile`,{
+            headers:{
+            "Authorization":`Bearer ${sessionStorage.getItem('userToken')}`
+            }
+        });
 
         dispatch({
             type:types.VIEW_ADMIN_PROFILE_SUCCESS,payload:res

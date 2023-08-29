@@ -68,7 +68,7 @@ const SignUp=(props)=>{
             setPasswordError({...passwordError,error:false});
 
             props.memberRegisterAction(formData);
-            event.target.reset();
+            event.reset();
         }
         
 

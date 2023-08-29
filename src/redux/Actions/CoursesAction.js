@@ -100,6 +100,22 @@ export const fetchAllCoursesLessons=(courseId)=>async(dispatch)=>{
     }
 }
 
+export const fetchPopularCourse=()=>async(dispatch)=>{
+    try {
+        dispatch({
+            type:types.POPULAR_COURSES_LOADING
+        })
+
+        const res=await axios.get(`${process.env.BACKEND_URL}/course/popular/courses`);
+
+        dispatch({
+            type:types.POPULAR_COURSES_SUCCESS,payload:res
+        })
+    } catch (error) {
+        dispatch({type:types.POPULAR_COURSES_FAIL,payload:error})
+    }
+}
+
 export const fetchOneCoursesLesson=(courseId,lesson)=>async(dispatch)=>{
     try {
         dispatch({

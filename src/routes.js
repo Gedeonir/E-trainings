@@ -80,6 +80,7 @@ const AppRoutes = (prop) => {
         }/>
         <Route path="/users/admin/login" element={<AdminLogin/>}/>
         <Route path="*" element={<NotFound/>} />
+        
 
     </Routes>
     );

@@ -10,6 +10,7 @@ import {AiOutlineLoading3Quarters} from "react-icons/ai"
 import WMLogo from "../assets/WMLogo.PNG"
 import AdventistLogo from "../assets/AdventistLogo.png"
 import axios from 'axios';
+import { memberFetchProfileAction } from '../redux/Actions/membersAction';
 
 const SignIn=(props)=>{
     const [showPassword,setShowPassword]=React.useState(false);
@@ -34,11 +35,10 @@ const SignIn=(props)=>{
               formData
             );
 
-	        sessionStorage.setItem('memberToken', JSON.stringify(response?.data?.token));
-
+	        await sessionStorage.setItem('memberToken', JSON.stringify(response?.data?.token));
             navigate("../");
 
-          } catch (error) {
+        } catch (error) {
             setError(error?.response?.data?.message?error?.response?.data?.message:error?.message);
         }
         setLoading(false);
@@ -122,5 +122,11 @@ const SignIn=(props)=>{
     )
 }
 
+const mapState=(data)=>({
+    data:data
+})
 
-export default SignIn
+
+export default connect(mapState,{
+    memberFetchProfileAction
+}) (SignIn)

@@ -3,9 +3,9 @@ import { combineReducers } from 'redux';
 
 
 import reducer from './Reducers/counterReducer';
-import { getAllMembersReducer, getMyCoursesReducer, getOneMemberReducer, memberRegisterReducer, viewMemberProfileReducer } from './Reducers/memberReducers';
+import { getAllMembersReducer,fetchMembersByScoreReducers, getMyCoursesReducer, getOneMemberReducer, memberRegisterReducer, viewMemberProfileReducer } from './Reducers/memberReducers';
 import { viewAdminProfileReducer } from './Reducers/adminReducers';
-import { addCourseReducer, addLessonReducer, fetchAllCoursesLessonsReducer, fetchAllCoursesReducer, fetchOneCourseReducer, fetchOneCoursesLessonsReducer } from './Reducers/CoursesReducer';
+import { addCourseReducer, addLessonReducer, fetchAllCoursesLessonsReducer, fetchAllCoursesReducer, fetchOneCourseReducer, fetchOneCoursesLessonsReducer, fetchPopularCourseReducer } from './Reducers/CoursesReducer';
 import { fetchAllCategoryReducer } from './Reducers/categoryReducers';
 import { fetchAllLecturesReducer,addLecturesReducer } from './Reducers/lecturesReducers';
 
@@ -26,7 +26,9 @@ const rootReducer = combineReducers({
     addLesson:addLessonReducer,
     oneLesson:fetchOneCoursesLessonsReducer,
     AllMembers:getAllMembersReducer,
-    oneMember:getOneMemberReducer
+    oneMember:getOneMemberReducer,
+    popularCourses:fetchPopularCourseReducer,
+    topMembers:fetchMembersByScoreReducers
 
 });
 

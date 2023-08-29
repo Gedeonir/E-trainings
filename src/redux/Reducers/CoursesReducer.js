@@ -120,6 +120,34 @@ export const fetchOneCoursesLessonsReducer=(state=initialState,action)=>{
     }
 }
 
+export const fetchPopularCourseReducer=(state=initialState,action)=>{
+    switch(action.type){
+        case types.POPULAR_COURSES_LOADING:
+            return{
+                ...state,
+                loading:true
+            }
+        case types.POPULAR_COURSES_SUCCESS:
+            return{
+                ...state,
+                resp:action.payload,
+                success:true,
+                loading:false,
+                error:null
+            }
+        case types.POPULAR_COURSES_FAIL:
+            return{
+                ...state,
+                error:action.payload,
+                success:false,
+                loading:false,
+                resp:null
+            }
+        default:
+            return state;
+    }
+}
+
 export const fetchOneCourseReducer=(state=initialState,action)=>{
     switch(action.type){
         case types.GET_ONE_COURSE_LOADING:

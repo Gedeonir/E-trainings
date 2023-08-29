@@ -48,16 +48,16 @@ const Sidebar=(props) =>{
                             <p></p>
                         )}
                     </li>
-                    <li className={`flex w-full rounded-l-full py-2 pl-4 justify-start ${location.pathname==="/users/admin/home"&&'bg-secondary bg-opacity-90 text-text_secondary'}   hover:text-opacity-70 cursor-pointer items-center mb-4`} onClick={()=>navigate("/users/admin/home",{replace:true})}>
+                    <li className={`flex w-full rounded-l-full py-2 pl-4 justify-start ${location.pathname==="/users/admin/home"&&'bg-secondary bg-opacity-90 text-text_secondary'}   hover:opacity-70 delay-100 duration-200 transition-all ease-in-out cursor-pointer items-center mb-4`} onClick={()=>navigate("/users/admin/home",{replace:true})}>
                         <CiGrid41 size={25}/>
                         <span className={`text-sm  ml-4 duration-500 ease-in-out`}>Home</span>
                     </li>
                     <li onClick={()=>navigate("/users/admin/courses",{replace:true})} 
-                    className={`flex w-full justify-start rounded-l-full py-2 pl-4  hover:text-opacity-70 cursor-pointer items-center mb-4 ${location.pathname==="/users/admin/courses" && ' bg-secondary bg-opacity-90 text-text_secondary'}  `}>
+                    className={`flex w-full justify-start rounded-l-full py-2 pl-4  hover:opacity-70 delay-100 duration-200 transition-all ease-in-out cursor-pointer items-center mb-4 ${location.pathname==="/users/admin/courses" && ' bg-secondary bg-opacity-90 text-text_secondary'}  `}>
                         <BsJournalBookmark size={20}/>
                         <span className={`text-sm  ml-4 duration-500 ease-in-out `}>Courses</span>
                     </li>
-                    <li className={`flex w-full justify-start rounded-l-full py-2 pl-2  hover:text-opacity-70 cursor-pointer items-center mb-4 ${location.pathname==="/users/admin/members" && ' bg-secondary bg-opacity-90 text-text_secondary'} `} onClick={()=>navigate("/users/admin/members",{replace:true})}>
+                    <li className={`flex w-full justify-start rounded-l-full py-2 pl-2  hover:opacity-70 delay-100 duration-200 transition-all ease-in-outcursor-pointer items-center mb-4 ${location.pathname==="/users/admin/members" && ' bg-secondary bg-opacity-90 text-text_secondary'} `} onClick={()=>navigate("/users/admin/members",{replace:true})}>
                         <GoPeople  size={25}/>
                         <span className={`text-sm  ml-4 duration-500 ease-in-out `}>Members</span>
                     </li>
@@ -72,7 +72,7 @@ const Sidebar=(props) =>{
 
                     
                     
-                    <li className={`flex w-full justify-start rounded-l-full py-2 pl-2  hover:text-opacity-70 cursor-pointer items-center mb-2`} onClick={()=>props.handleLogout()}>
+                    <li className={`flex w-full justify-start rounded-l-full py-2 pl-2  hover:opacity-70 delay-100 duration-200 transition-all ease-in-out cursor-pointer items-center mb-2`} onClick={()=>props.handleLogout()}>
                         <CiLogout  size={25}/>
                         <span className={`text-sm  ml-4 duration-500 ease-in-out `}>Logout</span>
                     </li>

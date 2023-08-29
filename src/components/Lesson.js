@@ -22,11 +22,7 @@ const Lesson = (props) => {
     const [idToIndexMap, setIdToIndexMap] = useState({});
     const[currentIndex,setCurrentIndex]=useState(0);
 
-    const goToNext = () => {
-        if (currentIndex < props?.data?.courseLessons?.resp?.data.length - 1) {
-          navigate(`${location.pathname.replace(/\/lesson\/[^/]+$/, '')}/lesson/${props?.data?.courseLessons?.resp?.data[currentIndex+1]?._id}`)
-        }
-    };
+
     const goToPrev = () => {
         if (currentIndex > 0) {
             navigate(`${location.pathname.replace(/\/lesson\/[^/]+$/, '')}/lesson/${props?.data?.courseLessons?.resp?.data[currentIndex-1]?._id}`)
@@ -35,8 +31,6 @@ const Lesson = (props) => {
 
 
     const completeLesson=async()=>{
-        setLoading(true);
-
         try {
             const response = await axios.patch(`${process.env.BACKEND_URL}/member/complete/${params.lesson}`);
       
@@ -47,10 +41,16 @@ const Lesson = (props) => {
             setError(error?.response?.data?.message?error?.response?.data?.message:error?.message);
             console.log(error);
         }
-        setLoading(false);
         props.fetchOneCoursesLesson(params.id,params.lesson);
         
     }
+
+    const goToNext = () => {
+        if (currentIndex < props?.data?.courseLessons?.resp?.data.length - 1) {
+            completeLesson()
+            navigate(`${location.pathname.replace(/\/lesson\/[^/]+$/, '')}/lesson/${props?.data?.courseLessons?.resp?.data[currentIndex+1]?._id}`)
+        }
+    };
 
 
     useEffect(()=>{
@@ -121,11 +121,11 @@ const Lesson = (props) => {
                 </div>
                 {!location.pathname.includes("users/admin/courses") &&
                     <div className='flex justify-between mb-3'>
-                        <button onClick={()=>goToPrev()} className={`px-3 border border-primary text-primary font-bold rounded-lg py-1 ${currentIndex<=0?'cursor-not-allowed opacity-50':'cursor-pointer'}`} disabled={currentIndex<=0?true:false}>
+                        <button onClick={()=>goToPrev()} className={`px-3 border border-primary text-primary font-bold py-1 ${currentIndex<=0?'cursor-not-allowed opacity-50':'cursor-pointer'}`} disabled={currentIndex<=0?true:false}>
                             <BsArrowLeft size={20}/>
                         </button>
 
-                        {props?.data?.oneLesson?.resp?.data?.getLesson?.completedBy.some((obj) => obj.member?.id ===props?.data?.memberProfile?.resp?.data?.getProfile?._id)?(
+                        {/* {props?.data?.oneLesson?.resp?.data?.getLesson?.completedBy.some((obj) => obj.member?.id ===props?.data?.memberProfile?.resp?.data?.getProfile?._id)?(
                             <button size='sm' className={`px-3 border border-text_secondary text-text_secondary opacity-20 cursor-not-allowed font-bold rounded-lg py-1`} disabled={true}>
                                 Completed                               
                             </button>
@@ -134,16 +134,16 @@ const Lesson = (props) => {
                             <button onClick={()=>completeLesson()} className={`px-3 border border-primary text-primary font-bold rounded-lg py-1`}>
                                 {loading?<p className="flex justify-center gap-2"><AiOutlineLoading3Quarters size={20} className="animate-spin h-5 w-5"/></p>:'Mark it as complete'}
                             </button>
-                        )}
+                        )} */}
 
-                        <button onClick={()=>goToNext()} className={`px-3 border border-primary text-primary font-bold rounded-lg py-1 ${currentIndex >= props?.data?.courseLessons?.resp?.data.length - 1?'cursor-not-allowed opacity-50':'cursor-pointer'}`} disabled={currentIndex > props?.data?.courseLessons?.resp?.data.length - 1?true:false}>
-                            <BsArrowRight size={20}/>
+                        <button onClick={()=>currentIndex >= props?.data?.courseLessons?.resp?.data.length - 1?(console.log("Complete course")):goToNext()} className={`px-3 border cursor-pointer font-bold py-1 ${currentIndex >= props?.data?.courseLessons?.resp?.data.length - 1?'bg-primary text-secondary':'border-primary text-primary'}`}>
+                           {currentIndex >= props?.data?.courseLessons?.resp?.data.length - 1?'Complete course':<BsArrowRight size={20}/>}
                         </button>
                     </div>
                 }
                 </>
                 ):(
-                    <p className={`text-sm text-danger text-center p-2 ${props?.data?.oneLessonr?.error && 'bg-danger'} bg-opacity-20`}>{props?.data?.oneLessonr?.error?.response?.data?.message}</p>
+                    <p className={`text-sm text-danger text-center p-2 ${props?.data?.oneLesson?.error && 'bg-danger'} bg-opacity-20`}>{props?.data?.oneLessonr?.error?.response?.data?.message}</p>
                 )}
             </div>
         </div>

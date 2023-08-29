@@ -41,7 +41,7 @@ export const MembersList = (props) => {
             props?.data?.AllMembers?.resp?.data?.length <=0?(
                 <p className='text-text_secondary text-center text-sm py-8 px-8'>No member registered yet</p>
             ):(
-            <div className={`lg:px-8 px-4 py-4 w-full mx-auto overflow-y-auto max-h-screen relative`}> 
+            <div className={`lg:px-8 px-4 pt-4 pb-12 w-full mx-auto overflow-y-auto max-h-screen relative`}> 
                
                 <div className='py-2 lg:flex block justify-between'>
                     <h1 className='flex justify-start mb-2 gap-2 text-primary font-medium lg:text-2xl text-lg w-full'>
@@ -83,54 +83,54 @@ export const MembersList = (props) => {
                 <div className="flex flex-col">
                     <div className="lg:overflow-x-hidden overflow-x-auto sm:-mx-6 lg:-mx-8">
                         <div className="inline-block min-w-full py-2 sm:px-2 lg:px-8">
-                        <div className="overflow-hidden">
-                            <table className="min-w-full text-left text-xs text-text_secondary font-light">
-                            <thead className="border-b border-text_secondary_2 font-medium">
-                                <tr>
-                                    <th scope="col" className="px-2 py-4">#</th>
-                                    <th scope="col" className="px-2 py-4">Full names</th>
-                                    <th scope="col" className="px-2 py-4">Mobile</th>
-                                    <th scope="col" className="px-2 py-4">Category</th>
-                                    <th scope="col" className="px-2 py-4">Age</th>
-                                    <th scope="col" className="px-2 py-4">isMarried</th>
-                                    <th scope="col" className="px-2 py-4">Marriage year</th>
-                                    <th scope="col" className="px-2 py-4">District</th>
-                                    <th scope="col" className="px-2 py-4">Church</th>
-                                    <th scope="col" className="px-2 py-4">Status</th>
-
-                                </tr>
-                            </thead>
-                            <tbody>
-                            {filterMembers.length <=0?(
-                                <tr>
-                                    <td className="px-2 py-4 font-medium text-center" colSpan={9}>No member matches your criterias</td>
-                                </tr>
-                            ):(filterMembers?.map((member,index)=>(
-                                    <tr key={index} onClick={()=>handleDetails(member._id)}
-                                    className="border-b cursor-pointer delay-100 border-text_secondary_2 transition duration-300 ease-in-out hover:bg-secondary">
-                                        <td className="px-2 py-4 font-medium">{index+1}</td>
-                                        <td className="px-2 py-4 flex justify-start gap-2">
-                                            <div className="h-4 w-4 rounded-full">
-                                                <img 
-                                                src={!member?.profilePicture?'https://www.pngfind.com/pngs/m/610-6104451_image-placeholder-png-user-profile-placeholder-image-png.png':`${member?.profilePicture}`} className='w-full h-full object-cover rounded-full'/>
-                                            </div>
-                                            {member?.fullNames}
-                                        </td>
-                                        <td className="px-2 py-4">{member?.mobile}</td>
-                                        <td className="px-2 py-4">{member?.memberCategory}</td>
-                                        <td className="px-2 py-4 font-medium">{new Date().getFullYear() - new Date(member?.age).getFullYear()}</td>
-                                        <td className="px-2 py-4">{member?.isMarried?'Yes':'No'}</td>
-                                        <td className="px-2 py-4">{member?.yearOfMarriage?member?.yearOfMarriage:'-'}</td>
-                                        <td className="px-2 py-4">{member?.district}</td>
-                                        <td className="px-2 py-4 font-medium">{member?.church}</td>
-                                        <td className="px-2 py-4 font-medium">{member?.isDisabled?<span className='text-danger p-1'>Suspended</span>:(<span className='text-primary p-1'>Active</span>)}</td>
+                            <div className="overflow-hidden">
+                                <table className="min-w-full text-left text-xs text-text_secondary font-light">
+                                <thead className="border-b border-text_secondary_2 font-medium">
+                                    <tr>
+                                        <th scope="col" className="px-2 py-4">#</th>
+                                        <th scope="col" className="px-2 py-4">Full names</th>
+                                        <th scope="col" className="px-2 py-4">Mobile</th>
+                                        <th scope="col" className="px-2 py-4">Category</th>
+                                        <th scope="col" className="px-2 py-4">Age</th>
+                                        <th scope="col" className="px-2 py-4">isMarried</th>
+                                        <th scope="col" className="px-2 py-4">Marriage year</th>
+                                        <th scope="col" className="px-2 py-4">District</th>
+                                        <th scope="col" className="px-2 py-4">Church</th>
+                                        <th scope="col" className="px-2 py-4">Status</th>
 
                                     </tr>
-                                )))}
+                                </thead>
+                                <tbody>
+                                {filterMembers.length <=0?(
+                                    <tr>
+                                        <td className="px-2 py-4 font-medium text-center" colSpan={9}>No member matches your criterias</td>
+                                    </tr>
+                                ):(filterMembers?.map((member,index)=>(
+                                        <tr key={index} onClick={()=>handleDetails(member._id)}
+                                        className="border-b cursor-pointer delay-100 border-text_secondary_2 transition duration-300 ease-in-out hover:bg-secondary">
+                                            <td className="px-2 py-4 font-medium">{index+1}</td>
+                                            <td className="px-2 py-4 flex justify-start gap-2">
+                                                <div className="h-4 w-4 rounded-full">
+                                                    <img 
+                                                    src={!member?.profilePicture?'https://www.pngfind.com/pngs/m/610-6104451_image-placeholder-png-user-profile-placeholder-image-png.png':`${member?.profilePicture}`} className='w-full h-full object-cover rounded-full'/>
+                                                </div>
+                                                {member?.fullNames}
+                                            </td>
+                                            <td className="px-2 py-4">{member?.mobile}</td>
+                                            <td className="px-2 py-4">{member?.memberCategory}</td>
+                                            <td className="px-2 py-4 font-medium">{new Date().getFullYear() - new Date(member?.age).getFullYear()}</td>
+                                            <td className="px-2 py-4">{member?.isMarried?'Yes':'No'}</td>
+                                            <td className="px-2 py-4">{member?.yearOfMarriage?member?.yearOfMarriage:'-'}</td>
+                                            <td className="px-2 py-4">{member?.district}</td>
+                                            <td className="px-2 py-4 font-medium">{member?.church}</td>
+                                            <td className="px-2 py-4 font-medium">{member?.isDisabled?<span className='text-danger p-1'>Suspended</span>:(<span className='text-primary p-1'>Active</span>)}</td>
 
-                            </tbody>
-                            </table>
-                        </div>
+                                        </tr>
+                                    )))}
+
+                                </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -146,3 +146,31 @@ export const getOneMemberReducer=(state=initialState,action)=>{
             return state;
     }
 }
+
+export const fetchMembersByScoreReducers=(state=initialState,action)=>{
+    switch(action.type){
+        case types.TOP_MEMBERS_LOADING:
+            return{
+                ...state,
+                loading:true
+            }
+        case types.TOP_MEMBERS_SUCCESS:
+            return{
+                ...state,
+                resp:action.payload,
+                success:true,
+                loading:false,
+                error:null
+            }
+        case types.TOP_MEMBERS_FAIL:
+            return{
+                ...state,
+                error:action.payload,
+                success:false,
+                loading:false,
+                resp:null
+            }
+        default:
+            return state;
+    }
+}
