@@ -10,7 +10,7 @@ export const memberRegisterAction=(memberData)=>async(dispatch)=>{
             type:types.MEMBER_REGISTER_LOADING
         })
 
-        const res=await axios.post(`${process.env.BACKEND_URL}/member/register`,memberData,
+        const res=await axios.post(`${process.env.BACKEND_URL}/trainee/register`,memberData,
         {headers:{
             "Content-Type":"application/json"
         }});
@@ -20,7 +20,6 @@ export const memberRegisterAction=(memberData)=>async(dispatch)=>{
             payload:res
         })
     } catch (error) {
-        console.log(error);
      dispatch({type:types.MEMBER_REGISTER_FAIL,payload:error})   
     }
 }
@@ -31,7 +30,7 @@ export const memberFetchProfileAction=()=>async(dispatch)=>{
             type:types.VIEW_MEMBER_PROFILE_LOADING
         })
 
-        const res=await axios.get(`${process.env.BACKEND_URL}/member/my/profile`,
+        const res=await axios.get(`${process.env.BACKEND_URL}/trainee/my/profile`,
         {
             headers:{
             "Authorization":`Bearer ${sessionStorage.getItem('memberToken')}`
@@ -52,7 +51,7 @@ export const getMyCourses=()=>async(dispatch)=>{
             type:types.GET_MEMBER_COURSES_LOADING
         })
 
-        const res=await axios.get(`${process.env.BACKEND_URL}/member/my/courses`,{
+        const res=await axios.get(`${process.env.BACKEND_URL}/trainee/my/courses`,{
             headers:{
             "Authorization":`Bearer ${sessionStorage.getItem('memberToken')}`
             }
@@ -72,7 +71,7 @@ export const getAllMembers=()=>async(dispatch)=>{
             type:types.GET_ALL_MEMBERS_LOADING
         })
 
-        const res=await axios.get(`${process.env.BACKEND_URL}/member/all-members`);
+        const res=await axios.get(`${process.env.BACKEND_URL}/trainee/all-trainees`);
 
         dispatch({
             type:types.GET_ALL_MEMBERS_SUCCESS,payload:res
@@ -88,7 +87,7 @@ export const getOneMember=(id)=>async(dispatch)=>{
             type:types.GET_ONE_MEMBER_LOADING
         })
 
-        const res=await axios.get(`${process.env.BACKEND_URL}/member/${id}`);
+        const res=await axios.get(`${process.env.BACKEND_URL}/trainee/${id}`);
 
         dispatch({
             type:types.GET_ONE_MEMBER_SUCCESS,payload:res
@@ -105,7 +104,7 @@ export const fetchMembersByScore=()=>async(dispatch)=>{
             type:types.TOP_MEMBERS_LOADING
         })
 
-        const res=await axios.get(`${process.env.BACKEND_URL}/member/top/member`);
+        const res=await axios.get(`${process.env.BACKEND_URL}/trainee/top/member`);
 
         dispatch({
             type:types.TOP_MEMBERS_SUCCESS,payload:res

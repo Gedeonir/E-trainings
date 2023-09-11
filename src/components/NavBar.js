@@ -32,7 +32,7 @@ const NavBar = (props) => {
                 </li>
                 <li className={`text-text_secondary hover:hover:border-b-2 cursor-pointer mx-4 h-8 ${location.pathname==="/search"&&'text-primary border-primary border-b-2'}  `}>
                     <Link to="/search">
-                        About us
+                        My courses
                     </Link>
                 </li>
                 
@@ -63,7 +63,7 @@ const NavBar = (props) => {
                                         ${!props?.data?.memberProfile?.resp?.data?.getProfile?.profilePicture?'bg-[url(https://www.pngfind.com/pngs/m/610-6104451_image-placeholder-png-user-profile-placeholder-image-png.png)]':`bg-[url(${props?.data?.memberProfile?.resp?.data?.getProfile?.profilePicture})]`} bg-cover bg-center bg-no-repeat`}/>
                                         <div className='text-text_secondary'>
                                             <label className='font-bold text-md'>{props?.data?.memberProfile?.resp?.data?.getProfile?.fullNames}</label>
-                                            <p className='text-sm'><span className='text-primary mr-2'>#Rank</span>{props?.data?.memberProfile?.resp?.data?.getProfile?.memberCategory}</p>
+                                            <p className='text-sm'><span className='text-primary mr-2'>#Rank</span>{props?.data?.memberProfile?.resp?.data?.getProfile?.traineeCategory}</p>
                                         </div>
                                     </Link>
                                 ):(

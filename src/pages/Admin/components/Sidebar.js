@@ -57,20 +57,11 @@ const Sidebar=(props) =>{
                         <BsJournalBookmark size={20}/>
                         <span className={`text-sm  ml-4 duration-500 ease-in-out `}>Courses</span>
                     </li>
-                    <li className={`flex w-full justify-start rounded-l-full py-2 pl-2  hover:opacity-70 delay-100 duration-200 transition-all ease-in-outcursor-pointer items-center mb-4 ${location.pathname==="/users/admin/members" && ' bg-secondary bg-opacity-90 text-text_secondary'} `} onClick={()=>navigate("/users/admin/members",{replace:true})}>
+                    <li className={`flex w-full justify-start rounded-l-full py-2 pl-2  hover:opacity-70 delay-100 duration-200 transition-all ease-in-out cursor-pointer items-center mb-4 ${location.pathname==="/users/admin/members" && ' bg-secondary bg-opacity-90 text-text_secondary'} `} onClick={()=>navigate("/users/admin/members",{replace:true})}>
                         <GoPeople  size={25}/>
                         <span className={`text-sm  ml-4 duration-500 ease-in-out `}>Members</span>
                     </li>
-
-                    {/* <li className={`flex relative w-full justify-start rounded-l-full py-2 pl-2  hover:text-opacity-70 cursor-pointer items-center mb-4 `} onClick={()=>props.handleLogout()}>
-                        <IoIosNotificationsOutline  size={25}/>
-                        <span className={`text-sm  ml-4 duration-500 ease-in-out `}>Notifications</span>
-                        <label className='bg-danger w-4 h-4 rounded-full absolute left-4 top-1 text-secondary text-[9px] p-0.5'>
-                            10
-                        </label>
-                    </li> */}
-
-                    
+              
                     
                     <li className={`flex w-full justify-start rounded-l-full py-2 pl-2  hover:opacity-70 delay-100 duration-200 transition-all ease-in-out cursor-pointer items-center mb-2`} onClick={()=>props.handleLogout()}>
                         <CiLogout  size={25}/>

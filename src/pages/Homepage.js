@@ -21,7 +21,9 @@ const Homepage = (props) => {
     
   return (
     <Layout>
-        <div className='lg:px-14 px-4 py-4 overflow-y-auto max-h-screen pb-24'>      
+        <div className='lg:px-14 px-4 py-4 overflow-y-auto max-h-screen pb-24'> 
+            {props?.data?.myCourses?.resp?.data?.length >0 &&(
+             
             <div className='mb-4 py-4'>
                 <div className='flex justify-between'>
                     <h1 className='grid text-primary font-medium lg:text-2xl text-lg mb-4'>Continue <span className='text-text_secondary font-bold lg:text-3xl text-xl'>Where you left of</span></h1>
@@ -32,18 +34,16 @@ const Homepage = (props) => {
                         <AiOutlineLoading3Quarters size={20} className="animate-spin w-8 h-8"/>
                     </div>
                 ):(props?.data?.myCourses?.success?(
-                    props?.data?.myCourses?.resp?.data?.length <=0?(
-                        <p className='text-text_secondary text-center text-sm py-8 px-8'>You are not enrolled in any course yet</p>
-                    ):(
                     <div className='grid lg:grid-cols-3 gap-8 py-2'>              
                         {props?.data?.myCourses?.resp?.data?.map((course,index)=>(
                             <Card2 key={index} course={course}/>
-                        ))}
-                    </div>)):(
+                        )).slice(0,3)}
+                    </div>):(
                         <p>Unable to get your courses</p>
                 ))}
             
             </div>
+            )}
 
             <div>
                 <h1 className='grid text-primary font-medium lg:text-2xl text-lg w-full'>Find the right <span className='text-text_secondary font-bold lg:text-3xl text-xl'>Course for you</span></h1>

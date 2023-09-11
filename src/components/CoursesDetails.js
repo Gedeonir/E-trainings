@@ -1,6 +1,6 @@
 import React, { Children, useEffect, useState } from 'react'
 import Layout from './Layout'
-import { Link, useLocation, useParams } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import {LiaChalkboardTeacherSolid} from 'react-icons/lia'
 import {SlBookOpen} from 'react-icons/sl'
 import {FaLanguage} from 'react-icons/fa'
@@ -17,6 +17,10 @@ import axios from '../redux/Actions/axiosConfig'
 import * as XLSX from 'xlsx';
 import {FaFileExport} from 'react-icons/fa'
 import Lessons from './Lessons'
+import { CiWarning } from 'react-icons/ci'
+import {BsArrowRight} from 'react-icons/bs'
+
+
 
 function Overview({Overview}){
 
@@ -31,25 +35,25 @@ function Overview({Overview}){
 
 
 
-function EnrolledUsers({enrolledMembers,courseTitle}){
+function EnrolledUsers({enrolledTrainees,courseTitle}){
 
-    const data = enrolledMembers?.map((member)=>{
-        const { _id,isMarried,yearOfMarriage,password,isDisabled,profilePicture,enrolledCourses,createdAt,updatedAt,__v,...rest } = member?.member;
+    // const data = enrolledTrainees?.map((member)=>{
+    //     const { _id,isMarried,yearOfMarriage,password,isDisabled,profilePicture,enrolledCourses,createdAt,updatedAt,__v,...rest } = member?.member;
 
-        return rest;
-    });
+    //     return rest;
+    // });
 
 
 
-    const exportToExcel = async() => {
-        const ws = XLSX.utils.json_to_sheet(data);
-        const wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+    // const exportToExcel = async() => {
+    //     const ws = XLSX.utils.json_to_sheet(data);
+    //     const wb = XLSX.utils.book_new();
+    //     XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
       
-        // Save the file
-        const fileName = `List of member enrolled in ${courseTitle} course .xlsx`;
-        XLSX.writeFile(wb, fileName);
-    }
+    //     // Save the file
+    //     const fileName = `List of member enrolled in ${courseTitle} course .xlsx`;
+    //     XLSX.writeFile(wb, fileName);
+    // }
 
 
     const fields=["full names","category","contact","district","church"]
@@ -57,8 +61,8 @@ function EnrolledUsers({enrolledMembers,courseTitle}){
         <div className="block">
             <div className='flex justify-between mb-4 w-full'>
                 <h1 className="text-text_secondary font-bold text-sm">Enrolled members list</h1>
-                {location.pathname.includes("users/admin/courses") &&
-                <button className='text-sm text-primary' onClick={()=>exportToExcel()}><FaFileExport size={20}/></button>}
+                {/* {location.pathname.includes("users/admin/courses") &&
+                <button className='text-sm text-primary' onClick={()=>exportToExcel()}><FaFileExport size={20}/></button>} */}
             </div>
 
             <div className="py-2 px-2 w-full border-text_secondary_2 grid grid-cols-5 gap-2 justify-start hover:shadow-sm delay-100 duration-500">    
@@ -69,17 +73,17 @@ function EnrolledUsers({enrolledMembers,courseTitle}){
                 ))}
 
             </div>
-            {enrolledMembers?.length <=0 ?(
+            {enrolledTrainees?.length <=0 ?(
                 <div className='h-56 flex items-center justify-center lg:col-span-3'>
                     <p className='text-text_secondary text-center text-sm'>No member is enrolled yet</p>
                 </div>
-            ):(enrolledMembers?.map((member,index)=>(
+            ):(enrolledTrainees?.map((member,index)=>(
                 <div key={index} className="py-2 cursor-pointer px-2 grid grid-cols-5 gap-2 justify-start hover:bg-secondary delay-100 duration-500">    
                     <div className="grid text-text_secondary">
                         <label className=" lg:text-sm text-xs mx-auto text-justify lg:mx-0">{member?.member?.fullNames}</label>
                     </div>
                     <div className="grid text-text_secondary">
-                        <label className="lg:text-sm text-xs mx-auto text-justify lg:mx-0">{member?.member?.memberCategory}</label>
+                        <label className="lg:text-sm text-xs mx-auto text-justify lg:mx-0">{member?.member?.traineeCategory}</label>
                     </div>
                     <div className="grid text-text_secondary">
                         <label className="lg:text-sm text-xs mx-auto text-justify lg:mx-0">{member?.member?.mobile}</label>
@@ -273,6 +277,11 @@ const CoursesDetails = (props) => {
         succesMsg:""
     })
 
+    const [restricted,setRestricted]=useState({
+        status:false,
+        message:""
+    })
+
 
     const location=useLocation()
 
@@ -284,7 +293,7 @@ const CoursesDetails = (props) => {
 
         try {
             const response = await axios.patch(
-              `${process.env.BACKEND_URL}/member/enroll/${params.id}`,
+              `${process.env.BACKEND_URL}/trainee/enroll/${params.id}`,
             );
 
 
@@ -305,15 +314,65 @@ const CoursesDetails = (props) => {
     useEffect(()=>{
         props.fetchOneCourses(params.id)
         props.fetchAllCoursesLessons(params.id)
-    },[])
 
+        if(props?.data?.memberProfile?.resp?.data?.getProfile?.traineeCategory?.toLowerCase()=='junior'
+            &&props?.data?.oneCourse?.resp?.data?.getCourse?.courseCategory?.categoryName?.toLowerCase() !="junior"){
+                setRestricted({
+                    ...restricted,
+                    status:true,
+                    message:"This course is not available on Junior level"
+                })
+        }else if(props?.data?.memberProfile?.resp?.data?.getProfile?.traineeCategory?.toLowerCase()=='Flowers'
+            &&(props?.data?.oneCourse?.resp?.data?.getCourse?.courseCategory?.categoryName?.toLowerCase() !="flowers" ||
+            props?.data?.oneCourse?.resp?.data?.getCourse?.courseCategory?.categoryName?.toLowerCase() !="junior")
+        ){
+            setRestricted({
+                ...restricted,
+                status:true,
+                message:"This course is not available on Junior,Flowers level"
+            })
+        }else if(props?.data?.memberProfile?.resp?.data?.getProfile?.traineeCategory?.toLowerCase()=='eagle'
+            &&(props?.data?.oneCourse?.resp?.data?.getCourse?.courseCategory?.categoryName?.toLowerCase() !="flowers" ||
+            props?.data?.oneCourse?.resp?.data?.getCourse?.courseCategory?.categoryName?.toLowerCase() !="junior"||
+            props?.data?.oneCourse?.resp?.data?.getCourse?.courseCategory?.categoryName?.toLowerCase() !="eagle")
+        ){
+                setRestricted({
+                    ...restricted,
+                    status:true,
+                    message:"This course is not available on Junior,Flowers,Eagle level"
+                })
+
+        }else if(props?.data?.memberProfile?.resp?.data?.getProfile?.traineeCategory?.toLowerCase()=='excellent'
+            &&(props?.data?.oneCourse?.resp?.data?.getCourse?.courseCategory?.categoryName?.toLowerCase() !="flowers" ||
+            props?.data?.oneCourse?.resp?.data?.getCourse?.courseCategory?.categoryName?.toLowerCase() !="junior"||
+            props?.data?.oneCourse?.resp?.data?.getCourse?.courseCategory?.categoryName?.toLowerCase() !="eagle"||
+            props?.data?.oneCourse?.resp?.data?.getCourse?.courseCategory?.categoryName?.toLowerCase() !="excellent")
+        ){
+            setRestricted({
+                ...restricted,
+                status:true,
+                message:"This course is not available on Golden level"
+            })
+
+        }else{
+            setRestricted({
+                ...restricted,
+                status:false,
+                message:""
+            })
+        }
+
+        
+    },[props?.data?.memberProfile?.success])
+
+    const navigate=useNavigate() 
 
   return (
     <div>
         {props?.data?.oneCourse?.success?(
             <>
             <div className={`h-64 bg-cover bg-center bg-no-repeat ${props?.data?.oneCourse?.resp?.data?.getCourse?.courseIcon?`bg-url[${props?.data?.oneCourse?.resp?.data?.getCourse?.courseIcon}`:'bg-url[https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPPqmpE5TW_Ks80SvlDQzbL_BC2kr21WPPWA&usqp=CAU]'} w-full bg-cover bg-center`}>
-                <div className='h-64 bg-secondary w-full lg:px-14 px-4 bg-opacity-95 lg:flex block gap-4 justify-between py-8'>
+                <div className='h-64 bg-secondary w-full lg:px-12 px-4 bg-opacity-95 lg:flex block gap-4 justify-between py-8'>
                     <div className='lg:py-12 py-4 w-full'>
                         <h1 className='text-primary font-bold lg:text-4xl mb-4 text-2xl'>{props?.data?.oneCourse?.resp?.data?.getCourse?.courseTitle}</h1>
                     </div>
@@ -349,6 +408,20 @@ const CoursesDetails = (props) => {
                 </div>
             </div>
 
+            {restricted.status?(
+                <div className='bg-danger w-full lg:px-12 px-4 bg-opacity-20 py-2'>
+                    <div className="flex justify-start gap-4 text-text_secondary">
+                        <div className="  h-10 w-10 rounded-full text-center flex items-center">
+                            <CiWarning size={50} className='w-10 h-10'/>
+                        </div>
+                        <div className='text-sm py-2'>
+                            <p>{restricted?.message}</p>
+                            <p className='flex justify-start cursor-pointer  gap-1 text-sm group underline' onClick={()=>navigate(-1)}><span className='group-hover:mx-2 delay-100 duration-500'>Go back</span> <BsArrowRight className='my-1' size={15}/></p>
+                        </div>
+                    </div>
+                </div>
+
+            ):(
             <div className='my-12 lg:px-14 w-full px-4 lg:flex justify-between gap-4'>
                 <div className='border border-secondary rounded-lg lg:w-3/4 w-full mb-4'>
                     <div className="border-b border-secondary">
@@ -372,8 +445,8 @@ const CoursesDetails = (props) => {
 
                     <div className='px-4 py-4 bg-btn_primary h-96 overflow-y-auto'>
                         {section==='overview' && <Overview Overview={props?.data?.oneCourse?.resp?.data?.getCourse?.overview}/>}
-                        {section==="curicullum" && <Lessons openModel={props.openModel} setOpenModel={props.setOpenModel} Lessons={props?.data?.courseLessons?.resp?.data} enrolledMembers={props?.data?.oneCourse?.resp?.data?.getCourse?.enrolledMembers}/>}
-                        {section==="enrolled" && <EnrolledUsers enrolledMembers={props?.data?.oneCourse?.resp?.data?.getCourse?.enrolledMembers} courseTitle={props?.data?.oneCourse?.resp?.data?.getCourse?.courseTitle}/>}
+                        {section==="curicullum" && <Lessons openModel={props.openModel} setOpenModel={props.setOpenModel} Lessons={props?.data?.courseLessons?.resp?.data} enrolledTrainees={props?.data?.oneCourse?.resp?.data?.getCourse?.enrolledTrainees}/>}
+                        {section==="enrolled" && <EnrolledUsers enrolledTrainees={props?.data?.oneCourse?.resp?.data?.getCourse?.enrolledTrainees} courseTitle={props?.data?.oneCourse?.resp?.data?.getCourse?.courseTitle}/>}
                         {section==="ratings" && <Reviews reviews={props?.data?.oneCourse?.resp?.data?.getCourse?.ratingsAndReviews}/>}
                     </div>
                     
@@ -400,16 +473,17 @@ const CoursesDetails = (props) => {
                     <div className='flex justify-start gap-1 border-b border-text_secondary_2 py-4 text-text_secondary'>
                         <GoPeople size={20}/>
                         <label className='text-sm font-bold text-text_secondary'>Enrolled:</label>
-                        <label className='text-sm font-normal'>{props?.data?.oneCourse?.resp?.data?.getCourse?.enrolledMembers?.length}</label>
+                        <label className='text-sm font-normal'>{props?.data?.oneCourse?.resp?.data?.getCourse?.enrolledTrainees?.length}</label>
                     </div>
                     {location.pathname.includes("users/admin/courses")?(
                         <Button className='w-full my-2 bg-danger text-sm text-secondary py-3'>Delete Course</Button>
                     ):(
+                        
                         <div>
                             {success.status?<p className='text-xs text-primary font-bold text-center p-2 bg-primary bg-opacity-20'>{success.succesMsg}</p>
                             :
                             <p className={`text-xs text-danger text-center p-2 ${error && 'bg-danger'} bg-opacity-20`}>{error}</p>}
-                            {props?.data?.oneCourse?.resp?.data?.getCourse?.enrolledMembers.some((obj) => obj?.member?._id === props?.data?.memberProfile?.resp?.data?.getProfile?._id)?(
+                            {props?.data?.oneCourse?.resp?.data?.getCourse?.enrolledTrainees.some((obj) => obj?.member?._id === props?.data?.memberProfile?.resp?.data?.getProfile?._id)?(
                                 <button size='sm' className={`my-4 bg-text_secondary bg-opacity-20 text-sm text-center text-text_secondary font-bold p-2 w-full cursor-not-allowed `} disabled={true}>
                                     Enrolled                                
                                 </button>
@@ -423,8 +497,12 @@ const CoursesDetails = (props) => {
 
                 </div>
             </div>
+            )}
+
             </>
-        ):(<p>{props?.data?.oneCourse?.error?.response?.data?.message}</p>)
+        ):(
+        <p>{props?.data?.oneCourse?.error?.response?.data?.message}</p>
+        )
         }
        
     </div>

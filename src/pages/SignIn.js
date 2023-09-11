@@ -20,9 +20,10 @@ const SignIn=(props)=>{
     const [error,setError] = React.useState("")
     const [loading,setLoading]=React.useState(false);
     const [formData,setFormData]=React.useState({
-        mobile:"",
+        ID:"",
         password:"",
     })
+
 
 
     const handleLogin=async(e)=>{
@@ -31,7 +32,7 @@ const SignIn=(props)=>{
 
         try {
             const response = await axios.post(
-              `${process.env.BACKEND_URL}/member/login`,
+              `${process.env.BACKEND_URL}/trainee/login`,
               formData
             );
 
@@ -44,6 +45,8 @@ const SignIn=(props)=>{
         setLoading(false);
         
     }
+
+
 
     return (
         <div>
@@ -82,12 +85,12 @@ const SignIn=(props)=>{
                         <form onSubmit={(event)=>handleLogin(event)}>
                            <p className={`text-sm text-danger py-1 ${error && 'bg-danger'} bg-opacity-20 px-4 rounded-xl`}>{error}</p>
                             <div className="mb-4">
-                                <label className="text-text_secondary font-bold text-xs mb-2">Contact <span className="text-[red]">*</span></label>
-                                <input type="number" name='mobile' value={formData.mobile} className="text-text_secondary text-sm outline-primary block w-full px-2 py-1 rounded-lg border border-text_secondary_2 placeholder-text_secondary_2" placeholder="phone number" required
+                                <label className="text-text_secondary font-bold text-xs mb-2">ID <span className="text-[red]">*</span></label>
+                                <input type="number" name='mobile' value={formData.ID} className="text-text_secondary text-sm outline-primary block w-full px-2 py-1 rounded-lg border border-text_secondary_2 placeholder-text_secondary_2" placeholder="ID number" required
                                 onChange={(e)=>{
                                     setFormData({
                                         ...formData,
-                                        mobile:e.target.value
+                                        ID:e.target.value
                                     })
                                 }}/>
                                 

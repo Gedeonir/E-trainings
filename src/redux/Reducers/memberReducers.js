@@ -106,7 +106,7 @@ export const getAllMembersReducer=(state=initialState,action)=>{
                 loading:false,
                 error:null
             }
-        case types.GET_MEMBER_COURSES_FAIL:
+        case types.GET_ALL_MEMBERS_FAIL:
             return{
                 ...state,
                 error:action.payload,

@@ -12,9 +12,10 @@ export const MemberDetails = (props) => {
         props.fetchAllCourses()
     },[])
 
-    const getUserCourse=props?.data?.allCourses?.resp?.data?.filter(course=>course.enrolledMembers.some((obj) => obj?.member===props?.id))
 
- 
+    const getUserCourse=props?.data?.allCourses?.resp?.data?.filter(course=>course.enrolledTrainees.some((obj) => obj?.member===props?.id))
+
+    console.log(props);
 
 
   return (
@@ -31,7 +32,7 @@ export const MemberDetails = (props) => {
 
                 <>
                     <h1 className='flex justify-between mb-2 gap-2 py-4 px-4 text-primary font-medium text-sm w-full sticky top-0 bg-secondary'>
-                        <label>{props?.data?.oneMember?.resp?.data?.getOneMember?.fullNames}'s<span className='font-normal'> Profile</span></label>
+                        <label>{props?.data?.oneMember?.resp?.data?.getOneTrainee?.fullNames}'s<span className='font-normal'> Profile</span></label>
                         <AiOutlineClose onClick={()=>props?.setOpenDetails(false)} className='cursor-pointer rounded-full text-secondary right-2 bg-primary w-4 h-4 p-1'/>
 
                     </h1>
@@ -40,41 +41,41 @@ export const MemberDetails = (props) => {
                     </div>
                     <div className='px-4 py-4'>
                         <div className="grid text-text_secondary py-1">
-                            <p className="text-xs text-justify"><span className='font-bold'>Full names:</span> {props?.data?.oneMember?.resp?.data?.getOneMember?.fullNames}</p>
+                            <p className="text-xs text-justify"><span className='font-bold'>Full names:</span> {props?.data?.oneMember?.resp?.data?.getOneTrainee?.fullNames}</p>
                         </div>
                         <div className="grid text-text_secondary py-1">
-                            <p className="text-xs text-justify py-1"><span className='font-bold'>Age:</span> {props?.data?.oneMember?.resp?.data?.getOneMember?.age}({new Date().getFullYear() - new Date(props?.data?.oneMember?.resp?.data?.getOneMember?.age).getFullYear()} years old)</p>
+                            <p className="text-xs text-justify py-1"><span className='font-bold'>Age:</span> {props?.data?.oneMember?.resp?.data?.getOneTrainee?.age} years old</p>
                         </div>
                         <div className="grid text-text_secondary py-1">
-                            <p className="text-xs text-justify py-1"><span className='font-bold'>Mobile:</span> {props?.data?.oneMember?.resp?.data?.getOneMember?.mobile}</p>
+                            <p className="text-xs text-justify py-1"><span className='font-bold'>Mobile:</span> {props?.data?.oneMember?.resp?.data?.getOneTrainee?.mobile}</p>
                         </div>
                         <div className="grid text-text_secondary py-1">
-                            <p className="text-xs text-justify"><span className='font-bold'>Category:</span> {props?.data?.oneMember?.resp?.data?.getOneMember?.memberCategory}</p>
+                            <p className="text-xs text-justify"><span className='font-bold'>Category:</span> {props?.data?.oneMember?.resp?.data?.getOneTrainee?.traineeCategory}</p>
                         </div>
                         <div className="grid text-text_secondary py-1">
-                            <p className="text-xs text-justify"><span className='font-bold'>Status:</span> {props?.data?.oneMember?.resp?.data?.getOneMember?.isMarried?"Married":"Not married"}</p>
+                            <p className="text-xs text-justify"><span className='font-bold'>Status:</span> {props?.data?.oneMember?.resp?.data?.getOneTrainee?.isMarried?"Married":"Not married"}</p>
                         </div>
                         <div className="grid text-text_secondary py-1">
-                            <p className="text-xs text-justify"><span className='font-bold'>Marriage year:</span> {props?.data?.oneMember?.resp?.data?.getOneMember?.yearOfMarriage?`${props?.data?.oneMember?.resp?.data?.getOneMember?.yearOfMarriage}(${new Date().getFullYear() - props?.data?.oneMember?.resp?.data?.getOneMember?.yearOfMarriage} years)`:"-"}</p>
-                        </div>
-
-                        <div className="grid text-text_secondary py-1">
-                            <p className="text-xs text-justify"><span className='font-bold'>District:</span> {props?.data?.oneMember?.resp?.data?.getOneMember?.district}</p>
+                            <p className="text-xs text-justify"><span className='font-bold'>Marriage year:</span> {props?.data?.oneMember?.resp?.data?.getOneTrainee?.yearOfMarriage?`${props?.data?.oneMember?.resp?.data?.getOneTrainee?.yearOfMarriage}(${new Date().getFullYear() - props?.data?.oneMember?.resp?.data?.getOneTrainee?.yearOfMarriage} years)`:"-"}</p>
                         </div>
 
                         <div className="grid text-text_secondary py-1">
-                            <p className="text-xs text-justify"><span className='font-bold'>Church:</span> {props?.data?.oneMember?.resp?.data?.getOneMember?.church}</p>
+                            <p className="text-xs text-justify"><span className='font-bold'>District:</span> {props?.data?.oneMember?.resp?.data?.getOneTrainee?.district}</p>
+                        </div>
+
+                        <div className="grid text-text_secondary py-1">
+                            <p className="text-xs text-justify"><span className='font-bold'>Church:</span> {props?.data?.oneMember?.resp?.data?.getOneTrainee?.church}</p>
                         </div>      
 
                     </div>
 
                     <div className='px-4 mb-2'>
                         <h1 className='mb-2 gap-2 text-primary font-medium text-sm w-full'>
-                            {props?.data?.oneMember?.resp?.data?.getOneMember?.fullNames}'s<span className='font-normal'> courses</span>
+                            {props?.data?.oneMember?.resp?.data?.getOneTrainee?.fullNames}'s<span className='font-normal'> courses</span>
                         </h1>
 
                         {getUserCourse?.length <=0?(
-                            <p className='text-text_secondary text-center text-xs py-4 px-2'>You are not enrolled in any course yet</p>
+                            <p className='text-text_secondary text-center text-xs py-4 px-2'>{props?.data?.oneMember?.resp?.data?.getOneTrainee?.fullNames} is not enrolled in any course yet</p>
                         ):(
                             getUserCourse?.map(course=>(
                                 <Card3 key={course._id} userId={props?.id} course={course}/>

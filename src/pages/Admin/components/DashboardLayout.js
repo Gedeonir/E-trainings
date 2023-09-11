@@ -13,6 +13,7 @@ import {CiLogout} from 'react-icons/ci'
 import { adminFetchProfileAction } from "../../../redux/Actions/AdminActions";
 import { connect } from 'react-redux';
 import {CiWarning} from 'react-icons/ci'
+import {GoPeople} from 'react-icons/go'
 
 
 function DashboardLayout(props) {
@@ -22,8 +23,6 @@ function DashboardLayout(props) {
     const [openMobileMenu,setOpenMobileMenu]=React.useState(false);
     const [sessionExpired,setSessionExpired]=useState(false)
     const navigate=useNavigate()
-
-    console.log(props)
 
     
     React.useEffect(() => {

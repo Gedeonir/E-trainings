@@ -5,7 +5,9 @@ import {AiOutlineHeart} from 'react-icons/ai'
 import { useNavigate, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchAllCoursesLessons } from '../redux/Actions/CoursesAction';
-import axios from '../redux/Actions/axiosConfig'
+import axios from '../redux/Actions/axiosConfig';
+import {CiLock,CiUnlock} from 'react-icons/ci'
+
 
 const Card = (props) => {
     const navigate=useNavigate()
@@ -26,9 +28,63 @@ const Card = (props) => {
         setLoading(false);
     }
 
+    const [restricted,setRestricted]=useState({
+        status:false,
+        message:""
+    })
+
     useEffect(()=>{
         getLessons()
+
+        if(props?.data?.memberProfile?.resp?.data?.getProfile?.traineeCategory?.toLowerCase()=='junior'
+            &&props?.course?.courseCategory?.categoryName.toLowerCase() !="junior"){
+                setRestricted({
+                    ...restricted,
+                    status:true,
+                    message:"This course is not available on Junior level"
+                })
+        }else if(props?.data?.memberProfile?.resp?.data?.getProfile?.traineeCategory?.toLowerCase()=='Flowers'
+            &&(props?.course?.courseCategory?.categoryName.toLowerCase() !="flowers" ||
+            props?.course?.courseCategory?.categoryName.toLowerCase() !="junior")
+        ){
+            setRestricted({
+                ...restricted,
+                status:true,
+                message:"This course is not available on Junior,Flowers level"
+            })
+        }else if(props?.data?.memberProfile?.resp?.data?.getProfile?.traineeCategory?.toLowerCase()=='eagle'
+            &&(props?.course?.courseCategory?.categoryName.toLowerCase() !="flowers" ||
+            props?.course?.courseCategory?.categoryName.toLowerCase() !="junior"||
+            props?.course?.courseCategory?.categoryName.toLowerCase() !="eagle")
+        ){
+                setRestricted({
+                    ...restricted,
+                    status:true,
+                    message:"This course is not available on Junior,Flowers,Eagle level"
+                })
+
+        }else if(props?.data?.memberProfile?.resp?.data?.getProfile?.traineeCategory?.toLowerCase()=='excellent'
+            &&(props?.course?.courseCategory?.categoryName.toLowerCase() !="flowers" ||
+            props?.course?.courseCategory?.categoryName.toLowerCase() !="junior"||
+            props?.course?.courseCategory?.categoryName.toLowerCase() !="eagle"||
+            props?.course?.courseCategory?.categoryName.toLowerCase() !="excellent")
+        ){
+            setRestricted({
+                ...restricted,
+                status:true,
+                message:"This course is not available on Golden level"
+            })
+
+        }else{
+            setRestricted({
+                ...restricted,
+                status:false,
+                message:""
+            })
+        }
+
     },[])
+
 
     
 
@@ -39,8 +95,9 @@ const Card = (props) => {
             className='w-full h-full object-cover'/>
         </div>
         <div className='px-4 py-2'>        
-            <div className='flex justify-between'>
-                <label className='bg-primary px-1.5 rounded-lg py-0.5 font-medium text-primary text-xs bg-opacity-20'>{props?.course?.courseCategory?.categoryName}</label>
+            <div className='flex justify-between text-primary'>
+                <label className='bg-primary px-1.5 rounded-lg py-0.5 font-medium  text-xs bg-opacity-20'>{props?.course?.courseCategory?.categoryName}</label>
+                {restricted.status && <CiLock size={20}/>}
             </div>
 
             <h1 className='my-2 font-medium text-sm'>{props?.course?.courseTitle}</h1>
@@ -61,7 +118,7 @@ const Card = (props) => {
                 </div>
                 <div className='flex justify-end gap-1 text-text_secondary'>
                     <GoPeople size={15}/>
-                    <label className='text-xs font-bold'>{props?.course?.enrolledMembers?.length}</label>
+                    <label className='text-xs font-bold'>{props?.course?.enrolledTrainees?.length}</label>
                 </div>
 
             </div>

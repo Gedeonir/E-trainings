@@ -9,34 +9,18 @@ import WMLogo from "../assets/WMLogo.PNG"
 import AdventistLogo from "../assets/AdventistLogo.png"
 
 const SignUp=(props)=>{
-    const getDistricts = () => {
-        const districts=[]
-        Object.keys(churches).forEach((district) => {
-            districts.push(district);
-        });
-        return districts
-    };
-    
-    const getChurches = (district) => {
-        const data = churches[district];
-        return data;
-    };
 
     const [formData,setFormData]=React.useState({
-        fullNames:"",
-        age:"",
-        mobile:"",
+        ID:"",
         isMarried:false,
-        yearOfMarriage:null,
+        yearOfMarriage:"",
         password:"",
-        district:getDistricts()[0],
-        church: "",
     })
 
     const confirmPasswordRef=useRef()
     
 
-    const [phoneError,setPhoneError]=React.useState({
+    const [idError,setIdError]=React.useState({
         error:false,
         errorName:""
     })
@@ -50,30 +34,30 @@ const SignUp=(props)=>{
     const handleSubmit=async(event)=>{
         event.preventDefault();
 
-        const reg = new RegExp("^((072|078|073))[0-9]{7}$", "i");
-        if (!reg.test(formData.mobile)) {
-            setPhoneError({
-                ...phoneError,
+        const reg = new RegExp("^((1|2))[0-9]{15}$", "i");
+        if (!reg.test(formData.ID)) {
+            setIdError({
+                ...idError,
                 error:true,
-                errorName:"Invalid phone number, it has to start with one of 078/072/073 and it must be ten digits"
+                errorName:"Invalid ID"
             })
         }else if(formData.password !== confirmPasswordRef?.current?.value){
             setPasswordError({
                 ...passwordError,
                 error:true,
-                errorName:"passwords don't match"
+                errorName:"Passwords don't match"
             })
         }else{
-            setPhoneError({...phoneError,error:false});
+            setIdError({...idError,error:false});
             setPasswordError({...passwordError,error:false});
 
             props.memberRegisterAction(formData);
-            event.reset();
         }
         
 
 
     }
+
 
 
     return (
@@ -103,59 +87,24 @@ const SignUp=(props)=>{
                     </div>
                     <form onSubmit={(event)=>handleSubmit(event)}>
                         <h3 className='grid text-primary text-sm mb-2 font-bold'>Personal information</h3>
-
+                        <p className='text-xs text-danger py-2'>
+                            {idError.error && idError.errorName}
+                        </p>                        
                         <div className='grid lg:grid-cols-2 lg:gap-8 gap-4'>
-                            <div className="mb-4">
-                                <label className="text-text_secondary font-bold text-xs mb-2">Full names <span className="text-[red]">*</span></label>
-                                <input type="text" value={formData.fullNames} 
-                                className="text-text_secondary text-sm outline-primary block w-full px-2 py-1 rounded-lg border border-text_secondary_2 placeholder-text_secondary_2" placeholder="Full names" required
+
+                            <div className="mb-2">
+                                <label className="text-text_secondary font-bold text-xs mb-2">ID <span className="text-[red]">*</span></label>
+                                <input type="number" value={formData.ID}
+                                className={`${idError.error?'border-danger' : 'border-text_secondary_2'} text-text_secondary text-sm outline-primary block w-full px-2 py-1 rounded-lg border placeholder-text_secondary_2`} placeholder="ID number" required
                                 onChange={(e) => {
                                     setFormData({
                                         ...formData,
-                                        fullNames: e.target.value,
+                                        ID: e.target.value,
                                     });
                                 }}/>
                             </div>
-                                
 
-                            <div className="mb-4">
-                                <label className="text-text_secondary font-bold text-xs mb-2">Age <span className="text-[red]">*</span></label>
-                                <input type="date" max={new Intl.DateTimeFormat("en-CA", {year: "numeric",month: "2-digit",day: "2-digit"}).format(new Date())} className="text-text_secondary text-sm outline-primary block w-full px-2 py-1 rounded-lg border border-text_secondary_2 placeholder-text_secondary_2" placeholder="age" required
-                                onChange={(e) => {
-                                    setFormData({
-                                        ...formData,
-                                        age: e.target.value,
-                                    });
-                                }}/>
-                            </div>
-                        </div>
-                        
-                        <div className='grid lg:grid-cols-2 lg:gap-8 gap-4'>
-
-                            <div className="mb-4">
-                                <label className="text-text_secondary font-bold text-xs mb-2">Contact <span className="text-[red]">*</span></label>
-                                <div className="flex justify-start">
-                                    <div className="flex justify-start w-1/5 border py-1 px-2 rounded-l-lg border-text_secondary_2">
-                                        <div className="h-4 w-4">
-                                            <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Flag_of_Rwanda.svg/125px-Flag_of_Rwanda.svg.png' className='w-full h-full object-cover'/>
-
-                                        </div>
-                                        <div className="text-xs px-2 py-0.5 text-text_secondary">
-                                            <label>+25</label>
-                                        </div>
-                                    </div>
-                                    <input type="number" value={formData.mobile}
-                                    className={`${phoneError.error?'border-danger' : 'border-text_secondary_2'} text-text_secondary text-sm outline-primary block w-full px-2 py-1 rounded-r-lg border border-text_secondary_2 placeholder-text_secondary_2`} placeholder="Contacts" required
-                                    onChange={(e) => {
-                                        setFormData({
-                                            ...formData,
-                                            mobile: e.target.value,
-                                        });
-                                    }}/>
-                                </div>
-                            </div>
-
-                            <div className="mb-4">
+                            <div className="mb-2">
                                 <label className="text-text_secondary font-bold text-xs mb-2">Are you Married? <span className="text-[red]">*</span></label>
                                 <select
                                 value={formData.isMarried} 
@@ -165,7 +114,8 @@ const SignUp=(props)=>{
 
                                     setFormData({
                                         ...formData,
-                                        isMarried: e.target.value=== "false" ? false : true
+                                        isMarried: e.target.value=== "false" ? false : true,
+                                        yearOfMarriage:''
                                     });
                                 }}>
                                     <option value=''>Select status</option>
@@ -175,7 +125,7 @@ const SignUp=(props)=>{
                             </div>
                         </div>
 
-                        <div className="mb-4">
+                        <div className="mb-2">
                             <label className="text-text_secondary font-bold text-xs mb-2">If yes,when did you get married? <span className="text-[red]">*</span></label>
                             <input type="number" 
                             className={`text-text_secondary text-sm outline-primary block w-full px-2 py-1 rounded-lg border border-text_secondary_2 placeholder-text_secondary_2 ${!formData.isMarried && 'cursor-not-allowed'}`} 
@@ -192,55 +142,17 @@ const SignUp=(props)=>{
                             }}/>
                         </div>
 
-                        
-
-                        <h4 className='text-primary text-sm mb-2 font-bold'>Church information</h4>
-
-                        <div className="grid lg:grid-cols-2 lg:gap-8 gap-4">
-                            <div className="mb-4">
-                                <label className="text-text_secondary font-bold text-xs mb-2">District <span className="text-[red]">*</span></label>
-                                <select className="text-text_secondary cursor-pointer text-sm outline-primary block w-full px-2 py-1 rounded-lg border border-text_secondary_2 placeholder-text_secondary_2" required
-                                value={formData.district}
-                                onChange={(e) => {
-                                    setFormData({
-                                        ...formData,
-                                        district: e.target.value,
-                                    });
-                                }}>
-                                    {getDistricts().map((district)=>(
-                                        <option value={district} key={district}>{district}</option>
-                                    ))}
-                                </select>
-                            </div>
-
-                            <div className="mb-4">
-                                <label className="text-text_secondary font-bold text-xs mb-2">Church <span className="text-[red]">*</span></label>
-                                <select 
-                                className="text-text_secondary cursor-pointer text-sm outline-primary block w-full px-2 py-1 rounded-lg border border-text_secondary_2 placeholder-text_secondary_2"
-                                required
-                                value={formData.church}
-                                onChange={(e) => {
-                                    setFormData({
-                                        ...formData,
-                                        church: e.target.value,
-                                    });
-                                }}
-                                >
-                                    <option value="">Select Church</option>
-                                    {getChurches(formData.district)?.map((church)=>(
-                                        <option value={church} key={church}>{church}</option>
-                                    ))}
-                                </select>
-                            </div>
-                        </div>
-
                         <h5 className='text-primary text-sm mb-2 font-bold'>Account information</h5>
+                        <p className='text-xs text-danger py-2'>
+                            {passwordError.error && passwordError.errorName}
+
+                        </p>
 
                         <div className="grid lg:grid-cols-2 lg:gap-8 gap-4">
-                            <div className="mb-4">
+                            <div className="mb-2">
                                 <label className="text-text_secondary font-bold text-xs mb-2">Password <span className="text-[red]">*</span></label>
                                 <input type="password" value={formData.password} 
-                                className={`${passwordError.error?'border-danger' : 'border-text_secondary_2'} text-text_secondary text-sm outline-primary block w-full px-2 py-1 rounded-lg border border-text_secondary_2 placeholder-text_secondary_2`} placeholder="Password" required
+                                className={`${passwordError.error?'border-danger' : 'border-text_secondary_2'} text-text_secondary text-sm outline-primary block w-full px-2 py-1 rounded-lg border  placeholder-text_secondary_2`} placeholder="Password" required
                                 onChange={(e) => {
                                     setFormData({
                                         ...formData,
@@ -249,24 +161,19 @@ const SignUp=(props)=>{
                                 }}/>
                             </div>
 
-                            <div className="mb-4">
+                            <div className="mb-2">
                                 <label className="text-text_secondary font-bold text-xs mb-2">Confirm password(Re-type password) <span className="text-[red]">*</span></label>
                                 <input type="password" ref={confirmPasswordRef} 
                                 className={`text-text_secondary text-sm ${passwordError.error?'border-danger' : 'border-text_secondary_2'} outline-primary block w-full px-2 py-1 rounded-lg border  placeholder-text_secondary_2`} placeholder="Confirm password" required/>
                             </div>
                         </div>
 
-                        <p className='text-xs text-danger text-center p-2'>
-                            {phoneError.error && phoneError.errorName}
-                            {passwordError.error && passwordError.errorName}
-
-                        </p>
-
-                        {props?.data?.memberRegister?.success?<p className='text-sm text-primary font-bold text-center p-2'>{props?.data?.memberRegister?.resp?.data?.message}</p>
+                        {props?.data?.memberRegister?.success?<p className='text-sm text-primary font-bold text-center p-2 bg-primary bg-opacity-20'>{props?.data?.memberRegister?.resp?.data?.message}</p>
                         :
-                        <p className={`text-sm text-danger text-center p-2 ${props?.data?.memberRegister?.error && 'bg-danger'} bg-opacity-20`}>{props?.data?.memberRegister?.error?.response?.data?.message}</p>}
+                        <p className={`text-sm text-danger text-center p-1 ${props?.data?.memberRegister?.error && 'bg-danger'} bg-opacity-20`}>
+                            {props?.data?.memberRegister?.error?.response?.data?.message}</p>}
 
-                        <button type='submit' size='sm' className={`my-4 bg-primary text-sm text-center text-secondary p-2 w-full ${props?.data?.memberRegister?.loading? 'cursor-not-allowed ':'cursor-pointer'}`} disabled={props?.data?.memberRegister?.loading? true : false}>
+                        <button type='submit' size='sm' className={`my-2 bg-primary text-sm text-center text-secondary p-2 w-full ${props?.data?.memberRegister?.loading? 'cursor-not-allowed ':'cursor-pointer'}`} disabled={props?.data?.memberRegister?.loading? true : false}>
                             {props?.data?.memberRegister?.loading?<p className="flex justify-center gap-2"><AiOutlineLoading3Quarters size={20} className="animate-spin h-5 w-5"/>Saving</p>:'Register member'}
                         </button>
                         

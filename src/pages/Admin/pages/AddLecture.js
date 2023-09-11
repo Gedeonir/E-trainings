@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { Button } from '@material-tailwind/react'
-import { lectureRegisterAction,fetchAllLectures } from '../../../redux/Actions/LecturesAction';
+import { lectureRegisterAction,fetchAllLectures} from '../../../redux/Actions/LecturesAction';
 import {AiOutlineLoading3Quarters} from "react-icons/ai"
 
 
@@ -22,9 +22,9 @@ export const AddLecture = (props) => {
 
   return (
     <form className='lg:w-1/4 w-full shadow-lg bg-[white] mx-auto py-4 px-4 rounded-xl' onSubmit={(event)=>handleSubmit(event)}>
-        {props?.data?.addLecture?.success?<p className='text-sm text-primary font-bold text-center p-2'>{props?.data?.addLecture?.resp?.data?.message}</p>
+        {props?.data?.addLecture?.success?<p className='text-xs text-primary font-bold p-2'>{props?.data?.addLecture?.resp?.data?.message}</p>
         :
-        <p className={`text-sm text-danger text-center p-2 ${props?.data?.addLecture?.error && 'bg-danger'} bg-opacity-20`}>{props?.data?.addLecture?.error?.response?.data?.message}</p>}
+        <p className={`text-xs text-danger p-2 ${props?.data?.addLecture?.error && 'bg-danger'} bg-opacity-20`}>{props?.data?.addLecture?.error?.response?.data?.message}</p>}
 
         <div className="mb-4">
             <label className="text-text_secondary font-bold text-xs mb-2">Full names<span className="text-[red]">*</span></label>
@@ -76,5 +76,6 @@ export const AddLecture = (props) => {
 const mapState = (data) => ({data:data})
 
 export default connect(mapState, {
-    lectureRegisterAction
+    lectureRegisterAction,
+    fetchAllLectures
 })(AddLecture)

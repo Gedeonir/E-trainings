@@ -1,7 +1,7 @@
 import React,{useEffect,useState} from 'react'
 import {BsJournalBookmark} from 'react-icons/bs'
 import {BsArrowRight} from 'react-icons/bs'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from '../redux/Actions/axiosConfig'
 import { connect } from 'react-redux';
 
@@ -9,7 +9,9 @@ const Card2 = (props) => {
     const [data,setData]=useState([])
     const [error,setError] = React.useState("")
     const [loading,setLoading]=React.useState(false);
-    const [percentage,setPercentage]=useState(0)
+    const [percentage,setPercentage]=useState(0);
+
+    const navigate=useNavigate();
 
     const getLessons=async()=>{
         setLoading(true);
@@ -38,7 +40,7 @@ const Card2 = (props) => {
 
 
   return (
-    <div className='rounded-sm p-2 bg-text_secondary bg-opacity-10 shadow-sm cursor-pointer'>
+    <div className='rounded-sm p-2 bg-text_secondary bg-opacity-10 shadow-sm cursor-pointer' onClick={()=>navigate(`/courses/${props?.course?._id}`)}>
         <h3 className='my-3 font-medium truncate'>{props?.course?.courseTitle} </h3>
         
         <div className='w-full flex justify-between py-2 gap-2'>

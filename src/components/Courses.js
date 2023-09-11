@@ -30,7 +30,6 @@ const Courses = (props) => {
   return (
     <div className='mb-4 py-2'>
         <div className='flex justify-end gap-4 relative'>
-            {location.pathname.includes("users/admin/courses")&&
             <div className='w-full h-8 text-text_secondary font-medium flex lg:justify-end justify-between lg:gap-4 gap-2'>
                 {props.data?.allCategories?.success?(
                     <>
@@ -40,18 +39,21 @@ const Courses = (props) => {
                             <label key={category._id} className={`cursor-pointer transition-all delay-100 duration-100 ease-in-out  hover:text-primary ${category?.categoryName===categoryName && 'text-primary border-b-2'}`} onClick={()=>setCategory(category.categoryName)}>{category.categoryName}</label>
                         ))}
                     </div>
-                     <div className='text-text_secondary font-bold relative text-lg mt-1'>
-                        <BsSearch size={15}  className='cursor-pointer hover:text-primary' onClick={()=>setToogleSearch(!toogleSearch)}/>
-                    </div>  </>  
+                    </>  
                 ):(<p></p>)}
             </div>
-            }  
+            <div className='text-text_secondary font-bold relative text-lg mt-1'>
+                <BsSearch size={15}  className='cursor-pointer hover:text-primary' onClick={()=>setToogleSearch(!toogleSearch)}/>
+            </div>  
                          
         </div>
 
         <div className={`text-text_secondary font-bold relative py-2 shadow-sm ${toogleSearch?'block':'hidden'}`}>
             <BsSearch size={20} className='cursor-pointer hover:text-primary absolute top-4 left-4'/>
-            <input type="text" className="px-12 text-text_secondary text-sm outline-none block w-full p-2.5 dark:bg-gray-700 placeholder-text_secondary_2" placeholder="Type in keyword" autoFocus="autofocus" required/>
+            <input type="text" value={keyWord} className="px-12 text-text_secondary text-sm outline-none block w-full p-2.5 dark:bg-gray-700 placeholder-text_secondary_2" placeholder="Type in keyword" autoFocus="autofocus" required
+            onChange={(e)=>{
+                setKeyword(e.target.value)
+            }}/>
             <IoCloseOutline size={20} className='cursor-pointer hover:text-primary absolute top-4 right-4'/>
         </div>
         {props?.data?.allCourses?.loading?(
@@ -62,7 +64,7 @@ const Courses = (props) => {
             props?.data?.allCourses?.resp?.data?.length <=0?(
                 <p className='text-text_secondary text-center text-sm py-8 px-8'>No course added yet</p>
             ):(
-            <div className={`grid lg:grid-cols-4 gap-8 py-2 my-4`}>              
+            <div className={`grid lg:grid-cols-4 gap-8 py-2 my-4 transition-all duration-500 delay-150 ease-in-out`}>              
                 {filterCourses.length <=0?(
                     <p className='text-text_secondary text-center text-sm py-8 px-8 lg:col-span-4'>No course matches your criteria</p>
 

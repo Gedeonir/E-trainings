@@ -27,7 +27,7 @@ export const MembersList = (props) => {
     },[])
 
     const filterMembers=props?.data?.AllMembers?.resp?.data.filter((member)=>{
-        return member?.fullNames?.toLowerCase().includes(keyWord.toLowerCase()) && member?.memberCategory?.toLowerCase().includes(categoryName.toLowerCase())
+        return member?.fullNames?.toLowerCase().includes(keyWord.toLowerCase()) && member?.traineeCategory?.toLowerCase().includes(categoryName.toLowerCase())
     })
 
 
@@ -89,6 +89,7 @@ export const MembersList = (props) => {
                                     <tr>
                                         <th scope="col" className="px-2 py-4">#</th>
                                         <th scope="col" className="px-2 py-4">Full names</th>
+                                        <th scope="col" className="px-2 py-4">ID</th>
                                         <th scope="col" className="px-2 py-4">Mobile</th>
                                         <th scope="col" className="px-2 py-4">Category</th>
                                         <th scope="col" className="px-2 py-4">Age</th>
@@ -117,8 +118,9 @@ export const MembersList = (props) => {
                                                 {member?.fullNames}
                                             </td>
                                             <td className="px-2 py-4">{member?.mobile}</td>
-                                            <td className="px-2 py-4">{member?.memberCategory}</td>
-                                            <td className="px-2 py-4 font-medium">{new Date().getFullYear() - new Date(member?.age).getFullYear()}</td>
+                                            <td className="px-2 py-4">{member?.ID}</td>
+                                            <td className="px-2 py-4">{member?.traineeCategory}</td>
+                                            <td className="px-2 py-4 font-medium">{member?.age}</td>
                                             <td className="px-2 py-4">{member?.isMarried?'Yes':'No'}</td>
                                             <td className="px-2 py-4">{member?.yearOfMarriage?member?.yearOfMarriage:'-'}</td>
                                             <td className="px-2 py-4">{member?.district}</td>

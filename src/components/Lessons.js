@@ -21,7 +21,7 @@ function Lessons(props){
                 </div>}
 
             </div>
-            {!props?.enrolledMembers.some((obj) => obj?.member?._id ===props?.data?.memberProfile?.resp?.data?.getProfile?._id) && !location.pathname.includes("users/admin/courses") && <p className='text-sm text-primary'>You have to enroll first to access course lessons</p>}
+            {!props?.enrolledTrainees.some((obj) => obj?.member?._id ===props?.data?.memberProfile?.resp?.data?.getProfile?._id) && !location.pathname.includes("users/admin/courses") && <p className='text-sm text-primary'>You have to enroll first to access course lessons</p>}
             {props?.Lessons?.length <=0?(
                 <div className='h-56 flex items-center justify-center lg:col-span-3'>
                     <p className='text-text_secondary text-center text-sm'>No lesson is added yet</p>

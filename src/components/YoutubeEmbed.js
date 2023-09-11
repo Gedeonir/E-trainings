@@ -1,8 +1,12 @@
 import React from 'react'
 import PropTypes from "prop-types";
+import { useLocation } from 'react-router-dom';
 
-const YoutubeEmbed = ({ embedId }) => (
-    <div className="w-full py-4">
+const YoutubeEmbed = ({ embedId }) => {
+  const location=useLocation()
+
+  return(
+    <div className={`${!location.pathname.includes("users/admin/courses")?'w-4/5 mx-auto':'w-full'} py-4`}>
       <iframe
         className='w-full lg:h-96 h-56'
         src={`https://www.youtube.com/embed/${embedId}`}
@@ -12,7 +16,7 @@ const YoutubeEmbed = ({ embedId }) => (
         title="Embedded youtube"
       />
     </div>
-  );
+  )};
   
   YoutubeEmbed.propTypes = {
     embedId: PropTypes.string.isRequired

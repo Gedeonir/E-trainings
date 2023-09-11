@@ -104,7 +104,7 @@ const Lesson = (props) => {
                 <div className='flex justify-between gap-4 text-text_secondary'>
                     <h1 className='text-lg'>{props?.data?.oneLesson?.resp?.data?.getLesson?.lessonTitle}</h1>
                     <div className='relative group cursor-pointer'>
-                        <PiDotsNineBold size={20}/>
+                        {location.pathname.includes("users/admin/courses") && <PiDotsNineBold size={20}/>}
 
                         <ul className='text-sm absolute right-0 bg-secondary w-20 hidden group-hover:block p-0 list-none'>
                             <li className='p-2 hover:text-primary text-center'>Edit</li>
@@ -124,18 +124,6 @@ const Lesson = (props) => {
                         <button onClick={()=>goToPrev()} className={`px-3 border border-primary text-primary font-bold py-1 ${currentIndex<=0?'cursor-not-allowed opacity-50':'cursor-pointer'}`} disabled={currentIndex<=0?true:false}>
                             <BsArrowLeft size={20}/>
                         </button>
-
-                        {/* {props?.data?.oneLesson?.resp?.data?.getLesson?.completedBy.some((obj) => obj.member?.id ===props?.data?.memberProfile?.resp?.data?.getProfile?._id)?(
-                            <button size='sm' className={`px-3 border border-text_secondary text-text_secondary opacity-20 cursor-not-allowed font-bold rounded-lg py-1`} disabled={true}>
-                                Completed                               
-                            </button>
-                        ):(
-
-                            <button onClick={()=>completeLesson()} className={`px-3 border border-primary text-primary font-bold rounded-lg py-1`}>
-                                {loading?<p className="flex justify-center gap-2"><AiOutlineLoading3Quarters size={20} className="animate-spin h-5 w-5"/></p>:'Mark it as complete'}
-                            </button>
-                        )} */}
-
                         <button onClick={()=>currentIndex >= props?.data?.courseLessons?.resp?.data.length - 1?(console.log("Complete course")):goToNext()} className={`px-3 border cursor-pointer font-bold py-1 ${currentIndex >= props?.data?.courseLessons?.resp?.data.length - 1?'bg-primary text-secondary':'border-primary text-primary'}`}>
                            {currentIndex >= props?.data?.courseLessons?.resp?.data.length - 1?'Complete course':<BsArrowRight size={20}/>}
                         </button>
