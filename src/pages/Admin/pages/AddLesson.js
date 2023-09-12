@@ -3,7 +3,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import {AiOutlineClose,AiOutlineLoading3Quarters} from 'react-icons/ai'
 import { connect } from 'react-redux';
-import { addCourseLessonAction, fetchAllCoursesLessons } from '../../../redux/Actions/CoursesAction';
+import { addCourseLessonAction, fetchAllCoursesLessons,fetchOneCourses } from '../../../redux/Actions/CoursesAction';
 import { useParams } from 'react-router-dom';
 
 
@@ -20,7 +20,8 @@ const AddLesson= (props) => {
     const handleSubmit=(event)=>{
         event.preventDefault()
         props.addCourseLessonAction(formData,params.id);
-        props.fetchAllCoursesLessons(params.id)
+        props.fetchAllCoursesLessons(params.id);
+        props.fetchOneCourses(params.id)
 
     }
 
@@ -50,8 +51,8 @@ const AddLesson= (props) => {
             </div>
 
             <div className="mb-4">
-                <label className="text-text_secondary font-bold text-xs mb-2">Youtube link video<span className="text-[red]">*</span></label>
-                <input type="text" value={formData.youtubeLink} className="text-text_secondary text-sm outline-primary block w-full px-2 py-1 rounded-lg border border-text_secondary_2 placeholder-text_secondary_2" placeholder="Lesson video" required
+                <label className="text-text_secondary font-bold text-xs mb-2">Youtube link video</label>
+                <input type="text" value={formData.youtubeLink} className="text-text_secondary text-sm outline-primary block w-full px-2 py-1 rounded-lg border border-text_secondary_2 placeholder-text_secondary_2" placeholder="Lesson video"
                 onChange={(e)=>{
                     setFormData({
                         ...formData,
@@ -92,5 +93,6 @@ const mapState=(data)=>({
 
 export default connect(mapState,{
     addCourseLessonAction,
-    fetchAllCoursesLessons
+    fetchAllCoursesLessons,
+    fetchOneCourses
 }) (AddLesson)

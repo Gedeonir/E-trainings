@@ -117,8 +117,8 @@ export const MembersList = (props) => {
                                                 </div>
                                                 {member?.fullNames}
                                             </td>
-                                            <td className="px-2 py-4">{member?.mobile}</td>
                                             <td className="px-2 py-4">{member?.ID}</td>
+                                            <td className="px-2 py-4">{member?.mobile}</td>
                                             <td className="px-2 py-4">{member?.traineeCategory}</td>
                                             <td className="px-2 py-4 font-medium">{member?.age}</td>
                                             <td className="px-2 py-4">{member?.isMarried?'Yes':'No'}</td>

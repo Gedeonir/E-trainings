@@ -34,10 +34,12 @@ function AdminHome(props) {
       )
     )
 
-    return filteredMembers?.length
+    return filteredMembers?.length<=0?1:filteredMembers?.length
 
 
   }
+
+  
 
   const navigate=useNavigate()
 
@@ -132,14 +134,14 @@ function AdminHome(props) {
                   <div className='grid grid-cols-2'>
                     <div className='text-xs'>
                       <label>Total enrolled</label>
-                      <p className='font-semibold'>{course?.enrolledMembers?.length}
-                        <span className='font-normal'>({Math.floor((course?.enrolledMembers?.length*100)/getMembers(course.courseCategory?.categoryName))}%)
+                      <p className='font-semibold'>{course?.enrolledTrainees?.length}
+                        <span className='font-normal'>({Math.floor((course?.enrolledTrainees?.length*100)/getMembers(course.courseCategory?.categoryName))}%)
                         </span>
                       </p>
                     </div>
                     <div className='text-xs'>
                       <label>Completed by</label>
-                      <p className='font-semibold'>{course?.completedBy?.length}<span className='font-normal'>({(course?.completedBy?.length*100)/course?.enrolledMembers?.length}%)</span></p>
+                      <p className='font-semibold'>{course?.completedBy?.length}<span className='font-normal'>({course?.enrolledTrainees?.length<=0?((course?.completedBy?.length*100)/1):(course?.completedBy?.length*100)/course?.enrolledTrainees?.length}%)</span></p>
                     </div>
 
                   </div>

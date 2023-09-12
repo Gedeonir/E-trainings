@@ -19,6 +19,7 @@ import {FaFileExport} from 'react-icons/fa'
 import Lessons from './Lessons'
 import { CiWarning } from 'react-icons/ci'
 import {BsArrowRight} from 'react-icons/bs'
+import Restricted from './Restricted'
 
 
 
@@ -314,58 +315,7 @@ const CoursesDetails = (props) => {
     useEffect(()=>{
         props.fetchOneCourses(params.id)
         props.fetchAllCoursesLessons(params.id)
-
-        if(props?.data?.memberProfile?.resp?.data?.getProfile?.traineeCategory?.toLowerCase()=='junior'
-            &&props?.data?.oneCourse?.resp?.data?.getCourse?.courseCategory?.categoryName?.toLowerCase() !="junior"){
-                setRestricted({
-                    ...restricted,
-                    status:true,
-                    message:"This course is not available on Junior level"
-                })
-        }else if(props?.data?.memberProfile?.resp?.data?.getProfile?.traineeCategory?.toLowerCase()=='Flowers'
-            &&(props?.data?.oneCourse?.resp?.data?.getCourse?.courseCategory?.categoryName?.toLowerCase() !="flowers" ||
-            props?.data?.oneCourse?.resp?.data?.getCourse?.courseCategory?.categoryName?.toLowerCase() !="junior")
-        ){
-            setRestricted({
-                ...restricted,
-                status:true,
-                message:"This course is not available on Junior,Flowers level"
-            })
-        }else if(props?.data?.memberProfile?.resp?.data?.getProfile?.traineeCategory?.toLowerCase()=='eagle'
-            &&(props?.data?.oneCourse?.resp?.data?.getCourse?.courseCategory?.categoryName?.toLowerCase() !="flowers" ||
-            props?.data?.oneCourse?.resp?.data?.getCourse?.courseCategory?.categoryName?.toLowerCase() !="junior"||
-            props?.data?.oneCourse?.resp?.data?.getCourse?.courseCategory?.categoryName?.toLowerCase() !="eagle")
-        ){
-                setRestricted({
-                    ...restricted,
-                    status:true,
-                    message:"This course is not available on Junior,Flowers,Eagle level"
-                })
-
-        }else if(props?.data?.memberProfile?.resp?.data?.getProfile?.traineeCategory?.toLowerCase()=='excellent'
-            &&(props?.data?.oneCourse?.resp?.data?.getCourse?.courseCategory?.categoryName?.toLowerCase() !="flowers" ||
-            props?.data?.oneCourse?.resp?.data?.getCourse?.courseCategory?.categoryName?.toLowerCase() !="junior"||
-            props?.data?.oneCourse?.resp?.data?.getCourse?.courseCategory?.categoryName?.toLowerCase() !="eagle"||
-            props?.data?.oneCourse?.resp?.data?.getCourse?.courseCategory?.categoryName?.toLowerCase() !="excellent")
-        ){
-            setRestricted({
-                ...restricted,
-                status:true,
-                message:"This course is not available on Golden level"
-            })
-
-        }else{
-            setRestricted({
-                ...restricted,
-                status:false,
-                message:""
-            })
-        }
-
-        
-    },[props?.data?.memberProfile?.success])
-
-    const navigate=useNavigate() 
+    },[])
 
   return (
     <div>
@@ -408,95 +358,107 @@ const CoursesDetails = (props) => {
                 </div>
             </div>
 
-            {restricted.status?(
-                <div className='bg-danger w-full lg:px-12 px-4 bg-opacity-20 py-2'>
-                    <div className="flex justify-start gap-4 text-text_secondary">
-                        <div className="  h-10 w-10 rounded-full text-center flex items-center">
-                            <CiWarning size={50} className='w-10 h-10'/>
-                        </div>
-                        <div className='text-sm py-2'>
-                            <p>{restricted?.message}</p>
-                            <p className='flex justify-start cursor-pointer  gap-1 text-sm group underline' onClick={()=>navigate(-1)}><span className='group-hover:mx-2 delay-100 duration-500'>Go back</span> <BsArrowRight className='my-1' size={15}/></p>
-                        </div>
-                    </div>
-                </div>
-
+            {props?.data?.memberProfile?.resp?.data?.getProfile?.traineeCategory?.toLowerCase()=='junior'
+            &&props?.data?.oneCourse?.resp?.data?.getCourse?.courseCategory?.categoryName?.toLowerCase() !="junior"?(
+                <Restricted message={"This course is not available on Junior level"}/>
             ):(
-            <div className='my-12 lg:px-14 w-full px-4 lg:flex justify-between gap-4'>
-                <div className='border border-secondary rounded-lg lg:w-3/4 w-full mb-4'>
-                    <div className="border-b border-secondary">
-                        <ul className="flex flex-wrap -mb-px text-text_secondary text-sm font-bold text-center bg-secondary p-0 list-none">
-                            <li className="mr-2" role="presentation" onClick={()=>setSections("overview")}>
-                                <button className={`inline-block p-4 border-t-2 ${section==="overview" ?'border-primary bg-btn_primary text-primary':'border-secondary'}  rounded-t-sm hover:text-primary hover:border-primary flex justify-start gap-2`}><BsBookmarks size={20}/>Overview</button>
-                            </li>
-                            <li className="mr-2" role="presentation" onClick={()=>setSections("curicullum")}>
-                                <button className={`inline-block p-4 border-t-2 ${section==="curicullum" ?'border-primary bg-btn_primary text-primary':'border-secondary'} rounded-t-sm hover:text-primary hover:border-primary flex justify-start gap-2`}><SlBookOpen size={20}/>Table of contents</button>
-                            </li>
-                            {location.pathname.includes("users/admin/courses") &&
-                            <li className="mr-2" role="presentation" onClick={()=>setSections("enrolled")}>
-                                <button className={`inline-block p-4 border-t-2 ${section==="enrolled" ?'border-primary bg-btn_primary text-primary':'border-secondary'} rounded-t-sm hover:text-primary hover:border-primary flex justify-start gap-2`}><GoPeople size={20}/>Enrolled</button>
-                            </li>
-                            }
-                            <li role="presentation" onClick={()=>setSections("ratings")}>
-                                <button className={`inline-block p-4 border-t-2 ${section==="ratings" ?'border-primary bg-btn_primary text-primary':'border-secondary'} rounded-t-sm hover:text-primary hover:border-primary flex justify-start gap-2`}><AiFillStar size={20}/>Ratings & Reviews</button>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div className='px-4 py-4 bg-btn_primary h-96 overflow-y-auto'>
-                        {section==='overview' && <Overview Overview={props?.data?.oneCourse?.resp?.data?.getCourse?.overview}/>}
-                        {section==="curicullum" && <Lessons openModel={props.openModel} setOpenModel={props.setOpenModel} Lessons={props?.data?.courseLessons?.resp?.data} enrolledTrainees={props?.data?.oneCourse?.resp?.data?.getCourse?.enrolledTrainees}/>}
-                        {section==="enrolled" && <EnrolledUsers enrolledTrainees={props?.data?.oneCourse?.resp?.data?.getCourse?.enrolledTrainees} courseTitle={props?.data?.oneCourse?.resp?.data?.getCourse?.courseTitle}/>}
-                        {section==="ratings" && <Reviews reviews={props?.data?.oneCourse?.resp?.data?.getCourse?.ratingsAndReviews}/>}
-                    </div>
-                    
-                </div>
-                <div className='lg:w-64 w-full h-full bg-secondary shadow-md rounded-md px-4 py-2'>
-                    <div className='flex flex-wrap justify-start gap-1 border-b border-text_secondary_2 py-4 text-text_secondary'>
-                        <LiaChalkboardTeacherSolid size={20}/>
-                        <label className='text-sm font-bold text-text_secondary'>Teacher:</label>
-                        <label className='text-sm font-normal'>{props?.data?.oneCourse?.resp?.data?.getCourse?.courseTutors?.fullNames}</label>
-                    </div>
-
-                    <div className='flex justify-start gap-1 border-b border-text_secondary_2 py-4 text-text_secondary'>
-                        <BsJournalBookmark size={20}/>
-                        <label className='text-sm font-bold text-text_secondary'>Lessons:</label>
-                        <label className='text-sm font-normal'>{props?.data?.courseLessons?.resp?.data?.length}</label>
-                    </div>
-
-                    <div className='flex justify-start gap-1 border-b border-text_secondary_2 py-4 text-text_secondary'>
-                        <FaLanguage size={20}/>
-                        <label className='text-sm font-bold text-text_secondary'>Languages:</label>
-                        <label className='text-sm font-normal'>Kinyarwanda</label>
-                    </div>
-
-                    <div className='flex justify-start gap-1 border-b border-text_secondary_2 py-4 text-text_secondary'>
-                        <GoPeople size={20}/>
-                        <label className='text-sm font-bold text-text_secondary'>Enrolled:</label>
-                        <label className='text-sm font-normal'>{props?.data?.oneCourse?.resp?.data?.getCourse?.enrolledTrainees?.length}</label>
-                    </div>
-                    {location.pathname.includes("users/admin/courses")?(
-                        <Button className='w-full my-2 bg-danger text-sm text-secondary py-3'>Delete Course</Button>
+                props?.data?.memberProfile?.resp?.data?.getProfile?.traineeCategory?.toLowerCase()=='Flowers'
+                &&(props?.data?.oneCourse?.resp?.data?.getCourse?.courseCategory?.categoryName?.toLowerCase() !="flowers" ||
+                props?.data?.oneCourse?.resp?.data?.getCourse?.courseCategory?.categoryName?.toLowerCase() !="junior")?(
+                    <Restricted message={"This course is not available on Junior,Flowers level"}/>
+                ):(
+                    props?.data?.memberProfile?.resp?.data?.getProfile?.traineeCategory?.toLowerCase()=='eagle'
+                    &&(props?.data?.oneCourse?.resp?.data?.getCourse?.courseCategory?.categoryName?.toLowerCase() !="flowers" ||
+                    props?.data?.oneCourse?.resp?.data?.getCourse?.courseCategory?.categoryName?.toLowerCase() !="junior"||
+                    props?.data?.oneCourse?.resp?.data?.getCourse?.courseCategory?.categoryName?.toLowerCase() !="eagle")?(
+                        <Restricted message={"This course is not available on Junior,Flowers,Eagle level"}/>
                     ):(
-                        
-                        <div>
-                            {success.status?<p className='text-xs text-primary font-bold text-center p-2 bg-primary bg-opacity-20'>{success.succesMsg}</p>
-                            :
-                            <p className={`text-xs text-danger text-center p-2 ${error && 'bg-danger'} bg-opacity-20`}>{error}</p>}
-                            {props?.data?.oneCourse?.resp?.data?.getCourse?.enrolledTrainees.some((obj) => obj?.member?._id === props?.data?.memberProfile?.resp?.data?.getProfile?._id)?(
-                                <button size='sm' className={`my-4 bg-text_secondary bg-opacity-20 text-sm text-center text-text_secondary font-bold p-2 w-full cursor-not-allowed `} disabled={true}>
-                                    Enrolled                                
-                                </button>
-                            ):(
-                                <button type='submit' size='sm' className={`my-4 bg-primary text-sm text-center text-secondary p-2 w-full ${loading? 'cursor-not-allowed ':'cursor-pointer'}`} disabled={loading? true : false} onClick={()=>handleEnroll()}>
-                                    {loading?<p className="flex justify-center gap-2"><AiOutlineLoading3Quarters size={20} className="animate-spin h-5 w-5"/>Enrolling</p>:'Enroll'}
-                                </button>
-                            )}
-                        </div>
-                    )}
+                        props?.data?.memberProfile?.resp?.data?.getProfile?.traineeCategory?.toLowerCase()=='excellent'
+                        &&(props?.data?.oneCourse?.resp?.data?.getCourse?.courseCategory?.categoryName?.toLowerCase() !="flowers" ||
+                        props?.data?.oneCourse?.resp?.data?.getCourse?.courseCategory?.categoryName?.toLowerCase() !="junior"||
+                        props?.data?.oneCourse?.resp?.data?.getCourse?.courseCategory?.categoryName?.toLowerCase() !="eagle"||
+                        props?.data?.oneCourse?.resp?.data?.getCourse?.courseCategory?.categoryName?.toLowerCase() !="excellent")?(
+                            <Restricted message={"This course is only available on Golden level"}/>
+                        ):(
+                            <div className='my-12 lg:px-14 w-full px-4 lg:flex justify-between gap-4'>
+                                <div className='border border-secondary rounded-lg lg:w-3/4 w-full mb-4'>
+                                    <div className="border-b border-secondary">
+                                        <ul className="flex flex-wrap -mb-px text-text_secondary text-sm font-bold text-center bg-secondary p-0 list-none">
+                                            <li className="mr-2" role="presentation" onClick={()=>setSections("overview")}>
+                                                <button className={`inline-block p-4 border-t-2 ${section==="overview" ?'border-primary bg-btn_primary text-primary':'border-secondary'}  rounded-t-sm hover:text-primary hover:border-primary flex justify-start gap-2`}><BsBookmarks size={20}/>Overview</button>
+                                            </li>
+                                            <li className="mr-2" role="presentation" onClick={()=>setSections("curicullum")}>
+                                                <button className={`inline-block p-4 border-t-2 ${section==="curicullum" ?'border-primary bg-btn_primary text-primary':'border-secondary'} rounded-t-sm hover:text-primary hover:border-primary flex justify-start gap-2`}><SlBookOpen size={20}/>Table of contents</button>
+                                            </li>
+                                            {location.pathname.includes("users/admin/courses") &&
+                                            <li className="mr-2" role="presentation" onClick={()=>setSections("enrolled")}>
+                                                <button className={`inline-block p-4 border-t-2 ${section==="enrolled" ?'border-primary bg-btn_primary text-primary':'border-secondary'} rounded-t-sm hover:text-primary hover:border-primary flex justify-start gap-2`}><GoPeople size={20}/>Enrolled</button>
+                                            </li>
+                                            }
+                                            <li role="presentation" onClick={()=>setSections("ratings")}>
+                                                <button className={`inline-block p-4 border-t-2 ${section==="ratings" ?'border-primary bg-btn_primary text-primary':'border-secondary'} rounded-t-sm hover:text-primary hover:border-primary flex justify-start gap-2`}><AiFillStar size={20}/>Ratings & Reviews</button>
+                                            </li>
+                                        </ul>
+                                    </div>
 
-                </div>
-            </div>
+                                    <div className='px-4 py-4 bg-btn_primary h-96 overflow-y-auto'>
+                                        {section==='overview' && <Overview Overview={props?.data?.oneCourse?.resp?.data?.getCourse?.overview}/>}
+                                        {section==="curicullum" && <Lessons openModel={props.openModel} setOpenModel={props.setOpenModel} Lessons={props?.data?.courseLessons?.resp?.data} enrolledTrainees={props?.data?.oneCourse?.resp?.data?.getCourse?.enrolledTrainees}/>}
+                                        {section==="enrolled" && <EnrolledUsers enrolledTrainees={props?.data?.oneCourse?.resp?.data?.getCourse?.enrolledTrainees} courseTitle={props?.data?.oneCourse?.resp?.data?.getCourse?.courseTitle}/>}
+                                        {section==="ratings" && <Reviews reviews={props?.data?.oneCourse?.resp?.data?.getCourse?.ratingsAndReviews}/>}
+                                    </div>
+                                    
+                                </div>
+                                <div className='lg:w-64 w-full h-full bg-secondary shadow-md rounded-md px-4 py-2'>
+                                    <div className='flex flex-wrap justify-start gap-1 border-b border-text_secondary_2 py-4 text-text_secondary'>
+                                        <LiaChalkboardTeacherSolid size={20}/>
+                                        <label className='text-sm font-bold text-text_secondary'>Teacher:</label>
+                                        <label className='text-sm font-normal'>{props?.data?.oneCourse?.resp?.data?.getCourse?.courseTutors?.fullNames}</label>
+                                    </div>
+
+                                    <div className='flex justify-start gap-1 border-b border-text_secondary_2 py-4 text-text_secondary'>
+                                        <BsJournalBookmark size={20}/>
+                                        <label className='text-sm font-bold text-text_secondary'>Lessons:</label>
+                                        <label className='text-sm font-normal'>{props?.data?.courseLessons?.resp?.data?.length}</label>
+                                    </div>
+
+                                    <div className='flex justify-start gap-1 border-b border-text_secondary_2 py-4 text-text_secondary'>
+                                        <FaLanguage size={20}/>
+                                        <label className='text-sm font-bold text-text_secondary'>Languages:</label>
+                                        <label className='text-sm font-normal'>Kinyarwanda</label>
+                                    </div>
+
+                                    <div className='flex justify-start gap-1 border-b border-text_secondary_2 py-4 text-text_secondary'>
+                                        <GoPeople size={20}/>
+                                        <label className='text-sm font-bold text-text_secondary'>Enrolled:</label>
+                                        <label className='text-sm font-normal'>{props?.data?.oneCourse?.resp?.data?.getCourse?.enrolledTrainees?.length}</label>
+                                    </div>
+                                    {location.pathname.includes("users/admin/courses")?(
+                                        <Button className='w-full my-2 bg-danger text-sm text-secondary py-3'>Delete Course</Button>
+                                    ):(
+                                        
+                                        <div>
+                                            {success.status?<p className='text-xs text-primary font-bold text-center p-2 bg-primary bg-opacity-20'>{success.succesMsg}</p>
+                                            :
+                                            <p className={`text-xs text-danger text-center p-2 ${error && 'bg-danger'} bg-opacity-20`}>{error}</p>}
+                                            {props?.data?.oneCourse?.resp?.data?.getCourse?.enrolledTrainees.some((obj) => obj?.member?._id === props?.data?.memberProfile?.resp?.data?.getProfile?._id)?(
+                                                <button size='sm' className={`my-4 bg-text_secondary bg-opacity-20 text-sm text-center text-text_secondary font-bold p-2 w-full cursor-not-allowed `} disabled={true}>
+                                                    Enrolled                                
+                                                </button>
+                                            ):(
+                                                <button type='submit' size='sm' className={`my-4 bg-primary text-sm text-center text-secondary p-2 w-full ${loading? 'cursor-not-allowed ':'cursor-pointer'}`} disabled={loading? true : false} onClick={()=>handleEnroll()}>
+                                                    {loading?<p className="flex justify-center gap-2"><AiOutlineLoading3Quarters size={20} className="animate-spin h-5 w-5"/>Enrolling</p>:'Enroll'}
+                                                </button>
+                                            )}
+                                        </div>
+                                    )}
+
+                                </div>
+                            </div>
+                        )
+                    )
+                )
+
             )}
 
             </>
