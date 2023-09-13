@@ -295,6 +295,11 @@ const CoursesDetails = (props) => {
         try {
             const response = await axios.patch(
               `${process.env.BACKEND_URL}/trainee/enroll/${params.id}`,
+              {
+                headers:{
+                "Authorization":`Bearer ${sessionStorage.getItem('memberToken')}`
+                }
+            }
             );
 
 
@@ -316,7 +321,7 @@ const CoursesDetails = (props) => {
         props.fetchOneCourses(params.id)
         props.fetchAllCoursesLessons(params.id)
         props.getQuizzes(params.id)
-    },[props?.data?.oneCourse?.resp?.data?.getCourse?.courseCategory?.categoryName])
+    },[])
 
   return (
     <div>

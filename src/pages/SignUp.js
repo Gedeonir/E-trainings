@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom'
 import {BsArrowRight} from 'react-icons/bs'
 import { connect } from "react-redux";
@@ -57,6 +57,18 @@ const SignUp=(props)=>{
 
 
     }
+
+    useEffect(()=>{
+        if(props?.data?.memberRegister?.success){
+            setFormData({
+                ...formData,
+                ID:"",
+                isMarried:false,
+                yearOfMarriage:"",
+                password:"",
+            })
+        }
+    },[props?.data?.memberRegister?.success])
 
 
 
