@@ -84,7 +84,8 @@ export const addCourseLessonAction=(courseData,course)=>async(dispatch)=>{
 
         const res=await axios.post(`${process.env.BACKEND_URL}/course/${course}/addLesson`,courseData,
         {headers:{
-            "Content-Type":"application/json"
+            "Content-Type":"application/json",
+            "Authorization":`Bearer ${sessionStorage.getItem('userToken')}`
         }});
 
         dispatch({
