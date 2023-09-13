@@ -10,7 +10,7 @@ import {AiFillStar} from 'react-icons/ai'
 import {BsBookmarks,BsJournalBookmark} from 'react-icons/bs'
 import {CiLock} from 'react-icons/ci'
 import { connect } from 'react-redux'
-import { fetchOneCourses } from '../redux/Actions/CoursesAction'
+import { fetchOneCourses, getQuizzes } from '../redux/Actions/CoursesAction'
 import {AiOutlineLoading3Quarters} from "react-icons/ai"
 import { fetchAllCoursesLessons } from '../redux/Actions/CoursesAction';
 import axios from '../redux/Actions/axiosConfig'
@@ -315,7 +315,8 @@ const CoursesDetails = (props) => {
     useEffect(()=>{
         props.fetchOneCourses(params.id)
         props.fetchAllCoursesLessons(params.id)
-    },[])
+        props.getQuizzes(params.id)
+    },[props?.data?.oneCourse?.resp?.data?.getCourse?.courseCategory?.categoryName])
 
   return (
     <div>
@@ -353,31 +354,25 @@ const CoursesDetails = (props) => {
 
                             </div>
                         </div>
-                    </div>
-                    
+                    </div>                    
                 </div>
             </div>
 
             {props?.data?.memberProfile?.resp?.data?.getProfile?.traineeCategory?.toLowerCase()=='junior'
             &&props?.data?.oneCourse?.resp?.data?.getCourse?.courseCategory?.categoryName?.toLowerCase() !="junior"?(
-                <Restricted message={"This course is not available on Junior level"}/>
+                <Restricted message={"This course is not available on this level"}/>
             ):(
                 props?.data?.memberProfile?.resp?.data?.getProfile?.traineeCategory?.toLowerCase()=='Flowers'
-                &&(props?.data?.oneCourse?.resp?.data?.getCourse?.courseCategory?.categoryName?.toLowerCase() !="flowers" ||
-                props?.data?.oneCourse?.resp?.data?.getCourse?.courseCategory?.categoryName?.toLowerCase() !="junior")?(
-                    <Restricted message={"This course is not available on Junior,Flowers level"}/>
+                &&(props?.data?.oneCourse?.resp?.data?.getCourse?.courseCategory?.categoryName?.toLowerCase() !="flowers")?(
+                    <Restricted message={"This course is not available on this level"}/>
                 ):(
                     props?.data?.memberProfile?.resp?.data?.getProfile?.traineeCategory?.toLowerCase()=='eagle'
-                    &&(props?.data?.oneCourse?.resp?.data?.getCourse?.courseCategory?.categoryName?.toLowerCase() !="flowers" ||
-                    props?.data?.oneCourse?.resp?.data?.getCourse?.courseCategory?.categoryName?.toLowerCase() !="junior"||
-                    props?.data?.oneCourse?.resp?.data?.getCourse?.courseCategory?.categoryName?.toLowerCase() !="eagle")?(
-                        <Restricted message={"This course is not available on Junior,Flowers,Eagle level"}/>
+                    &&(props?.data?.oneCourse?.resp?.data?.getCourse?.courseCategory?.categoryName?.toLowerCase() !=="eagle"
+                    )?(
+                        <Restricted message={"This course is not available on this level"}/>
                     ):(
                         props?.data?.memberProfile?.resp?.data?.getProfile?.traineeCategory?.toLowerCase()=='excellent'
-                        &&(props?.data?.oneCourse?.resp?.data?.getCourse?.courseCategory?.categoryName?.toLowerCase() !="flowers" ||
-                        props?.data?.oneCourse?.resp?.data?.getCourse?.courseCategory?.categoryName?.toLowerCase() !="junior"||
-                        props?.data?.oneCourse?.resp?.data?.getCourse?.courseCategory?.categoryName?.toLowerCase() !="eagle"||
-                        props?.data?.oneCourse?.resp?.data?.getCourse?.courseCategory?.categoryName?.toLowerCase() !="excellent")?(
+                        &&(props?.data?.oneCourse?.resp?.data?.getCourse?.courseCategory?.categoryName?.toLowerCase() !="excellent")?(
                             <Restricted message={"This course is only available on Golden level"}/>
                         ):(
                             <div className='my-12 lg:px-14 w-full px-4 lg:flex justify-between gap-4'>
@@ -403,7 +398,7 @@ const CoursesDetails = (props) => {
 
                                     <div className='px-4 py-4 bg-btn_primary h-96 overflow-y-auto'>
                                         {section==='overview' && <Overview Overview={props?.data?.oneCourse?.resp?.data?.getCourse?.overview}/>}
-                                        {section==="curicullum" && <Lessons openModel={props.openModel} setOpenModel={props.setOpenModel} Lessons={props?.data?.courseLessons?.resp?.data} enrolledTrainees={props?.data?.oneCourse?.resp?.data?.getCourse?.enrolledTrainees}/>}
+                                        {section==="curicullum" && <Lessons openModel={props.openModel} setOpenModel={props.setOpenModel} quizzModel={props.quizzModel} openQuizz={props.openQuizz}  Lessons={props?.data?.courseLessons?.resp?.data} quizzes={props?.data?.quizzes?.resp?.data} enrolledTrainees={props?.data?.oneCourse?.resp?.data?.getCourse?.enrolledTrainees}/>}
                                         {section==="enrolled" && <EnrolledUsers enrolledTrainees={props?.data?.oneCourse?.resp?.data?.getCourse?.enrolledTrainees} courseTitle={props?.data?.oneCourse?.resp?.data?.getCourse?.courseTitle}/>}
                                         {section==="ratings" && <Reviews reviews={props?.data?.oneCourse?.resp?.data?.getCourse?.ratingsAndReviews}/>}
                                     </div>
@@ -478,4 +473,5 @@ const mapState=(data)=>({
 export default connect(mapState,{
     fetchOneCourses,
     fetchAllCoursesLessons,
+    getQuizzes
 }) (CoursesDetails)

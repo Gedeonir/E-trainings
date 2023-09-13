@@ -80,7 +80,7 @@ const Lesson = (props) => {
 
 
   return (
-        <div className='w-full grid lg:grid-cols-4 lg:pl-8'>
+        <div className='w-full grid lg:grid-cols-4 lg:px-8'>
             <div className='min-h-screen max-h-screen overflow-y-hidden hidden lg:block  pt-4'>
                 <header className='bg-primary px-2'>
                     <h1 className="text-secondary font-bold text-xs py-2">{props?.data?.oneLesson?.resp?.data?.getLesson?.Course?.courseTitle}</h1>

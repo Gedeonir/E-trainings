@@ -16,6 +16,8 @@ import MyProfile from "./pages/MyProfile";
 import  NotFound from "./components/notFound";
 import {Protected, ProtectedAdmin} from "./utils/ProtectedRoutes";
 import MembersList from "./pages/Admin/pages/MembersList";
+import ViewQuizDetails from "./pages/Admin/pages/ViewQuizDetails";
+import Quizz from "./pages/Quizz";
 
 
 const AppRoutes = (prop) => {
@@ -37,6 +39,13 @@ const AppRoutes = (prop) => {
             <LessonUser/>
           </Protected>
         }/>
+
+        <Route path="/courses/:id/quizz/:quizz" element={
+          <Protected  route="/signin">              
+            <Quizz/>
+          </Protected>
+        }/>
+
         <Route path="my/profile" element={
           <Protected  route="/signin">              
             <MyProfile/>
@@ -78,7 +87,13 @@ const AppRoutes = (prop) => {
             <MembersList/>
           </ProtectedAdmin>
         }/>
+        <Route path="/users/admin/courses/:id/quizz/:quizz" element={
+          <ProtectedAdmin  route="/users/admin/login">   
+            <ViewQuizDetails/>
+          </ProtectedAdmin>}
+        />
         <Route path="/users/admin/login" element={<AdminLogin/>}/>
+
         <Route path="*" element={<NotFound/>} />
         
 
