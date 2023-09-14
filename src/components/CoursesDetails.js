@@ -10,7 +10,7 @@ import {AiFillStar} from 'react-icons/ai'
 import {BsBookmarks,BsJournalBookmark} from 'react-icons/bs'
 import {CiLock} from 'react-icons/ci'
 import { connect } from 'react-redux'
-import { fetchOneCourses, getQuizzes } from '../redux/Actions/CoursesAction'
+import { fetchOneCourses, getQuestions, getQuizzes } from '../redux/Actions/CoursesAction'
 import {AiOutlineLoading3Quarters} from "react-icons/ai"
 import { fetchAllCoursesLessons } from '../redux/Actions/CoursesAction';
 import axios from '../redux/Actions/axiosConfig'
@@ -20,8 +20,7 @@ import Lessons from './Lessons'
 import { CiWarning } from 'react-icons/ci'
 import {BsArrowRight} from 'react-icons/bs'
 import Restricted from './Restricted'
-
-
+import EnrolledUsers from './EnrolledUsers'
 
 function Overview({Overview}){
 
@@ -30,73 +29,6 @@ function Overview({Overview}){
             <h1 className="text-text_secondary font-bold text-sm mb-4">Course description</h1>
 
             <div className="leading-8 text-justify text-md text-text_secondary text-sm" dangerouslySetInnerHTML={{ __html: Overview }} />
-        </div>
-    )
-}
-
-
-
-function EnrolledUsers({enrolledTrainees,courseTitle}){
-
-    // const data = enrolledTrainees?.map((member)=>{
-    //     const { _id,isMarried,yearOfMarriage,password,isDisabled,profilePicture,enrolledCourses,createdAt,updatedAt,__v,...rest } = member?.member;
-
-    //     return rest;
-    // });
-
-
-
-    // const exportToExcel = async() => {
-    //     const ws = XLSX.utils.json_to_sheet(data);
-    //     const wb = XLSX.utils.book_new();
-    //     XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
-      
-    //     // Save the file
-    //     const fileName = `List of member enrolled in ${courseTitle} course .xlsx`;
-    //     XLSX.writeFile(wb, fileName);
-    // }
-
-
-    const fields=["full names","category","contact","district","church"]
-    return(
-        <div className="block">
-            <div className='flex justify-between mb-4 w-full'>
-                <h1 className="text-text_secondary font-bold text-sm">Enrolled members list</h1>
-                {/* {location.pathname.includes("users/admin/courses") &&
-                <button className='text-sm text-primary' onClick={()=>exportToExcel()}><FaFileExport size={20}/></button>} */}
-            </div>
-
-            <div className="py-2 px-2 w-full border-text_secondary_2 grid grid-cols-5 gap-2 justify-start hover:shadow-sm delay-100 duration-500">    
-                {fields.map((field,index)=>(
-                <div key={index} className="grid text-text_secondary">
-                    <label className="font-bold lg:text-sm text-xs text-justify lg:mx-0 mx-auto">{field}</label>
-                </div>  
-                ))}
-
-            </div>
-            {enrolledTrainees?.length <=0 ?(
-                <div className='h-56 flex items-center justify-center lg:col-span-3'>
-                    <p className='text-text_secondary text-center text-sm'>No member is enrolled yet</p>
-                </div>
-            ):(enrolledTrainees?.map((member,index)=>(
-                <div key={index} className="py-2 cursor-pointer px-2 grid grid-cols-5 gap-2 justify-start hover:bg-secondary delay-100 duration-500">    
-                    <div className="grid text-text_secondary">
-                        <label className=" lg:text-sm text-xs mx-auto text-justify lg:mx-0">{member?.member?.fullNames}</label>
-                    </div>
-                    <div className="grid text-text_secondary">
-                        <label className="lg:text-sm text-xs mx-auto text-justify lg:mx-0">{member?.member?.traineeCategory}</label>
-                    </div>
-                    <div className="grid text-text_secondary">
-                        <label className="lg:text-sm text-xs mx-auto text-justify lg:mx-0">{member?.member?.mobile}</label>
-                    </div>  
-                    <div className="grid text-text_secondary">
-                        <label className="lg:text-sm text-xs mx-auto text-justify lg:mx-0">{member?.member?.district}</label>
-                    </div>    
-                    <div className="grid text-text_secondary">
-                        <label className="lg:text-sm text-xs mx-auto text-justify lg:mx-0">{member?.member?.church}</label>
-                    </div>  
-                </div>
-            )))}
         </div>
     )
 }
@@ -323,6 +255,7 @@ const CoursesDetails = (props) => {
         props.getQuizzes(params.id)
     },[])
 
+
   return (
     <div>
         {props?.data?.oneCourse?.success?(
@@ -404,7 +337,7 @@ const CoursesDetails = (props) => {
                                     <div className='px-4 py-4 bg-btn_primary h-96 overflow-y-auto'>
                                         {section==='overview' && <Overview Overview={props?.data?.oneCourse?.resp?.data?.getCourse?.overview}/>}
                                         {section==="curicullum" && <Lessons openModel={props.openModel} setOpenModel={props.setOpenModel} quizzModel={props.quizzModel} openQuizz={props.openQuizz}  Lessons={props?.data?.courseLessons?.resp?.data} quizzes={props?.data?.quizzes?.resp?.data} enrolledTrainees={props?.data?.oneCourse?.resp?.data?.getCourse?.enrolledTrainees}/>}
-                                        {section==="enrolled" && <EnrolledUsers enrolledTrainees={props?.data?.oneCourse?.resp?.data?.getCourse?.enrolledTrainees} courseTitle={props?.data?.oneCourse?.resp?.data?.getCourse?.courseTitle}/>}
+                                        {section==="enrolled" && <EnrolledUsers enrolledTrainees={props?.data?.oneCourse?.resp?.data?.getCourse?.enrolledTrainees} courseTitle={props?.data?.oneCourse?.resp?.data?.getCourse?.courseTitle} quizzes={props?.data?.quizzes?.resp?.data}/>}
                                         {section==="ratings" && <Reviews reviews={props?.data?.oneCourse?.resp?.data?.getCourse?.ratingsAndReviews}/>}
                                     </div>
                                     
@@ -478,5 +411,6 @@ const mapState=(data)=>({
 export default connect(mapState,{
     fetchOneCourses,
     fetchAllCoursesLessons,
-    getQuizzes
+    getQuizzes,
+    getQuestions
 }) (CoursesDetails)

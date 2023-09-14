@@ -13,19 +13,19 @@ function AdminHome(props) {
   },[])
 
   const getMembers = (courseCategory)=>{
-    let filteredMembers=courseCategory=='Junior'?(
-      props?.data?.AllMembers?.resp?.data?.filter(item=>item?.memberCategory=='Junior')
+    let filteredMembers=courseCategory=='Golden'?(
+      props?.data?.AllMembers?.resp?.data?.filter(item=>item?.traineeCategory=='Golden')
     ):(
-      courseCategory=='Flowers'?(
-        props?.data?.AllMembers?.resp?.data?.filter(item=>item?.memberCategory=='Junior' ||item?.memberCategory=='Flowers')
+      courseCategory=='Excellent'?(
+        props?.data?.AllMembers?.resp?.data?.filter(item=>item?.traineeCategory=='Golden' ||item?.traineeCategory=='Excellent')
 
       ):(
         courseCategory=='Eagle'?(
-          props?.data?.AllMembers?.resp?.data?.filter(item=>item?.memberCategory=='Junior' ||item?.memberCategory=='Flowers'||item?.memberCategory=='Eagle')
+          props?.data?.AllMembers?.resp?.data?.filter(item=>item?.traineeCategory=='Golden' ||item?.traineeCategory=='Excellent'||item?.traineeCategory=='Eagle')
   
         ):(
-          courseCategory=='Excellent'?(
-            props?.data?.AllMembers?.resp?.data?.filter(item=>item?.memberCategory=='Junior' ||item?.memberCategory=='Flowers'||item?.memberCategory=='Eagle'||item?.memberCategory=='Excellent')
+          courseCategory=='Flowers'?(
+            props?.data?.AllMembers?.resp?.data?.filter(item=>item?.traineeCategory=='Golden' ||item?.traineeCategory=='Flowers'||item?.traineeCategory=='Eagle'||item?.traineeCategory=='Excellent')
     
           ):(
             props?.data?.AllMembers?.resp?.data?.filter(item=>item)
@@ -42,6 +42,7 @@ function AdminHome(props) {
   
 
   const navigate=useNavigate()
+  console.log(props)
 
   
 
@@ -94,7 +95,7 @@ function AdminHome(props) {
                                   {member?.fullNames}
                               </td>
                               <td className="px-2 py-4">{member?.mobile}</td>
-                              <td className="px-2 py-4">{member?.memberCategory}</td>
+                              <td className="px-2 py-4">{member?.traineeCategory}</td>
                               <td className="px-2 py-4">{member?.district}</td>
                               <td className="px-2 py-4 font-medium">{member?.church}</td>
                               <td className="px-2 py-4 font-medium">{member?.score}</td>
@@ -137,11 +138,12 @@ function AdminHome(props) {
                       <p className='font-semibold'>{course?.enrolledTrainees?.length}
                         <span className='font-normal'>({Math.floor((course?.enrolledTrainees?.length*100)/getMembers(course.courseCategory?.categoryName))}%)
                         </span>
+                        {console.log(getMembers(course.courseCategory?.categoryName))}
                       </p>
                     </div>
                     <div className='text-xs'>
                       <label>Completed by</label>
-                      <p className='font-semibold'>{course?.completedBy?.length}<span className='font-normal'>({course?.enrolledTrainees?.length<=0?((course?.completedBy?.length*100)/1):(course?.completedBy?.length*100)/course?.enrolledTrainees?.length}%)</span></p>
+                      <p className='font-semibold'>{course?.completedBy?.length}<span className='font-normal'>({course?.enrolledTrainees?.length<=0?((course?.completedBy?.length*100)/1):(Math.floor((course?.completedBy?.length*100)/course?.enrolledTrainees?.length))}%)</span></p>
                     </div>
 
                   </div>

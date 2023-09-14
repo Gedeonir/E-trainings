@@ -30,7 +30,18 @@ const ViewQuizDetails = (props) => {
 
     useEffect(()=>{
         props.getQuestions(params.quizz)
-    },[])
+
+        if(props?.data?.addQuestion?.success){
+            setFormData({
+                ...formData,
+                question:"",
+                solution:"",
+                alternateSolution1:"",
+                alternateSolution2:"",
+                alternateSolution3:""
+            })
+        }
+    },[props?.data?.addQuestion?.success])
 
     function shuffleArray(array) {
         for (let i = array.length - 1; i > 0; i--) {

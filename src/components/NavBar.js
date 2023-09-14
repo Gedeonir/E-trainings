@@ -25,7 +25,7 @@ const NavBar = (props) => {
         </div>
         <div className="flex justify-between pt-4">
             <ul className="lg:flex justify-start w-3/5 hidden p-0 list-none">
-                <li className={`text-text_secondary  ${location.pathname==="/home"&&'text-primary border-primary border-b-2'} h-8  hover:border-b-2 cursor-pointer mx-4`}>
+                <li className={`${location.pathname==="/"?'text-primary border-primary border-b-2':'text-text_secondary  '} h-8  hover:border-b-2 cursor-pointer mx-4`}>
                     <Link to="/">
                         Home
                     </Link>

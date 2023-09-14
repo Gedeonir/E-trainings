@@ -38,27 +38,35 @@ const Card2 = (props) => {
     },[data])
 
 
-
   return (
     <div className='rounded-sm p-2 bg-text_secondary bg-opacity-10 shadow-sm cursor-pointer' onClick={()=>navigate(`/courses/${props?.course?._id}`)}>
         <h3 className='my-3 font-medium truncate'>{props?.course?.courseTitle} </h3>
+
         
         <div className='w-full flex justify-between py-2 gap-2'>
             <div className='h-2 w-11/12 bg-text_secondary_2 rounded-full'>
                 <div
-                    style={{ width: `${percentage}%`}}
+                    style={{ width: props?.course?.completedBy.some((obj) => obj?.member === props?.data?.memberProfile?.resp?.data?.getProfile?._id)?'100%':`${percentage}%`}}
                     className={`h-full bg-primary rounded-full`}>
                 </div>
             </div>
-            <label className='text-primary font-bold text-sm -mt-2'>{percentage}%</label>
+            <label className='text-primary font-bold text-sm -mt-2'>{props?.course?.completedBy.some((obj) => obj?.member === props?.data?.memberProfile?.resp?.data?.getProfile?._id)?'100':percentage}%</label>
         </div>
+        {props?.course?.completedBy.some((obj) => obj?.member === props?.data?.memberProfile?.resp?.data?.getProfile?._id) &&
+        <label className='bg-primary px-1.5 rounded-lg py-0.5 font-medium  text-xs bg-opacity-20 text-primary'>Completed</label>}
+
 
         <div className='flex justify-start gap-1 text-text_secondary my-3'>
             <BsJournalBookmark size={20}/>
             <label className='text-sm font-bold'>{data?.length} Lessons</label>
         </div>
 
-        <Link to="#" className='flex justify-start text-text_secondary gap-1 text-sm group underline'><span className='group-hover:mx-2 delay-100 duration-500'>Continue my courses</span> <BsArrowRight className='my-1' size={15}/></Link>
+        {props?.course?.completedBy.some((obj) => obj?.member === props?.data?.memberProfile?.resp?.data?.getProfile?._id)?(
+            <Link to={`courses/${props.course?._id}`} className='flex justify-start text-text_secondary gap-1 text-sm group underline'><span className='group-hover:mx-2 delay-100 duration-500'>View course</span> <BsArrowRight className='my-1' size={15}/></Link>
+
+        ):(
+        <Link to={`courses/${props.course?._id}`} className='flex justify-start text-text_secondary gap-1 text-sm group underline'><span className='group-hover:mx-2 delay-100 duration-500'>Continue my courses</span> <BsArrowRight className='my-1' size={15}/></Link>
+        )}
 
         
     </div>

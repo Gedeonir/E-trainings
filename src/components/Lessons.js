@@ -13,6 +13,11 @@ function Lessons(props){
 
     const [tab,setTab]=useState("contents");
 
+     const checkEligibility=(lessons)=>{
+        const score=lessons?.filter(lesson=> lesson.completedBy.some((obj) =>obj?.member?._id ==props?.data?.memberProfile?.resp?.data?.getProfile?._id))
+
+        return score
+    }
 
     
     return(
@@ -24,7 +29,7 @@ function Lessons(props){
                         <button className={`inline-block p-2 border-b-2 ${tab==="contents" ?'border-primary  text-primary':'border-btn_primary'}  rounded-t-sm hover:text-primary hover:border-primary flex justify-start gap-2`}>Table of contents</button>
                     </li>
                     <li className="mr-2" role="presentation" onClick={()=>setTab("quizzes")}>
-                        <button className={`inline-block p-2 border-b-2 ${tab==="quizzes" ?'border-primary  text-primary':'border-btn_primary'} rounded-t-sm hover:text-primary hover:border-primary flex justify-start gap-2`}>Quizzes</button>
+                        <button className={`inline-block p-2 border-b-2 ${tab==="quizzes" ?'border-primary  text-primary':'border-btn_primary'} rounded-t-sm hover:text-primary hover:border-primary flex justify-start gap-2`}>Exams</button>
                     </li>
                 </ul>
             </div>
@@ -73,17 +78,17 @@ function Lessons(props){
             ):(
                 <>
                 <div className='flex justify-between mb-2'>
-                    <h1 className="text-text_secondary font-bold text-sm py-2">Quizzes</h1>
+                    <h1 className="text-text_secondary font-bold text-sm py-2">Exam</h1>
                     {location.pathname.includes("users/admin/courses") &&
                     <div>
-                        <Button size="sm" className='bg-primary text-sm text-secondary' onClick={()=>props?.openQuizz(!props?.quizzModel)}>Add Quizz</Button>
+                        <Button size="sm" className='bg-primary text-sm text-secondary' onClick={()=>props?.openQuizz(!props?.quizzModel)}>Add Exam</Button>
                     </div>}
 
                 </div>
 
                 {props?.quizzes?.length <=0?(
                     <div className='h-56 flex items-center justify-center lg:col-span-3'>
-                        <p className='text-text_secondary text-center text-sm'>No quizz is added yet</p>
+                        <p className='text-text_secondary text-center text-sm'>No exam is added yet</p>
                     </div>
                 ):(
                     props?.quizzes?.map((quizz,index)=>(

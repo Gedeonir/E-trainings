@@ -21,7 +21,8 @@ const Lesson = (props) => {
 
     const courseLessons=props?.data?.courseLessons?.resp?.data
     const [idToIndexMap, setIdToIndexMap] = useState({});
-    const[currentIndex,setCurrentIndex]=useState(0);
+    const [currentIndex,setCurrentIndex]=useState(0);
+    const [succesMsg,setSuccesMsg]=useState("")
 
     const goToPrev = () => {
         if (currentIndex > 0) {
@@ -32,14 +33,14 @@ const Lesson = (props) => {
 
     const completeLesson=async()=>{
         try {
-            const response = await axios.patch(`${process.env.BACKEND_URL}/member/complete/${params.lesson}`);
+            const response = await axios.patch(`${process.env.BACKEND_URL}/trainee/complete/lesson/${params.lesson}`);
       
 
-	        setDataMsg(response.data.message);
+	        setSuccesMsg(response.data.message);
+
 
           } catch (error) {
             setError(error?.response?.data?.message?error?.response?.data?.message:error?.message);
-            console.log(error);
         }
         props.fetchOneCoursesLesson(params.id,params.lesson);
         
@@ -79,11 +80,12 @@ const Lesson = (props) => {
     },[params])
 
 
+
   return (
         <div className='w-full grid lg:grid-cols-4 lg:px-8'>
             <div className='min-h-screen max-h-screen overflow-y-hidden hidden lg:block  pt-4'>
                 <header className='bg-primary px-2'>
-                    <h1 className="text-secondary font-bold text-xs py-2">{props?.data?.oneLesson?.resp?.data?.getLesson?.Course?.courseTitle}</h1>
+                    <Link to={`/${props?.path}/${props?.data?.oneLesson?.resp?.data?.getLesson?.Course?._id}`} className="text-secondary font-bold text-xs py-2">{props?.data?.oneLesson?.resp?.data?.getLesson?.Course?.courseTitle}</Link>
                 </header>
                 {props?.data?.courseLessons?.success?(
                     <ul className='overflow-y-auto max-h-screen pb-28 list-none p-0 min-h-screen  border-r border-primary '>
@@ -153,8 +155,9 @@ const Lesson = (props) => {
                                                 <button onClick={()=>goToPrev()} className={`px-3 border border-primary text-primary font-bold py-1 ${currentIndex<=0?'cursor-not-allowed opacity-50':'cursor-pointer'}`} disabled={currentIndex<=0?true:false}>
                                                     <BsArrowLeft size={20}/>
                                                 </button>
-                                                <button onClick={()=>currentIndex >= props?.data?.courseLessons?.resp?.data.length - 1?(console.log("Complete course")):goToNext()} className={`px-3 border cursor-pointer font-bold py-1 ${currentIndex >= props?.data?.courseLessons?.resp?.data.length - 1?'bg-primary text-secondary':'border-primary text-primary'}`}>
-                                                {currentIndex >= props?.data?.courseLessons?.resp?.data.length - 1?'Take exam':<BsArrowRight size={20}/>}
+                                                <button onClick={()=>goToNext()} className={`px-3 border cursor-pointer font-bold py-1 border-primary text-primary ${currentIndex >= props?.data?.courseLessons?.resp?.data.length - 1?'cursor-not-allowed opacity-50':'cursor-pointer'}`}
+                                                disabled={currentIndex >= props?.data?.courseLessons?.resp?.data.length - 1?true:false}>
+                                                    <BsArrowRight size={20}/>
                                                 </button>
                                             </div>
                                         }

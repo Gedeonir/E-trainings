@@ -29,8 +29,8 @@ export const AddQuizz = (props) => {
         <p className={`text-xs text-danger p-2 ${props?.data?.addQuizz?.error && 'bg-danger'} bg-opacity-20`}>{props?.data?.addQuizz?.error?.response?.data?.message}</p>}
 
         <div className="mb-4">
-            <label className="text-text_secondary font-bold text-xs mb-2">Quizz name<span className="text-[red]">*</span></label>
-            <input type="text" value={formData.QuizName} className="text-text_secondary text-sm outline-primary block w-full px-2 py-1 rounded-lg border border-text_secondary_2 placeholder-text_secondary_2" placeholder="quizz name" required
+            <label className="text-text_secondary font-bold text-xs mb-2">Exam name<span className="text-[red]">*</span></label>
+            <input type="text" value={formData.QuizName} className="text-text_secondary text-sm outline-primary block w-full px-2 py-1 rounded-lg border border-text_secondary_2 placeholder-text_secondary_2" placeholder="exam name" required
             onChange={(e)=>{
                 setFormData({
                     ...formData,
