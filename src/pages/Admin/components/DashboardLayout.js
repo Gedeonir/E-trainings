@@ -29,7 +29,6 @@ function DashboardLayout(props) {
         props.adminFetchProfileAction();
     },[]) 
 
-    console.log(props);
 
 
     const handleLogout=()=>{

@@ -304,7 +304,7 @@ const Quizz = (props) => {
                                                 </p>}
                                                 <div className="flex w-full justify-start my-4 gap-4">
                                                     <button size="sm" className={`bg-primary text-sm text-secondary p-2 ${loading? 'cursor-not-allowed ':'cursor-pointer'}`} disabled={loading? true : false} onClick={()=>handleSubmit()}>
-                                                        {loading?<p className="flex justify-center gap-2"><AiOutlineLoading3Quarters size={20} className="animate-spin h-5 w-5"/><span> Submitting...</span></p>:'Oonfirm and submit'}
+                                                        {loading?<p className="flex justify-center gap-2"><AiOutlineLoading3Quarters size={20} className="animate-spin h-5 w-5"/><span> Submitting...</span></p>:'Confirm and submit'}
                                                     </button>
                                                     <button className=" text-sm p-2 border-primary text-primary border" onClick={()=>openConfirm(false)}>Go back</button>
                                                 </div>

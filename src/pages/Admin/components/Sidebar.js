@@ -20,7 +20,7 @@ const Sidebar=(props) =>{
 
 
     return (
-        <div className={`pl-2 min-h-screen hidden lg:block duration-1000 delay-300 ease-in-out relative`}>
+        <div className={`pl-2 min-h-screen hidden lg:block duration-1000 delay-300 ease-in-out relative z-40`}>
             <div className='sticky top-0'>
                 <div className="h-16 w-full items-center lg:flex text-lg rounded-l-full py-2 pl-2 text-secondary">
                     <button
