@@ -333,7 +333,7 @@ const CoursesDetails = (props) => {
                     </div>                    
                 </div>
             </div>
-            {!isEligible(props?.data?.oneCourse?.resp?.data?.getCourse?.courseCategory?.categoryName,props?.data?.memberProfile?.resp?.data?.getProfile?.traineeCategory)?(
+            {!location.pathname.includes("users/admin/courses") && !isEligible(props?.data?.oneCourse?.resp?.data?.getCourse?.courseCategory?.categoryName,props?.data?.memberProfile?.resp?.data?.getProfile?.traineeCategory)?(
                 <Restricted message={`This course is not available to your ${props?.data?.memberProfile?.resp?.data?.getProfile?.traineeCategory} level`}/>
             ):(
                 <div className='my-12 lg:px-14 w-full px-4 lg:flex justify-between gap-4'>

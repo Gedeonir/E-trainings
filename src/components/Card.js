@@ -124,7 +124,7 @@ const Card = (props) => {
         <div className='px-4 py-2'>        
             <div className='flex justify-between text-primary'>
                 <label className='bg-primary px-1.5 rounded-lg py-0.5 font-medium  text-xs bg-opacity-20'>{props?.course?.courseCategory?.categoryName}</label>
-                {!isEligible(props?.course?.courseCategory?.categoryName,props?.data?.memberProfile?.resp?.data?.getProfile?.traineeCategory) && <CiLock size={20}/>}
+                {!location.pathname.includes("users/admin/courses") && !isEligible(props?.course?.courseCategory?.categoryName,props?.data?.memberProfile?.resp?.data?.getProfile?.traineeCategory) && <CiLock size={20}/>}
             </div>
 
             <h1 className='my-2 font-medium text-sm'>{props?.course?.courseTitle}</h1>
