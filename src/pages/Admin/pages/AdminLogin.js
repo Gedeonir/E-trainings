@@ -97,9 +97,9 @@ const AdminLogin = (props) => {
                         <p className='text-sm my-2 text-primary cursor-pointer hover:underline' onClick={()=>setShowPassword(!showPassword)}>{showPassword?'Hide password':'Show password'}</p>
                     </div>
 
-                    <p className='flex justify-start text-text_secondary gap-1 text-sm'>
+                    {/* <p className='flex justify-start text-text_secondary gap-1 text-sm'>
                         <Link className='flex justify-start text-primary gap-1 text-sm group font-bold'><span className='group-hover:mx-2 delay-100 duration-500'>Forgot password?</span> <BsArrowRight className='my-1' size={15}/></Link>
-                    </p>
+                    </p> */}
                     
                     <button type='submit' size='sm' className={`my-4 bg-primary text-sm text-center text-secondary p-2 lg:w-1/2 w-full ${loading? 'cursor-not-allowed ':'cursor-pointer'}`} disabled={loading? true : false}>
                         {loading?<p className="flex justify-center gap-2"><AiOutlineLoading3Quarters size={20} className="animate-spin h-5 w-5"/><span> Logging in....</span></p>:'Login'}

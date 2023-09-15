@@ -11,6 +11,7 @@ const Layout = (props) => {
   React.useEffect(() => { 
     props.memberFetchProfileAction();
   }, [])
+
   
   
   return (

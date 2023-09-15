@@ -40,7 +40,11 @@ const Quizz = (props) => {
         }
     };
     
-
+    const [response,setResponse]=useState({
+        success:null,
+        resp:null,
+        error:null,
+    })
 
     const handleSubmit=async()=>{
         setLoading(true)
@@ -53,11 +57,21 @@ const Quizz = (props) => {
                 }
             })
 
-            console.log(res);
+
+            setResponse({
+                ...response,
+                success:true,
+                resp:res.data.message
+
+            })
 
             props.fetchOneQuizz(params.id,params.quizz)
         } catch (error) {
-            console.log(error)
+            setResponse({
+                ...response,
+                success:false,
+                error:error?.response?.data?.message
+            })
         }
 
         setLoading(false)
@@ -166,9 +180,11 @@ const Quizz = (props) => {
                                         <div className="text-text_secondary text-4xl text-center">
                                             <h1 className="font-bold text-primary">All done</h1>
                                             <label className="text-sm">You have already attempted this quizz.</label>
+                                            
                                            
                                             {checkDecision(props?.data?.oneQuiz?.resp?.data?.getQuizz?.completedBy).map(element=>(
                                                 <div key={element.score}>
+                                                    <p className="text-sm grid"><span className='font-bold'>Submitted on:</span>{new Date(element.at).toLocaleDateString()} at {new Date(element.at).toLocaleTimeString()}</p>
                                                     <p className="text-sm grid"><span className='font-bold'>
                                                         Marks:</span>{props?.data?.getQuestions?.success?(
                                                             <label>{element.score}/{props?.data?.getQuestions?.resp?.data?.length}</label>
@@ -281,7 +297,11 @@ const Quizz = (props) => {
                                             </div>
                                             <div className="text-text_secondary text-sm">
                                                 <label className="text-sm">Are you sure you want to submit this quizz. This action can not be undone</label>
-
+                                                {response.success?<p className='text-xs text-primary font-bold text-center p-2 bg-primary bg-opacity-20'>{response.resp}</p>
+                                                :
+                                                <p className={`text-xs text-danger text-center p-1 ${response?.error && 'bg-danger'} bg-opacity-20`}>
+                                                    {response.error}
+                                                </p>}
                                                 <div className="flex w-full justify-start my-4 gap-4">
                                                     <button size="sm" className={`bg-primary text-sm text-secondary p-2 ${loading? 'cursor-not-allowed ':'cursor-pointer'}`} disabled={loading? true : false} onClick={()=>handleSubmit()}>
                                                         {loading?<p className="flex justify-center gap-2"><AiOutlineLoading3Quarters size={20} className="animate-spin h-5 w-5"/><span> Submitting...</span></p>:'Oonfirm and submit'}
@@ -291,7 +311,7 @@ const Quizz = (props) => {
                                             </div>
                                             
                                         </div>
-                                
+
                                     </div>
                                     }
                                 

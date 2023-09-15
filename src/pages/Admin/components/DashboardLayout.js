@@ -29,6 +29,9 @@ function DashboardLayout(props) {
         props.adminFetchProfileAction();
     },[]) 
 
+    console.log(props);
+
+
     const handleLogout=()=>{
         sessionStorage.removeItem('userToken')
         navigate("/users/admin/login",{replace:true})

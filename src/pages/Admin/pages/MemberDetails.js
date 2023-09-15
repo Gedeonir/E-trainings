@@ -44,6 +44,9 @@ export const MemberDetails = (props) => {
                             <p className="text-xs text-justify"><span className='font-bold'>Full names:</span> {props?.data?.oneMember?.resp?.data?.getOneTrainee?.fullNames}</p>
                         </div>
                         <div className="grid text-text_secondary py-1">
+                            <p className="text-xs text-justify py-1"><span className='font-bold'>ID:</span> {props?.data?.oneMember?.resp?.data?.getOneTrainee?.ID}</p>
+                        </div>
+                        <div className="grid text-text_secondary py-1">
                             <p className="text-xs text-justify py-1"><span className='font-bold'>Age:</span> {props?.data?.oneMember?.resp?.data?.getOneTrainee?.age} years old</p>
                         </div>
                         <div className="grid text-text_secondary py-1">

@@ -29,19 +29,7 @@ const NavBar = (props) => {
                     <Link to="/">
                         Home
                     </Link>
-                </li>
-                <li className={`text-text_secondary hover:hover:border-b-2 cursor-pointer mx-4 h-8 ${location.pathname==="/search"&&'text-primary border-primary border-b-2'}  `}>
-                    <Link to="/search">
-                        My courses
-                    </Link>
-                </li>
-                
-                <li className="text-text_secondary hover:hover:border-b-2 cursor-pointer mx-4 h-8">
-                    <Link >
-                        Contact us
-                    </Link>
-                </li>
-            
+                </li>            
                 
             </ul>
 
@@ -57,14 +45,22 @@ const NavBar = (props) => {
                         <ul className="py-2 text-gray-900 dark:text-gray-300 p-0 list-none" aria-labelledby="dropdownDefaultButton">
                             <li className="px-3 py-2 w-full text-left hover:bg-text_secondary hover:bg-opacity-10">
                                 {props?.data?.memberProfile?.success?(
-                                    <Link to="/my/profile" className='flex gap-4 justify-start'>
-                                        <div 
-                                        className={`h-4 px-2 rounded-full w-4 
-                                        ${!props?.data?.memberProfile?.resp?.data?.getProfile?.profilePicture?'bg-[url(https://www.pngfind.com/pngs/m/610-6104451_image-placeholder-png-user-profile-placeholder-image-png.png)]':`bg-[url(${props?.data?.memberProfile?.resp?.data?.getProfile?.profilePicture})]`} bg-cover bg-center bg-no-repeat`}/>
-                                        <div className='text-text_secondary'>
-                                            <label className='font-bold text-md'>{props?.data?.memberProfile?.resp?.data?.getProfile?.fullNames}</label>
-                                            <p className='text-sm'><span className='text-primary mr-2'>#Rank</span>{props?.data?.memberProfile?.resp?.data?.getProfile?.traineeCategory}</p>
+                                    <Link to="#" className=''>
+                                        <div className='flex gap-4 justify-start mb-2'>
+                                            <div 
+                                            className={`h-8 px-2 rounded-full w-8 
+                                            ${!props?.data?.memberProfile?.resp?.data?.getProfile?.profilePicture?'bg-[url(https://www.pngfind.com/pngs/m/610-6104451_image-placeholder-png-user-profile-placeholder-image-png.png)]':`bg-[url(${props?.data?.memberProfile?.resp?.data?.getProfile?.profilePicture})]`} bg-cover bg-center bg-no-repeat`}/>
+                                            <div className='text-text_secondary'>
+                                                <label className='font-bold text-sm'>{props?.data?.memberProfile?.resp?.data?.getProfile?.fullNames}</label>
+                                            </div>
+                                            
                                         </div>
+                                        <div>
+                                            <p className='text-xs'><span className='text-primary mr-2'>#ID</span>{props?.data?.memberProfile?.resp?.data?.getProfile?.ID}</p>
+                                            <p className='text-xs'><span className='text-primary mr-2'>#Rank</span>{props?.data?.memberProfile?.resp?.data?.getProfile?.traineeCategory}</p>
+                                        </div>
+                                       
+                                       
                                     </Link>
                                 ):(
                                     <p></p>

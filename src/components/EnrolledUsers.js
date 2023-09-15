@@ -48,7 +48,7 @@ function EnrolledUsers(props){
                             </div>
 
                             {props.quizzes?.map(quizz=>
-                                !quizz.completedBy.some((obj) => obj?.member === member.member._id)?(
+                                !quizz.completedBy.some((obj) => obj?.member === member.member._id) || props.quizzes?.length==0?(
                                     <>
                                     <div className="grid text-text_secondary mb-2">
                                         <p className='text-xs font-semibold text-center'>Score:</p>
@@ -76,14 +76,15 @@ function EnrolledUsers(props){
                                             <div className="grid text-text_secondary mb-2">
                                                 <p className='text-xs font-semibold text-center'>Decision:</p>
                                                 
-                                                {element.score>=Math.round((props?.data?.getQuestions?.resp?.data?.length)/2)?(
+                                                {props?.data?.getQuestions?.success?(
+                                                    element.score>=Math.round((props?.data?.getQuestions?.resp?.data?.length)/2)?(
                                                 
-                                                <p className="text-xs truncate text-center text-primary font-semibold">Passed</p>
-                                                
-                                                ):(
-                                                    <p className="text-xs truncate text-center text-danger font-semibold">Failed/Retake</p>
-                                                    
-                                                ) }
+                                                        <p className="text-xs truncate text-center text-primary font-semibold">Passed</p>
+                                                        
+                                                    ):(
+                                                        <p className="text-xs truncate text-center text-danger font-semibold">Failed/Retake</p>
+                                                            
+                                                    )):(<label>-</label>) }
                                             </div>
                                         </>
                                     ))

@@ -20,7 +20,7 @@ const Courses = (props) => {
         props.fetchAllCourses()
         props.fetchAllCategory()
         props.fetchAllLectures()
-    },[props.data?.allCourses?.success])
+    },[props?.data?.addCourse?.success])
 
     const filterCourses=props?.data?.allCourses?.resp?.data.filter((course)=>{
         return course?.courseTitle?.toLowerCase().includes(keyWord.toLowerCase()) && course?.courseCategory?.categoryName?.toLowerCase().includes(categoryName.toLowerCase())

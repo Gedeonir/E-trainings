@@ -11,6 +11,7 @@ import { connect } from 'react-redux';
 
 const AdminCourses = (props) => {
     const [openModel,setOpenModel]=React.useState(false)
+    
   return (
     <DashboardLayout>
         <div className={`lg:px-8 px-4 py-8 w-full mx-auto ${!openModel && 'overflow-y-auto'} max-h-screen relative`}>

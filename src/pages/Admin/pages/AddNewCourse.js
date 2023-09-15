@@ -34,6 +34,8 @@ const AddNewCourse = (props) => {
         return item?.fullNames?.toLowerCase().includes(keyword.toLowerCase())
     })
 
+    console.log(formData);
+
 
   return (
     <div className='w-full mx-auto bg-secondary px-4 pb-4 rounded-xl lg:min-h-full min-h-screen relative'>

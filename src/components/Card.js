@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import {BsJournalBookmark} from 'react-icons/bs'
 import {GoPeople} from 'react-icons/go'
 import {AiOutlineHeart} from 'react-icons/ai'
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams,Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchAllCoursesLessons } from '../redux/Actions/CoursesAction';
 import axios from '../redux/Actions/axiosConfig';
@@ -33,6 +33,7 @@ const Card = (props) => {
         message:""
     })
 
+
     useEffect(()=>{
         getLessons()
 
@@ -43,37 +44,37 @@ const Card = (props) => {
                     status:true,
                     message:"This course is not available on Junior level"
                 })
-        }else if(props?.data?.memberProfile?.resp?.data?.getProfile?.traineeCategory?.toLowerCase()=='Flowers'
-            &&(props?.course?.courseCategory?.categoryName.toLowerCase() !="flowers" ||
-            props?.course?.courseCategory?.categoryName.toLowerCase() !="junior")
+        }else if(props?.data?.memberProfile?.resp?.data?.getProfile?.traineeCategory?.toLowerCase()=='flowers' && props?.course?.courseCategory?.categoryName.toLowerCase() !="flowers"
         ){
-            setRestricted({
-                ...restricted,
-                status:true,
-                message:"This course is not available on Junior,Flowers level"
-            })
-        }else if(props?.data?.memberProfile?.resp?.data?.getProfile?.traineeCategory?.toLowerCase()=='eagle'
-            &&(props?.course?.courseCategory?.categoryName.toLowerCase() !="flowers" ||
-            props?.course?.courseCategory?.categoryName.toLowerCase() !="junior"||
-            props?.course?.courseCategory?.categoryName.toLowerCase() !="eagle")
-        ){
+            if(props?.data?.memberProfile?.resp?.data?.getProfile?.traineeCategory?.toLowerCase()=='flowers' && props?.course?.courseCategory?.categoryName.toLowerCase() !="junior")
                 setRestricted({
                     ...restricted,
                     status:true,
-                    message:"This course is not available on Junior,Flowers,Eagle level"
+                    message:"This course is not available on Junior,Flowers level"
                 })
+        }else if(props?.data?.memberProfile?.resp?.data?.getProfile?.traineeCategory?.toLowerCase()=='eagle'
+            &&(props?.course?.courseCategory?.categoryName.toLowerCase() !="eagle")
+        ){
+            if(props?.course?.courseCategory?.categoryName.toLowerCase() !="junior")
+                if(props?.course?.courseCategory?.categoryName.toLowerCase() !="flowers")
+                    setRestricted({
+                        ...restricted,
+                        status:true,
+                        message:"This course is not available on Junior,Flowers,Eagle level"
+                    })
+
 
         }else if(props?.data?.memberProfile?.resp?.data?.getProfile?.traineeCategory?.toLowerCase()=='excellent'
-            &&(props?.course?.courseCategory?.categoryName.toLowerCase() !="flowers" ||
-            props?.course?.courseCategory?.categoryName.toLowerCase() !="junior"||
-            props?.course?.courseCategory?.categoryName.toLowerCase() !="eagle"||
-            props?.course?.courseCategory?.categoryName.toLowerCase() !="excellent")
+            &&(props?.course?.courseCategory?.categoryName.toLowerCase() !="excellent")
         ){
-            setRestricted({
-                ...restricted,
-                status:true,
-                message:"This course is not available on Golden level"
-            })
+            if(props?.course?.courseCategory?.categoryName.toLowerCase() !="junior")
+                if(props?.course?.courseCategory?.categoryName.toLowerCase() !="flowers")
+                    if(props?.course?.courseCategory?.categoryName.toLowerCase() !="eagle")
+                        setRestricted({
+                            ...restricted,
+                            status:true,
+                            message:"This course is not available on Junior,Flowers,Eagle level"
+                        })
 
         }else{
             setRestricted({
@@ -83,7 +84,33 @@ const Card = (props) => {
             })
         }
 
-    },[])
+    },[props?.data?.memberProfile?.success,props.data?.allCourses?.success])
+
+    const isEligible=(courseCategory,memberCategory)=>{
+        if (courseCategory?.toLowerCase() =='golden'
+        &&memberCategory?.toLowerCase() !="golden") {
+            return false
+        }else if (courseCategory?.toLowerCase() =='excellent'&&memberCategory?.toLowerCase() !="excellent") {
+            if(memberCategory?.toLowerCase() !="golden")
+                return false
+            else return true
+        }else if (courseCategory?.toLowerCase() =='eagle'&&memberCategory?.toLowerCase() !="eagle") {
+            if(memberCategory?.toLowerCase() =="flowers")
+                return false
+            else if(memberCategory?.toLowerCase() =="junior")
+                return false
+            else return true
+            
+        }else if (courseCategory?.toLowerCase() =='flowers'&&memberCategory?.toLowerCase() !="flowers") {
+            if(memberCategory?.toLowerCase() =="junior")
+                return false
+            else return true
+            
+        }
+        else{
+            return true
+        }
+    }
 
 
     
@@ -97,7 +124,7 @@ const Card = (props) => {
         <div className='px-4 py-2'>        
             <div className='flex justify-between text-primary'>
                 <label className='bg-primary px-1.5 rounded-lg py-0.5 font-medium  text-xs bg-opacity-20'>{props?.course?.courseCategory?.categoryName}</label>
-                {restricted.status && <CiLock size={20}/>}
+                {!isEligible(props?.course?.courseCategory?.categoryName,props?.data?.memberProfile?.resp?.data?.getProfile?.traineeCategory) && <CiLock size={20}/>}
             </div>
 
             <h1 className='my-2 font-medium text-sm'>{props?.course?.courseTitle}</h1>
